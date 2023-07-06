@@ -1,9 +1,11 @@
 import  './index.css'
 
-function footer() {
+function Footer() {
     return (
       <div className="footer">
        
       </div>
     );
   }
+
+  export default Footer;

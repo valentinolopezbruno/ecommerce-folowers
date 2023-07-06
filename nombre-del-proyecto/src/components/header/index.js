@@ -1,9 +1,11 @@
 import  './index.css'
 
-function header() {
+function Header() {
     return (
       <div className="header">
-       
+        <p>asd</p>
       </div>
     );
   }
+
+  export default Header;
