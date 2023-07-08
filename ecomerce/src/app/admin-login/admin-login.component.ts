@@ -20,15 +20,22 @@ export class AdminLoginComponent implements OnInit{
 
   constructor(private APIService: APIService){}
 
-  validarCodigo(){
+  validarCodigo():any{
     console.log( "code: ", this.code)
-    if(this.code == 1){
-      Swal.fire({
-        title: 'Good job!',
-        text: 'You clicked the button!',
+
+    if(this.code = {code: 1}){
+      return Swal.fire({
+        title: 'Ingresaste Correctamente',
         icon: 'success'
       });
-    }
+    } 
+
+    if(this.code = {code: 0}){
+      return Swal.fire({
+        title: 'Datos Incorrectos',
+        icon: 'error'
+      });
+    } 
   }
 
   validarUsuario(nombre: string, contra: string){
@@ -42,6 +49,6 @@ export class AdminLoginComponent implements OnInit{
   }
 
   ngOnInit(): void {
-     this.validarUsuario(this.nombre, this.contra) 
+     
   }
 }

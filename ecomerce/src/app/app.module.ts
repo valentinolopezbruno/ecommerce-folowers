@@ -9,6 +9,7 @@ import { AdminLoginComponent } from './admin-login/admin-login.component';
 import { HomeComponent } from './home/home.component';
 import { APIService } from './services/api.service';
 import { FormsModule } from '@angular/forms';
+import { AdminModule } from './admin/admin.module';
 
 @NgModule({
   declarations: [
@@ -16,15 +17,18 @@ import { FormsModule } from '@angular/forms';
     HeaderComponent,
     FooterComponent,
     AdminLoginComponent,
-    HomeComponent
+    HomeComponent,
+
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    FormsModule
+    FormsModule,
+    AdminModule
   ],
   providers: [APIService],
   bootstrap: [AppComponent]
 })
+
 export class AppModule { }

@@ -12,12 +12,24 @@ model producto_cantidad {
   idProducto Int
   cantidad   Int
   precio     Int
+  productos productos @relation(fields: [idProducto], references: [id])
 }
 
 model productos {
+  id        Int    @id @default(autoincrement())
+  nombre    String @db.VarChar(255)
+  imagen    String @db.VarChar(255)
+  id_social Int    
+  social social @relation(fields: [id_social], references: [id])
+  producto_cantidad producto_cantidad[]
+}
+
+model social {
   id     Int    @id @default(autoincrement())
   nombre String @db.VarChar(255)
-}
+  imagen String @db.VarChar(255)
+  productos productos[]
+ }
 
 model usuarios {
   id     Int    @id @default(autoincrement())
