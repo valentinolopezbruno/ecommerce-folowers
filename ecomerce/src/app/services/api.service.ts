@@ -21,7 +21,7 @@ export class APIService {
     return this.httpClient.post<{}>(`${API_URL}/usuarios`, {nombre, contra})
   }
 
-  getProductos():Observable<[Social]> {
-    return this.httpClient.get<[Social]>(`${API_URL}/productos`)
+  getProductos():Observable<any[]> {
+    return this.httpClient.get<any[]>(`${API_URL}/productos`)
   }
 }
