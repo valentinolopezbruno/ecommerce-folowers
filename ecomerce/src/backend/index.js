@@ -2,10 +2,11 @@ const express = require('express')
 const app = express();
 const cors = require('cors');
 const mysql = require('mysql');
+const bodyParser = require('body-parser');
 
 app.use(express.json())
 app.use(cors());
-
+app.use(bodyParser.json());
 const  { PrismaClient } = require("@prisma/client")
 const prisma = new PrismaClient()
 
@@ -89,7 +90,6 @@ app.get('/productos', async (req, res) => {
             for (let r = 0; r < data.length; r++) {
               for (let h = 0; h < data[r].productos.length; h++) {
                 if (data[r].productos[h].idProducto === productos_cantidad[u].idProducto) {
-                  console.log("ez");
                   // Verificar si el producto ya existe en el array productos
                   const existeProducto = data[r].productos[h].productos_cantidad.some(p => p.idProductoCantidad === productos_cantidad[u].id);
                   if (!existeProducto) {
@@ -105,10 +105,61 @@ app.get('/productos', async (req, res) => {
               }
             }
           }
-          
-          console.log(productos_cantidad);
+        
           res.json(data);
           
+});
+
+app.post('/productos', async (req, res) => {
+  var data = req.body
+
+  try {
+    const nuevoProducto = await prisma.productos.create({
+      data: {
+        nombre: data.nombre,
+        imagen: data.imagen,
+        id_social: data.idSocial
+      },
+    });
+    console.log('Datos insertados:', nuevoProducto);
+
+    for (let i = 0; i < data.productos_cantidad.length; i++) {
+      data.productos_cantidad[i].idProducto = nuevoProducto.id
+
+      const nuevoProductoCantidad = await prisma.producto_cantidad.create({
+        data: {
+          idProducto: data.productos_cantidad[i].idProducto,
+          cantidad: data.productos_cantidad[i].cantidad,
+          precio: data.productos_cantidad[i].precio
+        },
+      });
+      console.log('Datos insertados:', nuevoProductoCantidad);
+    }
+
+  } catch (error) {
+    console.error('Error al insertar datos:', error);
+  }
+
+  
+
+
+})
+
+app.post('/producto', async (req, res) => {
+  const { id } = req.body; // Asegúrate de extraer el valor del cuerpo de la solicitud correctamente
+
+  try {
+    const productoEliminado = await prisma.productos.delete({
+      where: {
+        id: id,
+      },
+    });
+    console.log(productoEliminado);
+    res.send('Producto eliminado correctamente');
+  } catch (error) {
+    console.error('Error al eliminar producto:', error);
+    res.status(500).send('Error al eliminar el producto');
+  }
 });
 
 

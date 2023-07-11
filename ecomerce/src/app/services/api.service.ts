@@ -24,4 +24,13 @@ export class APIService {
   getProductos():Observable<any[]> {
     return this.httpClient.get<any[]>(`${API_URL}/productos`)
   }
+
+  agregarProductos(data:{}):Observable<{}>  {
+    return this.httpClient.post<{}>(`${API_URL}/productos`, data)
+  }
+
+  eliminarProducto(id: number): Observable<number> {
+    const requestBody = { id: id }; // Enviar el ID dentro de un objeto JSON
+    return this.httpClient.post<number>(`${API_URL}/producto`, requestBody);
+  }
 }

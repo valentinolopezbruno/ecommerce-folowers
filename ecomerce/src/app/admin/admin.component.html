@@ -23,7 +23,7 @@
                     <td>
                         <input type="button"  class="boton" style="background-color: #B08632;" name="editar" id="" value="Editar" >
                         |
-                        <input type="button" class="boton" style="background-color: #952222;" name="eliminar" id="" value="Elminar" (click)="eliminarProducto()">
+                        <input type="button" class="boton" style="background-color: #952222;" name="eliminar" id="" value="Elminar">
                     </td>
                     </div>
                 </tr>
@@ -93,7 +93,7 @@
             <td>
                 <input type="button"  class="boton" style="background-color: #B08632;" name="editar" id="" value="Editar" (click)="habilitarModal(producto.idProducto, producto.nombre)">
                 |
-                <input type="button" class="boton" style="background-color: #952222;" name="eliminar" id="" value="Elminar" (click)="eliminarProducto()">
+                <input type="button" class="boton" style="background-color: #952222;" name="eliminar" id="" value="Elminar" (click)="eliminarProducto(producto.idProducto)">
             </td>
         </tr>
     </div>
