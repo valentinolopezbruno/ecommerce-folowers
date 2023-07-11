@@ -1,0 +1,166 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap');
+
+
+h2{
+  text-align: center;
+}
+
+body {
+  font-family: 'Poppins', sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+.navbar {
+  display: flex;
+  align-items: center;
+  background-color: #bf047e;
+  padding: 4px;
+  position: fixed;
+  width: 100%;
+  justify-content: space-around;
+}
+
+.logo img {
+  height: 50px;
+}
+
+.navbar-toggle {
+  display: none;
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+  padding: 5px;
+}
+
+.toggle-icon {
+  display: block;
+  width: 20px;
+  height: 2px;
+  background-color: #f1f1f1;
+  margin-bottom: 4px;
+}
+
+.menu {
+  list-style: none;
+  display: flex;
+  gap: 20px;
+}
+
+.menu li {
+  position: relative;
+}
+
+.menu li a {
+  text-decoration: none;
+  color: #f1f1f1;
+  padding: 10px;
+}
+
+@media (max-width:768px){
+  .menu li a{
+    color: black;
+  }
+}
+
+.submenu li a {
+  color: black;
+}
+
+.dropdown .submenu {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background-color: #f1f1f1;
+  padding: 10px;
+  border-radius: 4px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  white-space: nowrap;
+}
+
+.dropdown:hover .submenu {
+  display: block;
+  white-space: normal;
+}
+
+.dropdown .submenu li {
+  list-style-type: none;
+}
+
+/* Estilos para dispositivos móviles */
+@media screen and (max-width: 480px) {
+  .menu {
+    display: none;
+  }
+
+  .navbar-toggle {
+    display: block;
+  }
+
+  .menu.open {
+    display: block;
+    position: fixed;
+    top: 60px;
+    left: 0;
+    width: 100%;
+    padding: 10px;
+    background-color: #f1f1f1;
+    z-index: 9999;
+  }
+
+  .menu li {
+    margin-bottom: 10px;
+  }
+
+  .dropdown .submenu {
+    position: static;
+    display: none;
+    margin-left: 0;
+  }
+
+  .dropdown.open .submenu {
+    display: block;
+  }
+}
+
+/* Estilos para tablet */
+@media screen and (min-width: 481px) and (max-width: 768px) {
+  .menu {
+    display: none;
+  }
+
+  .navbar-toggle {
+    display: block;
+  }
+
+  .menu.open {
+    display: block;
+    position: fixed;
+    top: 60px;
+    left: 0;
+    width: 100%;
+    padding: 10px;
+    background-color: #f1f1f1;
+    z-index: 9999;
+  }
+
+  .menu li {
+    margin-bottom: 10px;
+  }
+
+  .dropdown .submenu {
+    position: static;
+    display: none;
+    margin-left: 0;
+  }
+
+  .dropdown.open .submenu {
+    display: block;
+  }
+}
+
+
+
+

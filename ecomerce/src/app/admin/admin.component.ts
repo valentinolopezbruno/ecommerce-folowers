@@ -2,8 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { ModalServicesService } from '../services/modal-services.service';
 import { APIService } from '../services/api.service';
 import { NuevoProducto } from '../models/nuevoProducto';
-import { HttpClient } from '@angular/common/http';
-import { saveAs } from 'file-saver';
 
 
 
@@ -22,20 +20,21 @@ export class AdminComponent implements OnInit{
   valorIDProducto: number = 0 ;
   valorIDProductoRestado: number | undefined = 0 ;
 
-  constructor(private APIService : APIService, private http: HttpClient){}
+  constructor(private APIService : APIService){}
 
   verModal = false;
   verModalAdmin = false;
   agregarPrecios = false;
 
   nombreProducto: string ='';
-  urlImagen: string = "";
+  urlImagen:string = "";
+  imgFile: File | null = null;
   cantidad: string = '';
   precio: string = '';
 
   nuevoProducto: NuevoProducto = {
     nombre: this.nombreProducto,
-    imagen: this.urlImagen,
+    imagen: this.imgFile,
     idSocial: this.valorIDRed,
     productos_cantidad:[]
   }
@@ -91,7 +90,9 @@ export class AdminComponent implements OnInit{
   }
 
   agregarProductos():void{
-    this.APIService.agregarProductos(this.nuevoProducto).subscribe(data => {console.log(data)});
+    if(this.nuevoProducto.imagen != null){
+      this.APIService.agregarProductos(this.nuevoProducto, this.nuevoProducto.imagen).subscribe(data => {console.log(data)});
+    }
   }
 
   eliminarProducto(id:number):void{
@@ -111,8 +112,8 @@ export class AdminComponent implements OnInit{
 
   cargarImagen(event: any) {
     const archivo = event.target.files[0];
+    this.nuevoProducto.imagen = archivo;
     const nombreImagen = archivo.name;
-    this.nuevoProducto.imagen = nombreImagen; // Puedes usar el nombre de la imagen si lo necesitas
     console.log(nombreImagen);
     
     const lector = new FileReader();
@@ -122,11 +123,13 @@ export class AdminComponent implements OnInit{
     lector.readAsDataURL(archivo);
   }
 
-  guardarImagen() {
-    this.http.get(this.nuevoProducto.imagen, { responseType: 'blob' }).subscribe((blob: Blob) => {
-      saveAs(blob, this.nuevoProducto.imagen); // Reemplaza 'nombre_imagen.png' con el nombre deseado para la imagen
-    });
-  }
+/*   guardarImagen(event: any)  {
+    console.log("entra")
+    const files: FileList = event.target.files;
+    if (files && files.length > 0) {
+      this.urlImagen = files[0];
+    }
+  } */
 
 
   confirmarProducto(){
@@ -134,7 +137,6 @@ export class AdminComponent implements OnInit{
     this.nuevoProducto.idSocial = this.valorIDRed;
     console.log(this.nuevoProducto);
     this.agregarProductos();
-    this.guardarImagen();
   }
   
 

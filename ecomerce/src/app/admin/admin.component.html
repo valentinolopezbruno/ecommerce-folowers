@@ -89,7 +89,7 @@
         <div class="divFor" *ngIf="redes && redes[valorIDRedRestado]" >
         <tr *ngFor="let producto of redes[valorIDRedRestado].productos">
             <td>{{producto.nombre}}</td>
-            <td><img [src]="'assets/'+producto.imagen" alt=""></td>
+            <td><img [src]="producto.imagen" alt=""></td>
             <td>
                 <input type="button"  class="boton" style="background-color: #B08632;" name="editar" id="" value="Editar" (click)="habilitarModal(producto.idProducto, producto.nombre)">
                 |

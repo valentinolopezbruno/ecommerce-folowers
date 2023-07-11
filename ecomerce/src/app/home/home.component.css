@@ -1,0 +1,281 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap");
+
+/*HERO ********************************************************/
+
+h2 {
+  text-align: center;
+}
+
+body {
+  font-family: "Poppins", sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+.hero {
+  background: rgb(180, 8, 122);
+  background: -moz-linear-gradient(
+    90deg,
+    rgba(180, 8, 122, 1) 15%,
+    rgba(49, 33, 66, 1) 100%
+  );
+  background: -webkit-linear-gradient(
+    90deg,
+    rgba(180, 8, 122, 1) 15%,
+    rgba(49, 33, 66, 1) 100%
+  );
+  background: linear-gradient(
+    90deg,
+    rgba(180, 8, 122, 1) 15%,
+    rgba(49, 33, 66, 1) 100%
+  );
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#b4087a",endColorstr="#312142",GradientType=1);
+  padding: 80px 0;
+}
+
+.container-hero {
+  width: 100%;
+  margin: 0 auto;
+  overflow: hidden;
+}
+
+.hero-content {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding: 0 20px;
+}
+
+.hero-left {
+  max-width: 50%;
+}
+
+.hero-left h1,
+p {
+  color: white;
+}
+
+.hero-left p {
+  width: 80%;
+}
+
+.hero-right {
+  max-width: 50%;
+}
+
+.hero-left h1 {
+  font-size: 36px;
+  margin-bottom: 20px;
+}
+
+.hero-left p {
+  font-size: 18px;
+  margin-bottom: 30px;
+}
+
+.hero-right img {
+  width: 100%;
+  max-width: 100%;
+  height: auto;
+}
+
+.btn-1 {
+  display: inline-block;
+  background-color: #e7e7e7;
+  color: #811265;
+  padding: 10px 20px;
+  text-decoration: none;
+  font-size: 18px;
+  border-radius: 4px;
+}
+
+@media screen and (max-width: 768px) {
+  .hero-content {
+    flex-direction: column;
+  }
+
+  .hero-left,
+  .hero-right {
+    flex-basis: 100%;
+    max-width: 100%;
+  }
+
+  .hero-left h1 {
+    font-size: 24px;
+  }
+
+  .hero-left p {
+    font-size: 16px;
+  }
+
+  .hero-right {
+    text-align: center;
+    width: 70%;
+  }
+}
+
+/*CARD PRODUCTOS ****************************************************************************************************/
+
+.container {
+  display: flex;
+  width: 80%;
+  height: 67%;
+  margin: 50px auto;
+  align-items: stretch;
+  justify-content: space-around;
+}
+
+.producto {
+  height: 100%;
+  width: 50%;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  border: 1px solid #432d59;
+  border-radius: 15px;
+}
+
+.producto h2 {
+  background-color: #432d59;
+  color: white;
+  padding: 10px;
+  margin: 0 0 15px 0;
+  border-radius: 15px 15px 0 0;
+}
+
+.producto img {
+  width: 100px;
+  border-radius: 15px;
+}
+
+.producto h3,
+h4 {
+  font-weight: 100;
+  font-size: 24px;
+}
+
+.producto h3 {
+  color: #a02584;
+  font-size: 40px;
+  margin: 15px;
+}
+
+.producto h4 {
+  margin: 16px;
+}
+
+label {
+  width: 100%;
+}
+
+.imagen {
+  width: 50%;
+  object-fit: cover;
+  border-radius: 15px;
+}
+
+select {
+  padding: 8px 16px;
+  width: 100%;
+  font-size: 20px;
+  border: 1px solid #ced4da;
+  border-radius: 5px;
+  font-weight: 100;
+}
+
+select:focus {
+  border: 3px solid rgb(216, 149, 186);
+  background-color: #fdf9fd;
+  border-radius: 10px;
+  outline: none;
+}
+
+input:focus {
+  border: 3px solid rgb(216, 149, 186);
+  background-color: #fdf9fd;
+  border-radius: 10px;
+  outline: none;
+}
+
+input {
+  padding: 8px 16px;
+  width: 100%;
+  font-size: 20px;
+  border: 1px solid #ced4da;
+  border-radius: 5px;
+  font-weight: 100;
+  box-sizing: border-box;
+}
+
+.formularios {
+  padding: 0 20px;
+}
+
+.btn {
+  margin: 15px auto;
+  flex: 1 1 auto;
+  padding: 15px;
+  text-align: center;
+  transition: 0.5s;
+  background-size: 200% auto;
+  color: white;
+  /* text-shadow: 0px 0px 10px rgba(0,0,0,0.2);*/
+  box-shadow: 0 0 20px #eee;
+  border-radius: 10px;
+  width: 100%;
+  cursor: pointer;
+  border: none;
+  font-size: 20px;
+}
+
+/* Demo Stuff End -> */
+
+/* <- Magic Stuff Start */
+
+.btn:hover {
+  background-position: right center; /* change the direction of the change here */
+}
+
+.btn {
+  background-image: linear-gradient(
+    to right,
+    #c789af 0%,
+    #9e1f82 51%,
+    #9411a0 100%
+  );
+}
+
+@media (max-width: 1000px) {
+  .imagen {
+    display: none;
+  }
+  .producto {
+    width: 90%;
+  }
+}
+
+@media (min-width: 1400px) {
+  .imagen {
+    width: 550px;
+    height: 550px;
+  }
+}
+
+ul {
+  list-style-type: none;
+  padding: 0;
+  text-align: start;
+}
+
+li {
+  margin-bottom: 10px;
+}
+
+.icon {
+  display: inline-block;
+  width: 20px;
+  margin-right: 10px;
+}

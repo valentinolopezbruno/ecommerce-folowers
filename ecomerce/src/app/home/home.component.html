@@ -1,1 +1,45 @@
-<p>home works!</p>
+<section class="hero">
+  <div class="container-hero">
+    <div class="hero-content">
+      <div class="hero-left">
+        <h1>De Seguidores</h1>
+        <p>
+          Llegaste al mejor lugar para Comprar Seguidores de Instagram, Tiktok y
+          Youtube. Aquí consigues el mejor precio y la mejor calidad, además los
+          servicios son garantizados y con entregas rápidas.
+          <b>¿Estás listo?</b>
+        </p>
+        <a href="#" class="btn-1">Botón</a>
+      </div>
+      <div class="hero-right">
+        <img src="assets/foto home.png" alt="Descripción de la imagen" />
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="container" *ngFor="let red of redes; let i = index">
+  <img class="imagen" [src]="red.imagen" alt="" />
+  <div class="producto">
+    <form action="">
+      <h2>{{red.productos[0].nombre}}</h2>
+      <img [src]="red.productos[0].imagen" alt="" />
+      <h2>{{red.productos[0].productos_cantidad[indexCalcularPrecio].precio | currency}}</h2>
+      <div class="formularios">
+        <h4>Cantidad:</h4>
+        <select id="quantity" (change)="calcularPrecio($event)">
+          <option  *ngFor="let producto_cantidad of red.productos[0].productos_cantidad; let i = index" [value]="i">{{producto_cantidad.cantidad}}</option>
+        </select>
+        <h4>Usuario:</h4>
+        <input
+          type="text"
+          id="usuario"
+          placeholder="Ingresa tu usuario"
+          [(ngModel)]="usuario"
+          name="Tu Usuario"
+        /><br />
+        <button class="btn" id="botonComprar" (click)="agregarCarrito()">Añadir al carrito</button>
+      </div>
+    </form>
+  </div>
+</div>
