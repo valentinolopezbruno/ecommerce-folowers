@@ -1,69 +1,156 @@
-table {
-    border-collapse: collapse;
-    width: 100%;
-    text-align: center;
-    
+.manceri{
+  margin:0;
+  padding:0;
 }
 
-th, td {
-    border: 1px solid black;
-    padding: 8px;
-    justify-content: center;
-    align-items: center;
-}
 
-.container-admin thead{
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  width: 100%;
-}
 
-.btnAgregarProducto{
-  color: white;
-  background-color: #3e8e41;
-  padding: 10px;
+/*ULTIMO ELEMENTO*/
+
+.container-adminu {
+  max-width: 100%;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #8cc7ff;
   border-radius: 10px;
+  width: 80%;
+  -webkit-box-shadow: 0px 0px 59px -23px rgb(153, 153, 153);
+  -moz-box-shadow: 0px 0px 59px -23px rgb(146, 146, 146);
+  box-shadow: 0px 0px 59px -23px rgb(155, 154, 154);
+  border: 6px solid rgb(255, 255, 255);
+}
+
+thead .theadu{
+  background-color: #f0f8ff;
+}
+
+tr .tru{
+  background-color: #f0f8ff;
+  border-radius: 10px;
+}
+
+.container-adminu h3 {
+  text-align: center;
+}
+
+.btnAgregarProductou {
+  display: block;
+  margin: 20px auto;
+  padding: 10px;
+  background-color: rgb(150, 223, 150);
+  border: 2px solid green;
+  border-radius: 10px;
+}
+
+table.product-tableu {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+table td{
+  background-color: #f0f8ff;
+}
+
+table.product-tableu th,
+table.product-tableu td {
+  padding: 10px;
+  text-align: left;
+}
+
+table.product-tableu th {
+  background-color: #f7feff;
+}
+
+table.product-tableu td img {
+  max-width: 100px;
+  height: auto;
+}
+
+.btnEditaru,
+.btnEliminaru {
+  padding: 5px 10px;
+  color: #fff;
+  cursor: pointer;
   border: none;
+  border-radius: 3px;
+  width: 80%;
+  margin: 2px auto;
 }
 
-.btnAgregarProducto :hover{
-  background-color: #071107;
+.btnEditaru {
+  background-color: #B08632;
+  border-radius: 8px;
 }
 
-img{
-    width:80px;
-    height:80px;
+.btnEditaru:hover {
+  background-color: #bb9b5a;
 }
 
-.boton {
-    display: inline-block;
-    padding: 10px 20px;
-    font-size: 16px;
-    font-weight: bold;
-    text-decoration: none;
-    text-align: center;
-    border-radius: 4px;
-    border: none;
-    color: #fff;
-    transition: background-color 0.3s ease;
+.btnEliminaru {
+  background-color: #952222;
+  border-radius: 8px;
+}
+
+.btnEliminaru:hover{
+  background-color: #ac5353;
+}
+
+select .selectu{
+  background-color: aliceblue;
+  padding: 7px;
+  border: 1px solid lightblue;
+  border-radius: 10px;
+  margin-bottom: 10px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+body .bodyu{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgb(43, 39, 39);
+  background-image: url(/assets/canseri.avif);
+  object-fit: cover;
+  background-repeat: round;
+}
+
+@media (max-width: 768px) {
+  table.product-tableu th,
+  table.product-tableu td {
+    padding: 5px;
   }
-  
-  .boton:hover {
-    background-color: #45a049;
+
+  table.product-tableu td img {
+    max-width: 80px;
   }
-  
-  .boton:active {
-    background-color: #3e8e41;
+
+  .btnAgregarProductou {
+    margin: 10px auto;
+    cursor: pointer;
   }
+
+  .container-adminu {
+    width: 100%;
+    padding: 10px;
+
+  }
+
+  select  .selectu{
+    width: 100%;
+  }
+
+  .btnEditaru,
+  .btnEliminaru {
+    width: 100%;
+    margin: 5px auto;
+  }
+} 
   
   
 
 /*   --------------------------------------------------- MNODAL --------------------------------------------------------*/
 .container-modal{
-  width:100%;
-  height:100vh;
-  position:fixed;
   top:0;
   left:0;
   background-color:rgba(144,148,150,0.8);
@@ -90,3 +177,420 @@ img{
     align-items: center;
     text-align: center;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*SEGUNDO MODAL*/
+
+
+.container-modal {
+  max-width: 80%;
+  margin: 20px auto;
+  padding: 20px;
+  background-color: #8cc7ff;
+  border-radius: 10px;
+  box-shadow: 0px 0px 59px -23px rgb(153, 153, 153);
+  border: 6px solid rgb(255, 255, 255);
+}
+
+.content-modal {
+  text-align: center;
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.modal-header h1 {
+  margin: 0;
+}
+
+.btn-cerrar button {
+  background-color: #B08632;
+  color: #fff;
+  border: none;
+  border-radius: 3px;
+  padding: 5px 10px;
+  cursor: pointer;
+  width: 100%;
+}
+
+select {
+  background-color: aliceblue;
+  padding: 7px;
+  border: 1px solid lightblue;
+  border-radius: 10px;
+  margin-bottom: 10px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+form {
+  text-align: left;
+  margin-bottom: 20px;
+}
+
+label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+input[type="text"],
+input[type="number"],
+input[type="file"] {
+  width: 100%;
+  padding: 7px;
+  border: 1px solid lightblue;
+  border-radius: 10px;
+  margin-bottom: 10px;
+  box-sizing: border-box;
+}
+
+button {
+  padding: 5px 10px;
+  color: #fff;
+  cursor: pointer;
+  border: none;
+  border-radius: 3px;
+  width: 80%;
+  margin: 2px auto;
+  background-color: #B08632;
+}
+
+button:hover {
+  background-color: #bb9b5a;
+}
+
+.container-admin {
+  max-width: 100%;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #8cc7ff;
+  border-radius: 10px;
+  width: 80%;
+  box-shadow: 0px 0px 59px -23px rgb(153, 153, 153);
+  border: 6px solid rgb(255, 255, 255);
+}
+
+thead {
+  background-color: #f0f8ff;
+}
+
+tr {
+  background-color: #f0f8ff;
+  border-radius: 10px;
+}
+
+.container-admin h3 {
+  text-align: center;
+}
+
+.btnAgregarProducto {
+  display: block;
+  margin: 20px auto;
+  padding: 10px;
+  background-color: rgb(150, 223, 150);
+  border: 2px solid green;
+  border-radius: 10px;
+}
+
+table.product-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+table td {
+  background-color: #f0f8ff;
+}
+
+table.product-table th,
+table.product-table td {
+  padding: 10px;
+  text-align: left;
+}
+
+table.product-table th {
+  background-color: #f7feff;
+}
+
+table.product-table td img {
+  max-width: 100px;
+  height: auto;
+}
+
+.btnEditar,
+.btnEliminar {
+  padding: 5px 10px;
+  color: #fff;
+  cursor: pointer;
+  border: none;
+  border-radius: 3px;
+  width: 80%;
+  margin: 2px auto;
+  background-color: #B08632;
+}
+
+.btnEditar:hover {
+  background-color: #bb9b5a;
+}
+
+.btnEliminar {
+  background-color: #952222;
+}
+
+.btnEliminar:hover {
+  background-color: #ac5353;
+}
+
+select {
+  background-color: aliceblue;
+  padding: 7px;
+  border: 1px solid lightblue;
+  border-radius: 10px;
+  margin-bottom: 10px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgb(43, 39, 39);
+  background-image: url(/assets/canseri.avif);
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: 100vh;
+}
+
+@media (max-width: 768px) {
+  table.product-table th,
+  table.product-table td {
+    padding: 5px;
+  }
+
+  table.product-table td img {
+    max-width: 80px;
+  }
+
+  .btnAgregarProducto {
+    margin: 10px auto;
+    cursor: pointer;
+  }
+
+  .container-admin,
+  .container-modal {
+    width: 100%;
+    padding: 10px;
+  }
+
+  select,
+  input[type="text"],
+  input[type="number"],
+  input[type="file"] {
+    width: 100%;
+  }
+
+  button {
+    width: 100%;
+  }
+
+  .btnEditar,
+  .btnEliminar {
+    width: 100%;
+    margin: 5px auto;
+  }
+} 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*PRIMER MODAAAAAAL*/
+
+.container-modal {
+  max-width: 80%;
+  margin: 20px auto;
+  padding: 20px;
+  background-color: #8cc7ff;
+  border-radius: 10px;
+  box-shadow: 0px 0px 59px -23px rgb(153, 153, 153);
+  border: 6px solid rgb(255, 255, 255);
+}
+
+.content-modal {
+  text-align: center;
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.modal-header h1 {
+  margin: 0;
+}
+
+.btn-cerrar button {
+  background-color: #B08632;
+  color: #fff;
+  border: none;
+  border-radius: 3px;
+  padding: 5px 10px;
+  cursor: pointer;
+}
+
+.table-wrapper {
+  overflow-x: auto;
+  margin-bottom: 20px;
+}
+
+.product-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+tbody tr:nth-child(even) {
+  background-color: #f0f8ff;
+}
+
+td.input-group {
+  display: flex;
+  align-items: center;
+}
+
+td.label {
+  font-weight: bold;
+  white-space: nowrap;
+}
+
+td.value {
+  padding-left: 10px;
+}
+
+td.actions {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 10px;
+}
+
+td.actions input[type="button"] {
+  margin: 0 5px;
+  width: 80px;
+}
+
+td.actions input[type="button"]:first-child {
+  background-color: #B08632;
+}
+
+td.actions input[type="button"]:first-child:hover {
+  background-color: #bb9b5a;
+}
+
+td.actions input[type="button"]:last-child {
+  background-color: #952222;
+}
+
+td.actions input[type="button"]:last-child:hover {
+  background-color: #ac5353;
+}
+
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgb(43, 39, 39);
+  background-image: url(/assets/canseri.avif);
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: 100vh;
+}
+
+@media (max-width: 768px) {
+  .container-modal {
+    max-width: 100%;
+    margin: 20px;
+  }
+
+  .table-wrapper {
+    overflow-x: auto;
+    margin-bottom: 0;
+  }
+
+  .product-table {
+    width: auto;
+  }
+
+  td.label,
+  td.value {
+    display: block;
+    text-align: center;
+    padding: 5px;
+  }
+
+  td.actions {
+    margin-top: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  td.actions input[type="button"] {
+    width: 100%;
+    margin: 5px;
+  }
+}
+
+
+
+
+
+

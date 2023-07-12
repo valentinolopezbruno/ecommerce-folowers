@@ -1,0 +1,183 @@
+<link rel="stylesheet" href="admin.component.css" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+<ng-container *ngIf="verModal">
+  <div class="container-modal">
+    <div class="content-modal">
+      <div class="modal-header">
+        <h1>Seguidores</h1>
+        <div class="btn-cerrar">
+          <button (click)="cerrarModal()">Cerrar</button>
+        </div>
+      </div>
+      <div class="table-wrapper">
+        <table
+          *ngIf="redes && redes[valorIDRedRestado].productos"
+          class="product-table"
+        >
+          <tbody>
+            <ng-container
+              *ngFor="let producto of redes[valorIDRedRestado].productos"
+            >
+              <ng-container
+                *ngFor="let productos_cantidad of producto.productos_cantidad"
+              >
+                <tr
+                  *ngIf="compararClavesPrimarias(valorIDProducto, productos_cantidad.idProducto)"
+                >
+                  <td class="label">Producto:</td>
+                  <td class="value">{{ nombreProducto }}</td>
+                </tr>
+                <tr
+                  *ngIf="compararClavesPrimarias(valorIDProducto, productos_cantidad.idProducto)"
+                >
+                  <td class="label">Cantidad:</td>
+                  <td class="value">{{ productos_cantidad.cantidad }}</td>
+                </tr>
+                <tr
+                  *ngIf="compararClavesPrimarias(valorIDProducto, productos_cantidad.idProducto)"
+                >
+                  <td class="label">Precio:</td>
+                  <td class="value">
+                    {{ productos_cantidad.precio | currency }}
+                  </td>
+                </tr>
+                <tr
+                  *ngIf="compararClavesPrimarias(valorIDProducto, productos_cantidad.idProducto)"
+                >
+                  <td colspan="2" class="actions">
+                    <input
+                      type="button"
+                      class="boton"
+                      style="background-color: #b08632"
+                      name="editar"
+                      id=""
+                      value="Editar"
+                    />
+                    <input
+                      type="button"
+                      class="boton"
+                      style="background-color: #952222"
+                      name="eliminar"
+                      id=""
+                      value="Eliminar"
+                    />
+                  </td>
+                </tr>
+              </ng-container>
+            </ng-container>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</ng-container>
+
+<ng-container *ngIf="verModalAdmin">
+  <div class="container-modal">
+    <div class="content-modal">
+      <div class="modal-header">
+        <h1>AGREGAR PRODUCTO</h1>
+        <div class="btn-cerrar">
+          <button (click)="cerrarModalAdmin()">Cerrar</button>
+        </div>
+      </div>
+      <h2>Red Social</h2>
+      <select
+        *ngIf="redes"
+        [(ngModel)]="valorIDRed"
+        (change)="cambiarValorIDRed($event)"
+      >
+        <option *ngFor="let red of redes" [value]="red.idSocial">
+          {{red.nombre}}
+        </option>
+      </select>
+      <form>
+        <label>Nombre del producto:</label>
+        <input
+          type="text"
+          [(ngModel)]="nombreProducto"
+          name="nombreProducto"
+          placeholder="Nombre del Producto"
+        />
+        <br />
+        <label>Imagen:</label>
+        <input type="file" (change)="cargarImagen($event)" />
+        <img [src]="urlImagen" alt="Vista previa de la imagen" />
+      </form>
+      <button (click)="habilitarAgregarPrecios()">Agregar Precios</button>
+      <div *ngIf="agregarPrecios">
+        <form
+          *ngFor="let precios of nuevoProducto.productos_cantidad; let i = index"
+        >
+          <label>Cantidad de {{nombreProducto}}:</label>
+          <input
+            type="number"
+            name="cantidad"
+            (input)="guardarCantidad(i, $event)"
+            placeholder="200"
+          />
+          <br />
+          <label>Precio:</label>
+          <input
+            type="number"
+            name="precio"
+            (input)="guardarPrecio(i, $event)"
+            placeholder="3000"
+          />
+          <br />
+        </form>
+      </div>
+      <button type="submit" (click)="confirmarProducto()">
+        Agregar Producto
+      </button>
+    </div>
+  </div>
+</ng-container>
+
+<div class="container-admin">
+  <h3>Administrador</h3>
+  <button class="btnAgregarProducto" (click)="habilitarModalAdmin()">
+    Agregar Producto
+  </button>
+  <h4>Red Social</h4>
+  <select
+    *ngIf="redes"
+    [(ngModel)]="valorIDRed"
+    (change)="cambiarValorIDRed($event)"
+  >
+    <option *ngFor="let red of redes" [value]="red.idSocial">
+      {{red.nombre}}
+    </option>
+  </select>
+
+  <table class="product-table">
+    <thead>
+      <tr>
+        <th>Nombre</th>
+        <th>Imagen</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody *ngIf="redes && redes[valorIDRedRestado]">
+      <tr *ngFor="let producto of redes[valorIDRedRestado].productos">
+        <td>{{producto.nombre}}</td>
+        <td><img [src]="'assets/'+producto.imagen" alt="" /></td>
+        <td>
+          <button
+            class="btnEditar"
+            (click)="habilitarModal(producto.idProducto, producto.nombre)"
+          >
+            Editar
+          </button>
+          <button
+            class="btnEliminar"
+            (click)="eliminarProducto(producto.idProducto)"
+          >
+            Eliminar
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
