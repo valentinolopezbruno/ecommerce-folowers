@@ -128,10 +128,9 @@ p {
 }
 
 .producto {
-  height: 100%;
+  height: 80%;
   width: 50%;
   text-align: center;
-  display: flex;
   flex-direction: column;
   justify-content: center;
   border: 1px solid #432d59;
@@ -148,6 +147,7 @@ p {
 
 .producto img {
   width: 100px;
+  margin-bottom: 10px;
   border-radius: 15px;
 }
 

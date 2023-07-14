@@ -1,12 +1,11 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap");
 
-
-h2{
+h2 {
   text-align: center;
 }
 
 body {
-  font-family: 'Poppins', sans-serif;
+  font-family: "Poppins", sans-serif;
   margin: 0;
   padding: 0;
 }
@@ -57,8 +56,8 @@ body {
   padding: 10px;
 }
 
-@media (max-width:768px){
-  .menu li a{
+@media (max-width: 768px) {
+  .menu li a {
     color: black;
   }
 }
@@ -159,8 +158,73 @@ body {
   .dropdown.open .submenu {
     display: block;
   }
+
+
+  .divzin1 {
+    padding: 1rem;
+    border-top: 1px solid black;
+    border-top-style: solid;
+  }
+
+  .divzin2 {
+    padding-bottom: 0.75rem;
+    display: flex;
+    justify-content: space-between;
+    color:red;
+  }
+
+  .divzin3 {
+    margin-right: 16px;
+  }
+
+  .divzin4 {
+    padding-top: 0.75rem;
+    padding-bottom: 0.75rem;
+  }
+
+  .divzin5 {
+    display: flex;
+    justify-content: space-between;
+    font-weight: 300;
+    margin-bottom: 0.5rem;
+  }
+
+  .divzin6 {
+    font-weight: 700;
+    text-align: center;
+  }
+
+  .divzin7 {
+    display: flex;
+    justify-content: space-between;
+    padding-top: 0.75rem;
+    font-weight: 300;
+  }
+
+  .divzin8 {
+    font-weight: 700;
+  }
+
+  .divzin9 {
+    padding-top: 0.75rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    text-align: center;
+  }
+
+  .divzin10 {
+    background-color: #34d399;
+    color: #ffffff;
+    font-weight: 700;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    border-radius: 0.25rem;
+  }
+
+  .divzin10:hover {
+    background-color: #059669;
+  }
 }
-
-
-
-

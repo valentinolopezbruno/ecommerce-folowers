@@ -38,7 +38,7 @@ setInterval(() => {
   fechaActual = fecha.getMinutes();
 }, 3 * 60 * 1000);
 
-/* --------------------------------- IMAGENES --------------------------------------------------- */
+/* ---------------------------------CONFIG  IMAGENES --------------------------------------------------- */
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
@@ -50,6 +50,16 @@ const storage = multer.diskStorage({
 });
 
 const upload = multer({ storage: storage });
+
+/* --------------------------------- MERCADOPAGO --------------------------------------------------- */
+
+// SDK de Mercado Pago
+const mercadopago = require("mercadopago");
+// Agrega credenciales
+mercadopago.configure({
+  access_token: "TEST-2759866113109514-071320-9a370f642495aa418b8b9dc007521b30-181054007",
+});
+
 
 /* --------------------------------- LOGIN --------------------------------------------------- */
 
@@ -69,6 +79,31 @@ app.post("/usuarios", async (req, res) => {
   if (cont == 0) {
     console.log("Incorrecto");
     res.send({ code: 0 });
+  }
+});
+
+/* --------------------------------- COMPRA MERCADO PAGO --------------------------------------------------- */
+app.post('/pay', (req, res) => {
+  try {
+    // Código que puede lanzar una excepción
+    // ...
+
+    // Si se produce un error, lanza una excepción utilizando 'throw new Error()'
+    if (errorCondition) {
+      throw new Error('Mensaje de error');
+    }
+
+    // Código que se ejecuta si no se produce ningún error
+    // ...
+
+    // Envía una respuesta al cliente
+    res.json({ message: 'Operación exitosa' });
+  } catch (error) {
+    // Manejo de errores
+    console.error('Error en el controlador:', error);
+    
+    // Envía una respuesta de error al cliente
+    res.status(500).json({ error: 'Ha ocurrido un error' });
   }
 });
 
@@ -227,6 +262,8 @@ app.get("/cantidad", async (req, res) => {
   res.json(socialData);
 });
 
+
 app.listen(3000, () => {
   console.log("app corriendo en puerto 3000");
 });
+
