@@ -22,28 +22,10 @@ export class APIService {
     return this.httpClient.post<{}>(`${API_URL}/usuarios`, {nombre, contra})
   }
 
-  realizarPago(carrito: any): Observable<any> {
-    console.log("canseri")
-    const requestOptions = {
-      method: 'POST',
-      body: JSON.stringify(carrito),
-      headers: { 'Content-Type': 'application/json' }
-    };
-
-    return new Observable<any>(observer => {
-      fetch(`${API_URL}/pay`, requestOptions)
-        .then(response => response.json())
-        .then(data => {
-          // Hacer algo con los datos de la respuesta
-          observer.next(data);
-          observer.complete();
-        })
-        .catch(error => {
-          // Manejar cualquier error
-          observer.error(error);
-        });
-    });
+  realizarPago(carrito: any): Observable<{}> {
+    return this.httpClient.post<{}>(`${API_URL}/pay`, carrito)
   }
+  
 
   getProductos():Observable<any[]> {
     return this.httpClient.get<any[]>(`${API_URL}/productos`)

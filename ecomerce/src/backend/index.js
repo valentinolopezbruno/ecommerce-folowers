@@ -1,4 +1,5 @@
 const express = require("express");
+require('dotenv').config();
 const app = express();
 const cors = require("cors");
 const mysql = require("mysql");
@@ -83,29 +84,41 @@ app.post("/usuarios", async (req, res) => {
 });
 
 /* --------------------------------- COMPRA MERCADO PAGO --------------------------------------------------- */
-app.post('/pay', (req, res) => {
-  try {
-    // Código que puede lanzar una excepción
-    // ...
+app.post("/pay", async (req, res) => {
+  var carrito = req.body
+  console.log(carrito.productos[0])
 
-    // Si se produce un error, lanza una excepción utilizando 'throw new Error()'
-    if (errorCondition) {
-      throw new Error('Mensaje de error');
-    }
+  let preference = {
+    items: [],
+/*     back_urls: {
+      "succes":"http://localhost:3000/feedback",
+      "failure":"http://localhost:3000/feedback",
+      "pending":"http://localhost:3000/feedback"
+    },
+    auto_return:"approved" */
+  };
 
-    // Código que se ejecuta si no se produce ningún error
-    // ...
-
-    // Envía una respuesta al cliente
-    res.json({ message: 'Operación exitosa' });
-  } catch (error) {
-    // Manejo de errores
-    console.error('Error en el controlador:', error);
-    
-    // Envía una respuesta de error al cliente
-    res.status(500).json({ error: 'Ha ocurrido un error' });
+  for (let i = 0; i < carrito.productos.length; i++) {
+    preference.items.push({
+      title: carrito.productos[i].producto + " " + carrito.productos[i].producto + " x " + carrito.productos[i].cantidad,
+      quantity: 1,
+      currency_id: 'ARS',
+      unit_price: 1
+    })
   }
+
+  const result = await mercadopago.preferences.create(preference)
+  console.log(result)
+
 });
+
+app.get("/feedback", function(req,res){
+  res.json({
+    Payment: req.query.payment_id,
+    Status: req.query.status,
+    MerchantOrder: req.query.merchant_order_id
+  })
+})
 
 /* --------------------------------- PRODUCTOS --------------------------------------------------- */
 

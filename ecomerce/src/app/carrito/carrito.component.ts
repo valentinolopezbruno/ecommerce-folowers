@@ -45,7 +45,14 @@ export class CarritoComponent implements OnInit {
     for (let i = 0; i < this.datosEntrada.length; i++) {
       this.carritoFinal.productos.push(this.datosEntrada[i])
     }
-    this.APIService.realizarPago(this.carrito);
+    this.APIService.realizarPago(this.carrito).subscribe(
+      (response) => {
+        console.log("Respuesta del servidor:", response);
+      },
+      (error) => {
+        console.error("Error en la petición:", error);
+      }
+    );
   }
 
   ngOnInit(): void {
