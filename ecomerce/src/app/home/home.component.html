@@ -26,10 +26,10 @@
     <form action="">
       <h2>{{red.productos[0].nombre}} de {{red.nombre}}</h2>
       <img [src]="red.productos[0].imagen" alt="" />
-      <h2>{{red.productos[0].productos_cantidad[indexCalcularPrecio].precio | currency}}</h2>
+      <h2  *ngIf="calcularPrecio(red)">{{calcularPrecio(red) | currency}}</h2>
       <div class="formularios">
         <h4>Cantidad:</h4>
-        <select id="quantity" (change)="calcularPrecio($event)">
+        <select id="quantity" (change)="calcularIndex($event)">
           <option  *ngFor="let producto_cantidad of red.productos[0].productos_cantidad; let i = index" [value]="i">{{producto_cantidad.cantidad}}</option>
         </select>
         <h4>Usuario:</h4>
@@ -40,7 +40,7 @@
           [(ngModel)]="usuario"
           name="Tu Usuario"
         /><br />
-        <button class="btn" id="botonComprar" (click)="crearProducto(red.productos[0].nombre,red.nombre,red.productos[0].imagen,red.productos[0].productos_cantidad[indexCalcularPrecio].precio ,red.productos[0].productos_cantidad[indexCalcularPrecio].cantidad)">Añadir al carrito</button>
+        <button class="btn" id="botonComprar" (click)="crearProducto(red.nombre,red.productos[0].nombre,red.productos[0].imagen,red.productos[0].productos_cantidad[indexCalcularPrecio].precio ,red.productos[0].productos_cantidad[indexCalcularPrecio].cantidad)">Añadir al carrito</button>
       </div>
     </form>
   </div>

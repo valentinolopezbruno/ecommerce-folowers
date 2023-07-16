@@ -258,6 +258,35 @@ app.post("/producto", async (req, res) => {
   }
 });
 
+/* --------------------------------- PRODUCTOS CANTIDAD --------------------------------------------------- */
+
+app.post("/productos_cantidad", async (req,res) => {
+  const {id, datos} = req.body
+  const productoActualizado = await prisma.producto_cantidad.update({
+    where: { id },
+    data: { 
+      cantidad: datos.cantidad,
+      precio: datos.precio
+     },
+  });
+  console.log(productoActualizado)
+})
+
+app.post("/producto_cantidad", async (req,res) => {
+  console.log(req.body)
+/*   const { id } = req.body;
+  console.log("id")
+  console.log(id)
+  const producto_cantidad = await prisma.producto_cantidad.findUnique({
+    where: { id },
+  });
+  
+  console.log(producto_cantidad); */
+  res.send("asd")
+})
+
+/* --------------------------------- OTROS --------------------------------------------------- */
+
 app.get("/", async (req, res) => {
   const usuarios = await prisma.productos.findMany();
   console.log(usuarios);

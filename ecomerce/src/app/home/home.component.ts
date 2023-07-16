@@ -41,6 +41,7 @@ export class HomeComponent implements OnInit {
     console.log(this.producto)
 
     this.CarritoService.agregarAlCarrito(this.producto);
+
   }
 
   generarIDRandom(): number {
@@ -57,14 +58,15 @@ export class HomeComponent implements OnInit {
     });
   }
 
-  calcularPrecio(event: any): void {
+  calcularIndex(event: any): void {
     var index = event.target.value;
     this.indexCalcularPrecio = index;
   }
 
- /*  agregarCarrito(): void {
-    console.log(this.usuario);
-  } */
+  calcularPrecio(red:any){
+    var precio = red.productos[0].productos_cantidad[this.indexCalcularPrecio].precio
+    return precio
+  }
 
   ngOnInit() {
     this.getProductos();

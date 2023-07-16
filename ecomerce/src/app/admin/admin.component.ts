@@ -26,6 +26,10 @@ export class AdminComponent implements OnInit{
   verModalAdmin = false;
   agregarPrecios = false;
 
+  nombreInput:string = "";
+  cantidadInput: number = 0;
+  precioInput: number = 0;
+
   nombreProducto: string ='';
   urlImagen:string = "";
   imgFile: File | null = null;
@@ -54,6 +58,34 @@ export class AdminComponent implements OnInit{
 
   cerrarModal():void{
     this.verModal = false;
+  }
+
+  editarProductoCantidad(id:number):void{
+    this.APIService.getProductosCantidad(id).subscribe(
+      (response) => {
+        console.log("Respuesta del servidor:", response);
+      },
+      (error) => {
+        console.error("Error en la petición:", error);
+      }
+    );
+    var datos = {
+      "cantidad": this.cantidadInput,
+      "precio": this.precioInput
+    }
+    /* this.APIService.editarProductosCantidad(id, datos).subscribe(data => {console.log(data)}); */
+  }
+
+  cambioNombre(event: Event):void{
+    this.nombreInput = (event.target as HTMLInputElement).value;
+  }
+
+  cambioCantidad(event: Event):void{
+    this.cantidadInput = parseFloat((event.target as HTMLInputElement).value);
+  }
+
+  cambioPrecio(event: Event):void{
+    this.precioInput = parseFloat((event.target as HTMLInputElement).value);
   }
 
   

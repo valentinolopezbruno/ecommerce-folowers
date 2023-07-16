@@ -59,6 +59,7 @@ export class CarritoComponent implements OnInit {
     this.CarritoService.carrito.subscribe((carrito: Carrito) => {
       this.carrito = carrito;
       this.datosEntrada = this.carrito.productos;
+      console.log(this.datosEntrada)
     });
   }
 }

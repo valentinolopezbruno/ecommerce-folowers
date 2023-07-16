@@ -45,4 +45,15 @@ export class APIService {
   }
 
 
+  /* - - - - - - - - - -- - - - - - - - - - - - - - - - - -  PRODUCTOS CANTIDAD */
+
+  editarProductosCantidad(id:number, datos:{}): Observable<{}>{
+    return this.httpClient.post<{}>(`${API_URL}/productos_cantidad`, {id, datos});
+  }
+
+  getProductosCantidad(id:number):Observable<any>{
+    return this.httpClient.post<any>(`${API_URL}/producto_cantidad`, id)
+  }
+
+
 }
