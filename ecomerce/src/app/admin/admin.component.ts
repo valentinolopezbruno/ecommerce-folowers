@@ -251,19 +251,44 @@ export class AdminComponent implements OnInit {
     lector.readAsDataURL(archivo);
   }
 
-  /*   guardarImagen(event: any)  {
-    console.log("entra")
-    const files: FileList = event.target.files;
-    if (files && files.length > 0) {
-      this.urlImagen = files[0];
-    }
-  } */
-
   confirmarProducto() {
     this.nuevoProducto.nombre = this.nombreProducto;
     this.nuevoProducto.idSocial = this.valorIDRed;
-    console.log(this.nuevoProducto);
+    //SI NO SELECCIONA RED SOCIAL
+    if(this.valorIDRed == 0){
+      Swal.fire({
+        icon: 'error',
+        title: 'No seleccionaste "Red Social"'
+      })
+    }
+    //SI NO PONE NOMBRE DEL PRODUCTO
+    if(this.nombreProducto == ''){
+      Swal.fire({
+        icon: 'error',
+        title: 'No agregaste "Nombre del Producto"'
+      })
+    }
+    // SI NO AGREGA PRECIOS Y CANTIDADES
+    if(this.nuevoProducto.productos_cantidad.length == 0){
+      Swal.fire({
+        icon: 'error',
+        title: 'No agregaste Cantidades y Precios'
+      })
+    }
+    // SI PRESIONA"AGREGAR PRECIOS Y CANTIDADES" PERO NO PONE VALORES
+    if(this.nuevoProducto.productos_cantidad[0].cantidad == 1){
+      Swal.fire({
+        icon: 'error',
+        title: 'No agregaste Cantidades y Precios'
+      })
+    }
+    // CAMINO CORRECTO
     this.agregarProductos();
+    Swal.fire({
+      icon: 'success',
+      title: 'Producto Agregado Correctamente'
+    });
+    this.recargarPagina();
   }
 
   ngOnInit(): void {
