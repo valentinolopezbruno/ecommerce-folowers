@@ -51,8 +51,14 @@ export class APIService {
     return this.httpClient.post<{}>(`${API_URL}/productos_cantidad`, {id, datos});
   }
 
-  getProductosCantidad(id:number):Observable<any>{
-    return this.httpClient.post<any>(`${API_URL}/producto_cantidad`, id)
+  eliminarProductoCantidad(id: number): Observable<any> {
+    const requestData = { id: id }; // Envuelve el ID en un objeto
+    return this.httpClient.post<any>(`${API_URL}/producto_cantidad_borrar`, requestData);
+  }
+
+  agregarProductoCantidad(id:number,cantidad:number, precio:number){
+    console.log(id)
+    return this.httpClient.post<any>(`${API_URL}/producto_cantidad_agregar`, {id,cantidad,precio});
   }
 
 

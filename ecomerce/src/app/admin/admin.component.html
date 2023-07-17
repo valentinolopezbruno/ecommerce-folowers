@@ -29,16 +29,7 @@
                         productos_cantidad.idProducto
                       )
                     "
-                  >
-                    <td class="label">Producto:</td>
-                    <td class="value">
-                      <input
-                        (change)="cambioNombre($event)"
-                        type="text"
-                        value="{{ nombreProducto }}"
-                      />
-                    </td>
-                  </tr>
+                  ></tr>
                   <tr
                     *ngIf="
                       compararClavesPrimarias(
@@ -51,7 +42,7 @@
                     <td class="value">
                       <input
                         (change)="cambioCantidad($event)"
-                        type="text"
+                        type="number"
                         value="{{ productos_cantidad.cantidad }}"
                       />
                     </td>
@@ -64,12 +55,12 @@
                       )
                     "
                   >
-                    <td class="label">Precio:</td>
+                    <td class="label">Precio: $</td>
                     <td class="value">
                       <input
                         (change)="cambioPrecio($event)"
-                        type="text"
-                        value="{{ productos_cantidad.precio | currency }}"
+                        type="number"
+                        value="{{ productos_cantidad.precio }}"
                       />
                     </td>
                   </tr>
@@ -91,7 +82,9 @@
                         value="Editar"
                         (click)="
                           editarProductoCantidad(
-                            productos_cantidad.idProductoCantidad
+                            productos_cantidad.idProductoCantidad,
+                            productos_cantidad.cantidad,
+                            productos_cantidad.precio
                           )
                         "
                       />
@@ -102,6 +95,9 @@
                         name="eliminar"
                         id=""
                         value="Eliminar"
+                        (click)="eliminarProductoCantidad(productos_cantidad.idProductoCantidad,
+                        productos_cantidad.cantidad,
+                        productos_cantidad.precio)" 
                       />
                     </td>
                   </tr>
@@ -109,6 +105,12 @@
               </ng-container>
             </tbody>
           </table>
+          <div>
+            <h2>Agregar Cantidad</h2>
+            <p>Cantidad: <input type="text" name="cantidadNuevoProductoCantidad" [(ngModel)]="cantidadNuevoProductoCantidad" (click)="cantidadNuevoProductoCantidad = '' " placeholder="255"></p>
+            <p>Precio: $<input type="number" name="precioNuevoProductoCantidad" [(ngModel)]="precioNuevoProductoCantidad" (click)="precioNuevoProductoCantidad = '' " placeholder="1130"></p>
+            <button (click)="agregarProductoCantidad()">Agregar Cantidad</button>
+          </div>
         </div>
       </div>
     </div>

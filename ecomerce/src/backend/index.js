@@ -272,18 +272,30 @@ app.post("/productos_cantidad", async (req,res) => {
   console.log(productoActualizado)
 })
 
-app.post("/producto_cantidad", async (req,res) => {
-  console.log(req.body)
-/*   const { id } = req.body;
-  console.log("id")
-  console.log(id)
-  const producto_cantidad = await prisma.producto_cantidad.findUnique({
+app.post("/producto_cantidad_borrar", async (req,res) => {
+  const {id} = req.body
+  const producto_cantidad = await prisma.producto_cantidad.delete({
     where: { id },
   });
   
-  console.log(producto_cantidad); */
-  res.send("asd")
+  console.log(producto_cantidad);
+  res.send(producto_cantidad)
 })
+
+app.post("/producto_cantidad_agregar", async (req,res) => {
+  const {cantidad, precio, id} = req.body
+  const producto_cantidad = await prisma.producto_cantidad.create({
+    data:{
+      cantidad: cantidad,
+      precio:precio,
+      idProducto:id
+    }
+  });
+  
+  console.log(producto_cantidad);
+  res.send(producto_cantidad)
+})
+
 
 /* --------------------------------- OTROS --------------------------------------------------- */
 
