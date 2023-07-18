@@ -58,7 +58,7 @@ const upload = multer({ storage: storage });
 const mercadopago = require("mercadopago");
 // Agrega credenciales
 mercadopago.configure({
-  access_token: "TEST-2759866113109514-071320-9a370f642495aa418b8b9dc007521b30-181054007",
+  access_token: "TEST-1790631385670646-071709-e8884300ac14cc95ce394ddc5534b9f6-1425228965",
 });
 
 
@@ -84,40 +84,17 @@ app.post("/usuarios", async (req, res) => {
 });
 
 /* --------------------------------- COMPRA MERCADO PAGO --------------------------------------------------- */
-app.post("/pay", async (req, res) => {
-  var carrito = req.body
-  console.log(carrito.productos[0])
 
-  let preference = {
-    items: [],
-/*     back_urls: {
-      "succes":"http://localhost:3000/feedback",
-      "failure":"http://localhost:3000/feedback",
-      "pending":"http://localhost:3000/feedback"
-    },
-    auto_return:"approved" */
-  };
+app.get('/pago-exitoso', (req,res) => {
+  console.log("pagado")
+})
 
-  for (let i = 0; i < carrito.productos.length; i++) {
-    preference.items.push({
-      title: carrito.productos[i].producto + " " + carrito.productos[i].producto + " x " + carrito.productos[i].cantidad,
-      quantity: 1,
-      currency_id: 'ARS',
-      unit_price: 1
-    })
-  }
+app.get('/pago-fallido', (req,res) => {
+  console.log("pago-fallido")
+})
 
-  const result = await mercadopago.preferences.create(preference)
-  console.log(result)
-
-});
-
-app.get("/feedback", function(req,res){
-  res.json({
-    Payment: req.query.payment_id,
-    Status: req.query.status,
-    MerchantOrder: req.query.merchant_order_id
-  })
+app.get('/pago-pendiente', (req,res) => {
+  console.log("pago-pendiente")
 })
 
 /* --------------------------------- PRODUCTOS --------------------------------------------------- */

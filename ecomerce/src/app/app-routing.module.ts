@@ -4,6 +4,7 @@ import { AdminLoginComponent } from './admin-login/admin-login.component';
 import { HomeComponent } from './home/home.component';
 import { AdminComponent } from './admin/admin.component';
 import { CarritoComponent } from './carrito/carrito.component';
+import { ProductoIndividualComponent } from './producto-individual/producto-individual.component';
 
 const routes: Routes = [
   { path: 'home', component: HomeComponent },
@@ -15,6 +16,9 @@ const routes: Routes = [
   { path: 'admin', component: AdminComponent },
 
   { path: 'cart', component: CarritoComponent },
+
+  { path: 'service/:idr/:idp', component: ProductoIndividualComponent },
+
 ];
 @NgModule({
   imports: [RouterModule.forRoot(routes)],

@@ -3,12 +3,11 @@
     ><img src="assets/logo.png" alt="Descripción del logo"
   /></a>
   <ul class="menu">
-    <li class="dropdown" *ngFor="let red of redes; let i = index">
+    <li class="dropdown" *ngFor="let red of redes; let j = index">
       <a href="#" class="dropdown-toggle">{{ red.nombre }}</a>
       <ul class="submenu">
         <li *ngFor="let producto of red.productos; let i = index">
-          <!-- <a href="#"> -->{{ producto.nombre
-          }}<!-- </a> -->
+          <a [routerLink]="['/service', j, i]">{{ producto.nombre }}</a>
         </li>
       </ul>
     </li>

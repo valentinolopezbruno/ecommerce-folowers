@@ -1,0 +1,66 @@
+<app-header class="navbar"></app-header>
+
+<section class="container">
+  <header class="header">
+    <div class="div-content">
+      <h1 class="identidad">Seguidores de TikTok</h1>
+      <p class="descrip">
+        Comprar Seguidores de Tiktok aumenta tu presencia y visualizaciones,
+        puedes alcanzar la fama en la red social más moderna.
+      </p>
+    </div>
+  </header>
+
+  <main>
+    <div class="background">
+      <div class="div-container">
+        <div class="divcol1"></div>
+        <div class="divcol2">
+          <div class="devicol2-content">
+            <div class="div-card-tittle" *ngIf="redes != null">
+              <h4 class="titulo-card">
+                {{ redes[idred].productos[idprod].nombre }} de
+                {{ redes[idred].nombre }}
+              </h4>
+            </div>
+            <div class="div-card-body" *ngIf="this.redes != null">
+              <img
+                class="imagen"
+                [src]="redes[idred].imagen"
+                alt=""
+              />
+              <div *ngIf="redes != null">
+                <h1 class="precio-producto">{{redes[idred].productos[idprod].productos_cantidad[indexCalcularPrecio].precio}}</h1>
+              </div>
+              <ul>
+                <li>
+                  <h4>Cantidad:</h4>
+                  <div class="caja">
+                    <select class="select-cantidad" name="" id="" *ngIf="redes != null" (change)="calcularIndex($event)">
+                      <option *ngFor="let producto_cantidad of redes[idred].productos[idprod].productos_cantidad; let i = index" [value]="i" >{{producto_cantidad.cantidad}}</option>
+                    </select>
+                  </div>
+                </li>
+                <li>
+                  <h4>Usuario:</h4>
+                  <div class="caja">
+                    <input type="text" />
+                  </div>
+                </li>
+              </ul>
+              <button>Agregar al Carrrito</button>
+              <ul>
+                <li>
+                  <i> Garantía </i>
+                </li>
+                <li><i> Entrega Inmediata </i></li>
+                <li><i> Pago Seguro </i></li>
+                <li><i> Soporte por Formulario de Contacto </i></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</section>

@@ -19,6 +19,7 @@ import { CarritoComponent } from './carrito/carrito.component';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatCardModule } from '@angular/material/card';
 import { MatTableModule } from '@angular/material/table';
+import { ProductoIndividualComponent } from './producto-individual/producto-individual.component';
 
 
 
@@ -35,6 +36,7 @@ import { MatTableModule } from '@angular/material/table';
     AdminLoginComponent,
     HomeComponent,
     CarritoComponent,
+    ProductoIndividualComponent,
 
   ],
   imports: [

@@ -20,7 +20,7 @@ export class CarritoService {
     productos.push(nuevoProducto);
     this.carrito.next({ productos });
   
-    this._snackBar.open('producto añadido al carrito.', 'Ok', { duration: 3000 });
+    this._snackBar.open('Produco Añadido', 'Ok', { duration: 3000 });
 
   }
   
@@ -40,7 +40,7 @@ export class CarritoService {
       
     this.carrito.next({productos:productosFiltrados})
 
-    this._snackBar.open('1 Producto Eliminado', 'Ok',{duration:3000})
+    this._snackBar.open('Producto Eliminado', 'Ok',{duration:3000})
     }
 
     return productosFiltrados;

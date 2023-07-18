@@ -21,10 +21,6 @@ export class APIService {
   validarUsuario(nombre: string, contra: string):Observable<{}> {
     return this.httpClient.post<{}>(`${API_URL}/usuarios`, {nombre, contra})
   }
-
-  realizarPago(carrito: any): Observable<{}> {
-    return this.httpClient.post<{}>(`${API_URL}/pay`, carrito)
-  }
   
 
   getProductos():Observable<any[]> {
@@ -59,6 +55,12 @@ export class APIService {
   agregarProductoCantidad(id:number,cantidad:number, precio:number){
     console.log(id)
     return this.httpClient.post<any>(`${API_URL}/producto_cantidad_agregar`, {id,cantidad,precio});
+  }
+
+
+  /* - - - - - - - - - -- - - - - - - - - - - - - - - - - -  COMPRA MERCADOPAGO */
+  realizarPago(carrito: any): Observable<{}> {
+    return this.httpClient.post<{}>(`${API_URL}/pay`, carrito)
   }
 
 

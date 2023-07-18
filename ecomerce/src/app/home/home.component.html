@@ -30,7 +30,7 @@
       <div class="formularios">
         <h4>Cantidad:</h4>
         <select id="quantity" (change)="calcularIndex($event)">
-          <option  *ngFor="let producto_cantidad of red.productos[0].productos_cantidad; let i = index" [value]="i">{{producto_cantidad.cantidad}}</option>
+          <option *ngFor="let producto_cantidad of red.productos[0].productos_cantidad; let i = index" [value]="i">{{producto_cantidad.cantidad}}</option>
         </select>
         <h4>Usuario:</h4>
         <input
