@@ -116,6 +116,11 @@ p {
   }
 }
 
+img.imagen{
+  width: 50%;
+  height: 80%;
+}
+
 /*CARD PRODUCTOS ****************************************************************************************************/
 
 .container {
@@ -143,6 +148,13 @@ p {
   padding: 10px;
   margin: 0 0 15px 0;
   border-radius: 15px 15px 0 0;
+}
+
+h2.ng-star-inserted{
+  background-color: white !important;
+  color: #9e1f82 !important;
+  font-weight: 600;
+  font-size: 28px;
 }
 
 .producto img {
