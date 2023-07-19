@@ -102,6 +102,7 @@ export class CarritoComponent implements OnInit {
       },
       onClick: (data, actions) => {
         console.log('onClick', data, actions);
+        console.log("a")
       },
     };
   }
