@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
@@ -20,6 +20,10 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatCardModule } from '@angular/material/card';
 import { MatTableModule } from '@angular/material/table';
 import { ProductoIndividualComponent } from './producto-individual/producto-individual.component';
+import { NgxPayPalModule } from 'ngx-paypal';
+import { NgxSpinnerModule } from "ngx-spinner";
+import { PayPalScriptProvider } from "@paypal/react-paypal-js";
+
 
 
 
@@ -52,10 +56,13 @@ import { ProductoIndividualComponent } from './producto-individual/producto-indi
     BrowserAnimationsModule,
     MatSnackBarModule,
     MatCardModule,
-    MatTableModule
+    MatTableModule,
+    NgxPayPalModule,
+    NgxSpinnerModule,
   ],
   providers: [APIService],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  schemas:[CUSTOM_ELEMENTS_SCHEMA]
 })
 
 export class AppModule { }
