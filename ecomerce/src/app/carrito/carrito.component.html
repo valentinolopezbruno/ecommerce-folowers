@@ -99,9 +99,12 @@
         </button>
       </td>
       <td mat-footer-cell *matFooterCellDef>
-        <button mat-raised-button color="primary" style="float: right" (click)="iniciarPago()">
+        <button mat-raised-button color="primary" style="float: right" (click)="iniciarPago()" >
+          
           Terminar Compra
         </button>
+        <br>
+        <ngx-paypal [config]="payPalConfig"></ngx-paypal>
       </td>
     </ng-container>
 
