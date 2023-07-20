@@ -10,7 +10,6 @@ const fs = require("fs-extra");
 
 app.use(express.json());
 app.use(cors());
-app.use(bodyParser.json());
 app.use("/imagenes", express.static(path.join(__dirname, "./imagenes")));
 const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
@@ -272,6 +271,26 @@ app.post("/producto_cantidad_agregar", async (req,res) => {
   console.log(producto_cantidad);
   res.send(producto_cantidad)
 })
+/* --------------------------------- REDES SOCIALES --------------------------------------------------- */
+
+app.post("/social", upload.single("file"), async (req, res) => {
+  const { nombre } = req.body;
+  const imagen = req.file;
+
+  try {
+    const red = await prisma.social.create({
+      data: {
+        nombre: nombre,
+        imagen: imagen.filename,
+      },
+    });
+    console.log(red);
+    res.send("red");
+  } catch (error) {
+    console.error("Error al crear red social:", error);
+    res.status(500).send("Error al crear red social");
+  }
+});
 
 
 /* --------------------------------- OTROS --------------------------------------------------- */

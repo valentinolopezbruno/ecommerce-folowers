@@ -3,6 +3,7 @@ import { ModalServicesService } from '../services/modal-services.service';
 import { APIService } from '../services/api.service';
 import { NuevoProducto } from '../models/nuevoProducto';
 import Swal from 'sweetalert2';
+import { Social } from '../models/social.model';
 
 
 @Component({
@@ -24,6 +25,9 @@ export class AdminComponent implements OnInit {
   verModalAdmin = false;
   verModalAdminRedSocial = false;
   agregarPrecios = false;
+
+  nuevaRedSocial: string = '';
+  nuevaRedSocialIMG: File | null = null;
 
   nombreInput: string = '';
   cantidadInput: number = 0;
@@ -58,7 +62,35 @@ export class AdminComponent implements OnInit {
   }
 
   confirmarRedSocial():void{
+    if(this.nuevaRedSocial == ''){
+      Swal.fire({
+        icon: 'error',
+        title: 'No Ingresaste "Nombre"'
+      })
+    }
+    if(this.nuevaRedSocialIMG == null){
+      Swal.fire({
+        icon: 'error',
+        title: 'No seleccionaste "Imagen"'
+      })
+    }
+    if(this.nuevaRedSocialIMG !=null && this.nuevaRedSocial != ''){
+      this.agregarRedSocial()
+    }
+    
+  }
 
+  agregarRedSocial():void{
+    if(this.nuevaRedSocialIMG !=null && this.nuevaRedSocial != '')
+    this.APIService.agregarRedSocial(this.nuevaRedSocial, this.nuevaRedSocialIMG).subscribe((data) => {
+      
+    });
+
+    Swal.fire({
+      icon: 'success',
+      title: 'Red Agregada Correctamente'
+    });
+    this.recargarPagina();
   }
 
   habilitarModal(id: number, nombre: string) {
@@ -254,9 +286,16 @@ export class AdminComponent implements OnInit {
   cargarImagen(event: any) {
     const archivo = event.target.files[0];
     this.nuevoProducto.imagen = archivo;
-    const nombreImagen = archivo.name;
-    console.log(nombreImagen);
+    const lector = new FileReader();
+    lector.onload = (e: any) => {
+      this.urlImagen = e.target.result;
+    };
+    lector.readAsDataURL(archivo);
+  }
 
+  cargarImagenSocial(event: any) {
+    const archivo = event.target.files[0];
+    this.nuevaRedSocialIMG = archivo;
     const lector = new FileReader();
     lector.onload = (e: any) => {
       this.urlImagen = e.target.result;

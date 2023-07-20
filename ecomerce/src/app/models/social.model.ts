@@ -1,8 +1,8 @@
 export interface Social{
-    id: number;
+    id?: number;
     nombre: string;
-    imagen: string;
-    productos: Array<{}>
+    imagen: File | null;
+    productos?: Array<{}>
 }
 
 

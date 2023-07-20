@@ -195,17 +195,17 @@
           <label>Nombre:</label>
           <input
             type="text"
-            [(ngModel)]="nombreProducto"
-            name="nombreRed"
+            [(ngModel)]="nuevaRedSocial"
+            name="nuevaRedSocial"
             placeholder="Nombre de la Red"
           />
           <br />
           <label>Imagen:</label>
-          <input type="file" (change)="cargarImagen($event)" />
+          <input type="file" (change)="cargarImagenSocial($event)" />
           <img [src]="urlImagen" alt="Vista previa de la imagen" />
         </form>
         <button type="submit" (click)="confirmarRedSocial()">
-          Agregar Producto
+          Agregar Red Social
         </button>
       </div>
     </div>

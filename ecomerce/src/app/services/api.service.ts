@@ -62,6 +62,28 @@ export class APIService {
   realizarPago(carrito: any): Observable<{}> {
     return this.httpClient.post<{}>(`${API_URL}/pay`, carrito)
   }
+  /* - - - - - - - - - -- - - - - - - - - - - - - - - - - -  RED SOCIAL */
+  agregarRedSocial(nombre: string, file: File): Observable<{}> {
+    console.log("service");
+    console.log(file);
+    console.log(nombre);
+  
+    const formData = new FormData();
+    formData.append('file', file);
+    formData.append('nombre', nombre);
+  
+    // Convertir formData en un objeto imprimible
+    const formDataObject: { [key: string]: any } = {};
+    formData.forEach((value, key) => {
+      formDataObject[key] = value;
+    });
+  
+    console.log(formDataObject);
+  
+    return this.httpClient.post<{}>(`${API_URL}/social`, formData);
+  }
+
+  
 
 
 }
