@@ -121,6 +121,12 @@ img.imagen{
   height: 80%;
 }
 
+.titulo-producto{
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
 /*CARD PRODUCTOS ****************************************************************************************************/
 
 .container {
