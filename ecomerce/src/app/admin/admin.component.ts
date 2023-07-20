@@ -22,6 +22,7 @@ export class AdminComponent implements OnInit {
 
   verModal = false;
   verModalAdmin = false;
+  verModalAdminRedSocial = false;
   agregarPrecios = false;
 
   nombreInput: string = '';
@@ -47,6 +48,18 @@ export class AdminComponent implements OnInit {
     idSocial: this.valorIDRed,
     productos_cantidad: [],
   };
+
+  habilitarModalAdminRedSocial():void{
+    this.verModalAdminRedSocial = true;
+  }
+
+  cerrarModalAdminRedSocial():void{
+    this.verModalAdminRedSocial = false;
+  }
+
+  confirmarRedSocial():void{
+
+  }
 
   habilitarModal(id: number, nombre: string) {
     this.verModal = true;
@@ -293,8 +306,6 @@ export class AdminComponent implements OnInit {
 
   ngOnInit(): void {
     this.getProductos();
-
- 
   }
 }
 
