@@ -297,3 +297,25 @@ li {
   width: 20px;
   margin-right: 10px;
 }
+
+
+h2.titulo-social{
+  color: black;
+  font-size: 40px;
+  font-weight: 300;
+  font-family: sans-serif;
+  margin-top: 60px;
+}
+
+h2.titulo-social span{
+  color: #9e1f82;
+  font-weight: 600;
+}
+
+@media(max-width:600px){
+  h2.titulo-social{
+    font-size: 28px;
+    text-align: center;
+
+  }
+}

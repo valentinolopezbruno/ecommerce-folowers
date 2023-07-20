@@ -20,8 +20,10 @@
   </div>
 </section>
 
+<div *ngFor="let red of redes; let i = index">
+  <h2 class="titulo-social"><span>Compra</span> {{red.productos[0].nombre}} de {{red.nombre}}</h2>
 
-<div class="container" *ngFor="let red of redes; let i = index">
+<div class="container">
   <img class="imagen" [src]="red.imagen" alt="" />
   <div class="producto">
     <form action="">
@@ -45,6 +47,8 @@
       </div>
     </form>
   </div>
+</div>
+
 </div>
 
 
