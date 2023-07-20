@@ -116,6 +116,17 @@ p {
   }
 }
 
+img.imagen{
+  width: 50%;
+  height: 80%;
+}
+
+.titulo-producto{
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
 /*CARD PRODUCTOS ****************************************************************************************************/
 
 .container {
@@ -143,6 +154,13 @@ p {
   padding: 10px;
   margin: 0 0 15px 0;
   border-radius: 15px 15px 0 0;
+}
+
+h2.ng-star-inserted{
+  background-color: white !important;
+  color: #9e1f82 !important;
+  font-weight: 600;
+  font-size: 28px;
 }
 
 .producto img {
@@ -278,4 +296,26 @@ li {
   display: inline-block;
   width: 20px;
   margin-right: 10px;
+}
+
+
+h2.titulo-social{
+  color: black;
+  font-size: 40px;
+  font-weight: 300;
+  font-family: sans-serif;
+  margin-top: 60px;
+}
+
+h2.titulo-social span{
+  color: #9e1f82;
+  font-weight: 600;
+}
+
+@media(max-width:600px){
+  h2.titulo-social{
+    font-size: 28px;
+    text-align: center;
+
+  }
 }
