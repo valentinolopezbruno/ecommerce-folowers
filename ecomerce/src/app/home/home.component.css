@@ -132,7 +132,7 @@ img.imagen{
 .container {
   display: flex;
   width: 80%;
-  height: 67%;
+  height: 67% !important;
   margin: 50px auto;
   align-items: stretch;
   justify-content: space-around;
@@ -147,6 +147,18 @@ img.imagen{
   border: 1px solid #432d59;
   border-radius: 15px;
 }
+
+.imagen-container{
+  height: 80%;
+  max-width: 50%;
+  justify-content: center;
+  border-radius: 15px;
+}
+
+.imagen-container img{
+  width: 100%;
+}
+
 
 .producto h2 {
   background-color: #432d59;
