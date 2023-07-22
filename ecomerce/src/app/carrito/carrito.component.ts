@@ -133,9 +133,9 @@ export class CarritoComponent implements OnInit {
         email: 'correo@ejemplo.com',
       },
       back_urls: {
-        success: 'http://localhost:3000/pago-exitoso', // URL a la que redirigir en caso de pago exitoso
-        failure: 'http://localhost:3000/pago-fallido', // URL a la que redirigir en caso de pago fallido
-        pending: 'http://localhost:3000/pago-pendiente', // URL a la que redirigir en caso de pago pendiente o en proceso
+        success: 'http://localhost:4200/pago-exitoso', // URL a la que redirigir en caso de pago exitoso
+        failure: 'http://localhost:4200/pago-fallido', // URL a la que redirigir en caso de pago fallido
+        pending: 'http://localhost:4200/pago-pendiente', // URL a la que redirigir en caso de pago pendiente o en proceso
       },
       auto_return: 'approved', // Redirigir automáticamente al cliente a la URL de success
     };
@@ -150,6 +150,10 @@ export class CarritoComponent implements OnInit {
     } catch (error) {
       console.error('Error al crear la preferencia de pago:', error);
     }
+  }
+
+  mercadopagoprueba(){
+    this.MercadoPagoService.pagar(this.carrito).subscribe((data) => { console.log(data)})
   }
 
   getTotal(productos: Array<CarritoItem>): number {

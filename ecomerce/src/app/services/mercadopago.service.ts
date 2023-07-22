@@ -1,5 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Observable } from 'rxjs';
+
+const API_URL = 'http://localhost:3000'
 
 @Injectable({
   providedIn: 'root'
@@ -18,6 +21,10 @@ export class MercadoPagoService {
     });
 
     return this.http.post<any>(url, preferenceData, { headers }).toPromise();
+  }
+
+  pagar(data: any): Observable<any> {
+    return this.http.post<any>(`${API_URL}/webhook`, data);
   }
 
 }

@@ -55,10 +55,7 @@ const upload = multer({ storage: storage });
 
 // SDK de Mercado Pago
 const mercadopago = require("mercadopago");
-// Agrega credenciales
-mercadopago.configure({
-  access_token: "TEST-1790631385670646-071709-e8884300ac14cc95ce394ddc5534b9f6-1425228965",
-});
+// Agrega credenciale
 
 
 /* --------------------------------- LOGIN --------------------------------------------------- */
@@ -84,7 +81,36 @@ app.post("/usuarios", async (req, res) => {
 
 /* --------------------------------- COMPRA MERCADO PAGO --------------------------------------------------- */
 
-app.get('/pago-exitoso', (req,res) => {
+
+// Endpoint para recibir notificaciones del webhook
+app.post('/webhook', (req, res) => {
+  mercadopago.configure({
+    access_token: "TEST-1790631385670646-071709-e8884300ac14cc95ce394ddc5534b9f6-1425228965",
+  });
+  
+  const topic = req.body.topic;
+  const data = req.body;
+
+  // Puedes realizar acciones dependiendo del evento recibido
+  switch (topic) {
+    case 'payment':
+      // Aquí procesas la notificación de pago recibida
+      console.log('Notificación de pago recibida:');
+      console.log(data);
+      break;
+    case 'merchant_order':
+      // Aquí procesas la notificación de la orden del comerciante recibida
+      console.log('Notificación de orden del comerciante recibida:');
+      console.log(data);
+      break;
+    default:
+      console.log('Evento no reconocido:', topic);
+  }
+
+  res.status(200).end(); // Responde siempre con un 200 OK para que MercadoPago no reintente enviar la notificación
+});
+
+/* app.get('/pago-exitoso', (req,res) => {
   console.log("pagado")
 })
 
@@ -94,7 +120,7 @@ app.get('/pago-fallido', (req,res) => {
 
 app.get('/pago-pendiente', (req,res) => {
   console.log("pago-pendiente")
-})
+}) */
 
 /* --------------------------------- PRODUCTOS --------------------------------------------------- */
 
