@@ -52,9 +52,8 @@ export class APIService {
     return this.httpClient.post<any>(`${API_URL}/producto_cantidad_borrar`, requestData);
   }
 
-  agregarProductoCantidad(id:number,cantidad:number, precio:number){
-    console.log(id)
-    return this.httpClient.post<any>(`${API_URL}/producto_cantidad_agregar`, {id,cantidad,precio});
+  agregarProductoCantidad(id:number, datos:{}){
+    return this.httpClient.post<any>(`${API_URL}/producto_cantidad_agregar`, {id,datos});
   }
 
 

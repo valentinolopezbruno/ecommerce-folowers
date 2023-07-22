@@ -29,7 +29,7 @@
     <form action="">
       <h2>{{red.productos[0].nombre}} de {{red.nombre}}</h2>
       <img [src]="red.productos[0].imagen" alt="" />
-      <h2  *ngIf="calcularPrecio(red)">{{calcularPrecio(red) | currency}}</h2>
+      <h2  *ngIf="calcularPrecio(red)">{{monedaAcual}} {{calcularPrecio(red) | currency}}</h2>
       <div class="formularios">
         <h4>Cantidad:</h4>
         <select id="quantity" (change)="calcularIndex($event)">

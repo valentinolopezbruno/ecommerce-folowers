@@ -102,7 +102,7 @@ app.get("/productos", async (req, res) => {
   const social = await prisma.social.findMany();
   const productos = await prisma.productos.findMany();
   const productos_cantidad = await prisma.producto_cantidad.findMany();
-
+  console.log(productos)
   var data = [];
 
   for (let i = 0; i < social.length; i++) {
@@ -156,7 +156,7 @@ app.get("/productos", async (req, res) => {
 
   for (let u = 0; u < productos_cantidad.length; u++) {
     for (let r = 0; r < data.length; r++) {
-      for (let h = 0; h < data[r].productos.length; h++) {
+      for (let h = 0; h < data[r]?.productos?.length; h++) {
         if (
           data[r].productos[h].idProducto === productos_cantidad[u].idProducto
         ) {
@@ -169,7 +169,9 @@ app.get("/productos", async (req, res) => {
               idProductoCantidad: productos_cantidad[u].id,
               idProducto: productos_cantidad[u].idProducto,
               cantidad: productos_cantidad[u].cantidad,
-              precio: productos_cantidad[u].precio,
+              precio_ars: productos_cantidad[u].precio_ars,
+              precio_usd: productos_cantidad[u].precio_usd,
+              precio_eur: productos_cantidad[u].precio_eur,
             };
             data[r].productos[h].productos_cantidad.push(producto_cantidad);
           }
@@ -207,7 +209,9 @@ app.post("/productos", upload.single("image"), async (req, res) => {
         data: {
           idProducto: data.productos_cantidad[i].idProducto,
           cantidad: data.productos_cantidad[i].cantidad,
-          precio: data.productos_cantidad[i].precio,
+          precio_ars: data.productos_cantidad[i].precio_ars,
+          precio_usd: data.productos_cantidad[i].precio_usd,
+          precio_eur: data.productos_cantidad[i].precio_eur
         },
       });
       console.log("Datos insertados:", nuevoProductoCantidad);
@@ -242,7 +246,9 @@ app.post("/productos_cantidad", async (req,res) => {
     where: { id },
     data: { 
       cantidad: datos.cantidad,
-      precio: datos.precio
+      precio_ars: datos.precio_ars,
+      precio_usd: datos.precio_usd,
+      precio_eur: datos.precio_eur
      },
   });
   console.log(productoActualizado)
@@ -259,12 +265,14 @@ app.post("/producto_cantidad_borrar", async (req,res) => {
 })
 
 app.post("/producto_cantidad_agregar", async (req,res) => {
-  const {cantidad, precio, id} = req.body
+  const {datos, id} = req.body
   const producto_cantidad = await prisma.producto_cantidad.create({
     data:{
-      cantidad: cantidad,
-      precio:precio,
-      idProducto:id
+      cantidad: datos.cantidad,
+      idProducto:id,
+      precio_ars:datos.precio_ars,
+      precio_usd:datos.precio_usd,
+      precio_eur:datos.precio_eur,
     }
   });
   

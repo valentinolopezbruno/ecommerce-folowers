@@ -28,6 +28,8 @@
     "file-saver": "^2.0.5",
     "font-awesome": "^4.7.0",
     "mercadopago": "^1.5.16",
+    "ngx-currency": "^4.0.0",
+    "ngx-mask": "^16.2.4",
     "ngx-paypal": "^11.0.0",
     "ngx-spinner": "^16.0.2",
     "nodemon": "^2.0.22",

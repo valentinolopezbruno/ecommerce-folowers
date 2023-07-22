@@ -55,12 +55,46 @@
                       )
                     "
                   >
-                    <td class="label">Precio: $</td>
+                    <td class="label">Precio: ARS$</td>
                     <td class="value">
                       <input
-                        (change)="cambioPrecio($event)"
+                        (change)="cambioPrecioARS($event)"
                         type="number"
-                        value="{{ productos_cantidad.precio }}"
+                        value="{{ productos_cantidad.precio_ars }}"
+                      />
+                    </td>
+                  </tr>
+                  <tr
+                    *ngIf="
+                      compararClavesPrimarias(
+                        valorIDProducto,
+                        productos_cantidad.idProducto
+                      )
+                    "
+                  >
+                    <td class="label">Precio: USD$</td>
+                    <td class="value">
+                      <input
+                        (change)="cambioPrecioUSD($event)"
+                        type="number"
+                        value="{{ productos_cantidad.precio_usd }}"
+                      />
+                    </td>
+                  </tr>
+                  <tr
+                    *ngIf="
+                      compararClavesPrimarias(
+                        valorIDProducto,
+                        productos_cantidad.idProducto
+                      )
+                    "
+                  >
+                    <td class="label">Precio: EUR$</td>
+                    <td class="value">
+                      <input
+                        (change)="cambioPrecioEUR($event)"
+                        type="number"
+                        value="{{ productos_cantidad.precio_eur }}"
                       />
                     </td>
                   </tr>
@@ -84,7 +118,9 @@
                           editarProductoCantidad(
                             productos_cantidad.idProductoCantidad,
                             productos_cantidad.cantidad,
-                            productos_cantidad.precio
+                            productos_cantidad.precio_ars,
+                            productos_cantidad.precio_usd,
+                            productos_cantidad.precio_eur
                           )
                         "
                       />
@@ -95,9 +131,13 @@
                         name="eliminar"
                         id=""
                         value="Eliminar"
-                        (click)="eliminarProductoCantidad(productos_cantidad.idProductoCantidad,
-                        productos_cantidad.cantidad,
-                        productos_cantidad.precio)" 
+                        (click)="
+                          eliminarProductoCantidad(
+                            productos_cantidad.idProductoCantidad,
+                            productos_cantidad.cantidad,
+                            productos_cantidad.precio
+                          )
+                        "
                       />
                     </td>
                   </tr>
@@ -107,9 +147,46 @@
           </table>
           <div>
             <h2>Agregar Cantidad</h2>
-            <p>Cantidad: <input type="text" name="cantidadNuevoProductoCantidad" [(ngModel)]="cantidadNuevoProductoCantidad" (click)="cantidadNuevoProductoCantidad = '' " placeholder="255"></p>
-            <p>Precio: $<input type="number" name="precioNuevoProductoCantidad" [(ngModel)]="precioNuevoProductoCantidad" (click)="precioNuevoProductoCantidad = '' " placeholder="1130"></p>
-            <button (click)="agregarProductoCantidad()">Agregar Cantidad</button>
+            <p>
+              Cantidad:
+              <input
+                type="text"
+                name="cantidadNuevoProductoCantidad"
+                [(ngModel)]="cantidadNuevoProductoCantidad"
+                (click)="cantidadNuevoProductoCantidad = ''"
+                placeholder="255"
+              />
+            </p>
+            <p>
+              Precio: ARS$<input
+                type="number"
+                name="precioNuevoProductoCantidad"
+                [(ngModel)]="precioARSNuevoProductoCantidad"
+                (click)="precioARSNuevoProductoCantidad = ''"
+                placeholder="1130"
+              />
+            </p>
+            <p>
+              Precio: USD$<input
+                type="number"
+                name="precioUSDNuevoProductoCantidad"
+                [(ngModel)]="precioUSDNuevoProductoCantidad"
+                (click)="precioUSDNuevoProductoCantidad = ''"
+                placeholder="1130"
+              />
+            </p>
+            <p>
+              Precio: EUR$<input
+                type="number"
+                name="precioEURNuevoProductoCantidad"
+                [(ngModel)]="precioEURNuevoProductoCantidad"
+                (click)="precioEURNuevoProductoCantidad = ''"
+                placeholder="1130"
+              />
+            </p>
+            <button (click)="agregarProductoCantidad()">
+              Agregar Cantidad
+            </button>
           </div>
         </div>
       </div>
@@ -164,11 +241,27 @@
               placeholder="200"
             />
             <br />
-            <label>Precio:</label>
+            <label>Precio ARS:</label>
             <input
               type="number"
               name="precio"
-              (input)="guardarPrecio(i, $event)"
+              (input)="guardarPrecioARS(i, $event)"
+              placeholder="3000"
+            />
+            <br />
+            <label>Precio USD:</label>
+            <input
+              type="number"
+              name="precio"
+              (input)="guardarPrecioUSD(i, $event)"
+              placeholder="3000"
+            />
+            <br />
+            <label>Precio EUR:</label>
+            <input
+              type="number"
+              name="precio"
+              (input)="guardarPrecioEUR(i, $event)"
               placeholder="3000"
             />
             <br />
@@ -217,7 +310,10 @@
       <button class="btnAgregarProductou" (click)="habilitarModalAdmin()">
         Agregar Producto
       </button>
-      <button class="btnAgregarProductou" (click)="habilitarModalAdminRedSocial()">
+      <button
+        class="btnAgregarProductou"
+        (click)="habilitarModalAdminRedSocial()"
+      >
         Agregar Red Social
       </button>
       <h4>Seleccioná Red Social:</h4>

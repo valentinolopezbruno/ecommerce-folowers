@@ -16,6 +16,11 @@ export class HomeComponent implements OnInit {
   indexCalcularPrecio = 0;
   usuario: string = '';
 
+  monedaPeso = "ARS"
+  monedaDolar = "USD"
+  monedaEuro = "EUR"
+  monedaAcual = "EUR"
+
   producto: CarritoItem = {
     id:1,
     redSocial: 'instagram',
@@ -64,8 +69,20 @@ export class HomeComponent implements OnInit {
   }
 
   calcularPrecio(red:any){
-    var precio = red.productos[0].productos_cantidad[this.indexCalcularPrecio].precio
-    return precio
+    if(this.monedaAcual == "ARS"){
+      var precio = red.productos[0].productos_cantidad[this.indexCalcularPrecio].precio_ars
+      return precio
+    }
+
+    if(this.monedaAcual == "USD"){
+      var precio = red.productos[0].productos_cantidad[this.indexCalcularPrecio].precio_usd
+      return precio
+    }
+
+    if(this.monedaAcual == "EUR"){
+      var precio = red.productos[0].productos_cantidad[this.indexCalcularPrecio].precio_eur
+      return precio
+    }
   }
 
   ngOnInit() {

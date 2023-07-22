@@ -4,7 +4,7 @@ import { APIService } from '../services/api.service';
 import { NuevoProducto } from '../models/nuevoProducto';
 import Swal from 'sweetalert2';
 import { Social } from '../models/social.model';
-
+import { Observer } from 'rxjs';
 
 @Component({
   selector: 'app-admin',
@@ -13,7 +13,6 @@ import { Social } from '../models/social.model';
 })
 export class AdminComponent implements OnInit {
   constructor(private APIService: APIService) {}
-
 
   redes: any[] | null = null;
   valorIDRed: number = 0;
@@ -31,14 +30,26 @@ export class AdminComponent implements OnInit {
 
   nombreInput: string = '';
   cantidadInput: number = 0;
-  precioInput: number = 0;
+  precioARSInput: number = 0;
+  precioUSDInput: number = 0;
+  precioEURInput: number = 0;
   datos = {
     cantidad: this.cantidadInput,
-    precio: this.precioInput,
-  }; 
+    precio_ars: this.precioARSInput,
+    precio_usd: this.precioUSDInput,
+    precio_eur: this.precioEURInput,
+  };
 
-  cantidadNuevoProductoCantidad = "";
-  precioNuevoProductoCantidad = "";
+  cantidadNuevoProductoCantidad = '';
+  precioARSNuevoProductoCantidad = '';
+  precioUSDNuevoProductoCantidad = '';
+  precioEURNuevoProductoCantidad = '';
+  datosNuevaCantidad: {} = {
+    cantidad: 0,
+    precio_ars: 0,
+    precio_usd: 0,
+    precio_eur: 0,
+  };
 
   nombreProducto: string = '';
   urlImagen: string = '';
@@ -53,42 +64,42 @@ export class AdminComponent implements OnInit {
     productos_cantidad: [],
   };
 
-  habilitarModalAdminRedSocial():void{
+  habilitarModalAdminRedSocial(): void {
     this.verModalAdminRedSocial = true;
   }
 
-  cerrarModalAdminRedSocial():void{
+  cerrarModalAdminRedSocial(): void {
     this.verModalAdminRedSocial = false;
   }
 
-  confirmarRedSocial():void{
-    if(this.nuevaRedSocial == ''){
+  confirmarRedSocial(): void {
+    if (this.nuevaRedSocial == '') {
       Swal.fire({
         icon: 'error',
-        title: 'No Ingresaste "Nombre"'
-      })
+        title: 'No Ingresaste "Nombre"',
+      });
     }
-    if(this.nuevaRedSocialIMG == null){
+    if (this.nuevaRedSocialIMG == null) {
       Swal.fire({
         icon: 'error',
-        title: 'No seleccionaste "Imagen"'
-      })
+        title: 'No seleccionaste "Imagen"',
+      });
     }
-    if(this.nuevaRedSocialIMG !=null && this.nuevaRedSocial != ''){
-      this.agregarRedSocial()
+    if (this.nuevaRedSocialIMG != null && this.nuevaRedSocial != '') {
+      this.agregarRedSocial();
     }
-    
   }
 
-  agregarRedSocial():void{
-    if(this.nuevaRedSocialIMG !=null && this.nuevaRedSocial != '')
-    this.APIService.agregarRedSocial(this.nuevaRedSocial, this.nuevaRedSocialIMG).subscribe((data) => {
-      
-    });
+  agregarRedSocial(): void {
+    if (this.nuevaRedSocialIMG != null && this.nuevaRedSocial != '')
+      this.APIService.agregarRedSocial(
+        this.nuevaRedSocial,
+        this.nuevaRedSocialIMG
+      ).subscribe((data) => {});
 
     Swal.fire({
       icon: 'success',
-      title: 'Red Agregada Correctamente'
+      title: 'Red Agregada Correctamente',
     });
     this.recargarPagina();
   }
@@ -104,94 +115,72 @@ export class AdminComponent implements OnInit {
     this.verModal = false;
   }
 
-  agregarProductoCantidad():void{
+  agregarProductoCantidad(): void {
+    this.llenarNuevaCantidad();
     Swal.fire({
-      title: 'Desea agregar Cantidad: ' + this.cantidadNuevoProductoCantidad + 'y Precio: $'+ this.precioNuevoProductoCantidad,
-       showCancelButton: true,
+      title: 'Desea agregar Cantidad: ' + this.cantidadNuevoProductoCantidad,
+      showCancelButton: true,
       confirmButtonText: 'Confirmar',
     }).then((result) => {
       if (result.isConfirmed) {
-        this.APIService.agregarProductoCantidad(this.valorIDProducto,parseInt(this.cantidadNuevoProductoCantidad),parseFloat(this.precioNuevoProductoCantidad)).subscribe(data => {console.log(data)});
-        Swal.fire('Cantidad Agregada!', '', 'success')
+        this.APIService.agregarProductoCantidad(
+          this.valorIDProducto,
+          this.datosNuevaCantidad
+        ).subscribe((data) => {
+          console.log(data);
+        });
+        Swal.fire('Cantidad Agregada!', '', 'success');
         this.recargarPagina();
       }
-    })
+    });
   }
 
-
-  editarProductoCantidad(id: number, cantidad: string, precio:string): void {
-
-    // SI NO SE MODIFICO LA CANTIDAD LE PREGUNTO SI QUIERE QUE SIGA SIENDO LA MISMA ONO
-    if(this.cantidadInput == 0){
-      Swal.fire({
-        title: 'No se modifico la cantidad, desea que siga siendo: ' + cantidad,
-         showCancelButton: true,
-        confirmButtonText: 'Confirmar',
-      }).then((result) => {
-        if (result.isConfirmed) {
-          this.datos.cantidad = parseInt(cantidad);
-          this.datos.precio = this.precioInput
-          this.confirmarEdicion(id,this.datos)
-          Swal.fire('Producto Modificado!', '', 'success')
-          this.recargarPagina();
-        }
-      })
-    } 
-
-    // SI NO SE MODIFICO EL PRECIO LE PREGUNTO SI QUIERE QUE SIGA SIENDO EL MISMO ONO
-    if(this.precioInput == 0){
-      Swal.fire({
-        title: 'No se modifico el precio, desea que siga siendo: $' + precio,
-         showCancelButton: true,
-        confirmButtonText: 'Confirmar',
-      }).then((result) => {
-        if (result.isConfirmed) {
-          this.datos.precio = parseFloat(precio);
-          this.datos.cantidad = this.cantidadInput
-          console.log(precio)
-          this.confirmarEdicion(id,this.datos)
-          Swal.fire('Producto Modificado!', '', 'success')
-          this.recargarPagina();
-        }
-      })
-    }
-
-    // SI NO SE MODIFICO LA CANTIDAD Y EL PRECIO GUARDO TODO
-    if(this.precioInput != 0 && this.cantidadInput != 0){
-      Swal.fire({
-        title: 'Deseas editar los cambios?',
-        showCancelButton: true,
-        confirmButtonText: 'Confirmar',
-      }).then((result) => {
-        if (result.isConfirmed) {
-          this.datos.cantidad = this.cantidadInput
-          this.datos.precio = this.precioInput
-          this.confirmarEdicion(id,this.datos)
-          Swal.fire('Producto Modificado!', '', 'success')
-          this.recargarPagina();
-        }
-      })
-    } 
-    
+  llenarNuevaCantidad(): void {
+    this.datosNuevaCantidad = {
+      cantidad: parseFloat(this.cantidadNuevoProductoCantidad),
+      precio_ars: parseFloat(this.precioARSNuevoProductoCantidad),
+      precio_usd: parseFloat(this.precioUSDNuevoProductoCantidad),
+      precio_eur: parseFloat(this.precioEURNuevoProductoCantidad),
+    };
   }
 
-  confirmarEdicion(id:number, datos:{}):void{
-    this.APIService.editarProductosCantidad(id, datos).subscribe(data => {console.log(data)});
+  editarProductoCantidad(
+    id: number,
+    cantidad: string,
+    precio_ars: string,
+    precio_usd: string,
+    precio_eur: string
+  ): void {
+    if(this.cantidadInput == 0){ this.datos.cantidad = parseInt(cantidad);} else{this.datos.cantidad = this.cantidadInput;}
+    if(this.precioARSInput == 0){ this.datos.precio_ars = parseFloat(precio_ars);} else{this.datos.precio_ars = this.precioARSInput;}
+    if(this.precioUSDInput== 0){ this.datos.precio_usd = parseFloat(precio_usd);} else{this.datos.precio_usd = this.precioUSDInput;}
+    if(this.precioEURInput == 0){ this.datos.precio_eur = parseInt(precio_eur);} else{this.datos.precio_eur = this.precioEURInput;}
+
+    this.confirmarEdicion(id, this.datos);
+    Swal.fire('Producto Modificado!', '', 'success');
+    this.recargarPagina();
   }
 
-  eliminarProductoCantidad(id: number, cantidad: string, precio: string):void{
+  confirmarEdicion(id: number, datos: {}): void {
+    this.APIService.editarProductosCantidad(id, datos).subscribe((data) => {
+      console.log(data);
+    });
+  }
 
+  eliminarProductoCantidad(id: number, cantidad: string, precio: string): void {
     Swal.fire({
-      title: 'Desea eliminar esta Cantidad: '+ cantidad + " y Precio: $" + precio + " ?",
-       showCancelButton: true,
+      title: 'Desea eliminar esta Cantidad: ' + cantidad,
+      showCancelButton: true,
       confirmButtonText: 'Confirmar',
     }).then((result) => {
       if (result.isConfirmed) {
-        this.APIService.eliminarProductoCantidad(id).subscribe(data => {console.log(data)});
-        Swal.fire('Eliminado Correctamente!', '', 'success')
+        this.APIService.eliminarProductoCantidad(id).subscribe((data) => {
+          console.log(data);
+        });
+        Swal.fire('Eliminado Correctamente!', '', 'success');
         this.recargarPagina();
       }
-    })
+    });
   }
 
   cambioNombre(event: Event): void {
@@ -202,8 +191,16 @@ export class AdminComponent implements OnInit {
     this.cantidadInput = parseFloat((event.target as HTMLInputElement).value);
   }
 
-  cambioPrecio(event: Event): void {
-    this.precioInput = parseFloat((event.target as HTMLInputElement).value);
+  cambioPrecioARS(event: Event): void {
+    this.precioARSInput = parseFloat((event.target as HTMLInputElement).value);
+  }
+
+  cambioPrecioUSD(event: Event): void {
+    this.precioUSDInput = parseFloat((event.target as HTMLInputElement).value);
+  }
+
+  cambioPrecioEUR(event: Event): void {
+    this.precioEURInput = parseFloat((event.target as HTMLInputElement).value);
   }
 
   habilitarModalAdmin() {
@@ -219,14 +216,26 @@ export class AdminComponent implements OnInit {
     this.precio = '';
     this.nuevoProducto.productos_cantidad.push({
       cantidad: 1,
-      precio: 1,
+      precio_ars: 1,
+      precio_usd: 1,
+      precio_eur: 1,
     });
     console.log(this.nuevoProducto);
   }
 
-  guardarPrecio(i: number, event: any): void {
+  guardarPrecioARS(i: number, event: any): void {
     this.precio = event.target.value;
-    this.nuevoProducto.productos_cantidad[i].precio = parseInt(this.precio);
+    this.nuevoProducto.productos_cantidad[i].precio_ars = parseInt(this.precio);
+  }
+
+  guardarPrecioUSD(i: number, event: any): void {
+    this.precio = event.target.value;
+    this.nuevoProducto.productos_cantidad[i].precio_usd = parseInt(this.precio);
+  }
+
+  guardarPrecioEUR(i: number, event: any): void {
+    this.precio = event.target.value;
+    this.nuevoProducto.productos_cantidad[i].precio_eur = parseInt(this.precio);
   }
 
   guardarCantidad(i: number, event: any): void {
@@ -261,10 +270,10 @@ export class AdminComponent implements OnInit {
         this.APIService.eliminarProducto(id).subscribe((data) => {
           console.log(data);
         });
-        Swal.fire('Producto Eliminado!', '', 'success')
+        Swal.fire('Producto Eliminado!', '', 'success');
         this.recargarPagina();
       }
-    })
+    });
   }
 
   recargarPagina() {
@@ -303,42 +312,49 @@ export class AdminComponent implements OnInit {
     lector.readAsDataURL(archivo);
   }
 
-  confirmarProducto() {
+  confirmarProducto():any {
     this.nuevoProducto.nombre = this.nombreProducto;
     this.nuevoProducto.idSocial = this.valorIDRed;
-    //SI NO SELECCIONA RED SOCIAL
-    if(this.valorIDRed == 0){
-      Swal.fire({
+    //SI NO AGREGA IMAGEN
+    if (this.nuevoProducto.imagen == null) {
+      return Swal.fire({
         icon: 'error',
-        title: 'No seleccionaste "Red Social"'
-      })
+        title: 'No cargaste Imagen',
+      });
+    }
+    //SI NO SELECCIONA RED SOCIAL
+    if (this.valorIDRed == 0) {
+      return Swal.fire({
+        icon: 'error',
+        title: 'No seleccionaste Red Social',
+      });
     }
     //SI NO PONE NOMBRE DEL PRODUCTO
-    if(this.nombreProducto == ''){
-      Swal.fire({
+    if (this.nombreProducto == '') {
+      return Swal.fire({
         icon: 'error',
-        title: 'No agregaste "Nombre del Producto"'
-      })
+        title: 'No agregaste Nombre del Producto',
+      });
     }
     // SI NO AGREGA PRECIOS Y CANTIDADES
-    if(this.nuevoProducto.productos_cantidad.length == 0){
-      Swal.fire({
+    if (this.nuevoProducto.productos_cantidad.length == 0) {
+      return Swal.fire({
         icon: 'error',
-        title: 'No agregaste Cantidades y Precios'
-      })
+        title: 'No agregaste Cantidades y Precios',
+      });
     }
     // SI PRESIONA"AGREGAR PRECIOS Y CANTIDADES" PERO NO PONE VALORES
-    if(this.nuevoProducto.productos_cantidad[0].cantidad == 1){
-      Swal.fire({
+    if (this.nuevoProducto.productos_cantidad[0].cantidad == 1) {
+      return Swal.fire({
         icon: 'error',
-        title: 'No agregaste Cantidades y Precios'
-      })
+        title: 'No agregaste Cantidades y Precios',
+      });
     }
     // CAMINO CORRECTO
     this.agregarProductos();
     Swal.fire({
       icon: 'success',
-      title: 'Producto Agregado Correctamente'
+      title: 'Producto Agregado Correctamente',
     });
     this.recargarPagina();
   }
@@ -347,5 +363,3 @@ export class AdminComponent implements OnInit {
     this.getProductos();
   }
 }
-
-
