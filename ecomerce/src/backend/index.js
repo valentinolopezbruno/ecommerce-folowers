@@ -1,5 +1,5 @@
 const express = require("express");
-require('dotenv').config();
+require("dotenv").config();
 const app = express();
 const cors = require("cors");
 const mysql = require("mysql");
@@ -56,7 +56,10 @@ const upload = multer({ storage: storage });
 // SDK de Mercado Pago
 const mercadopago = require("mercadopago");
 // Agrega credenciale
-
+mercadopago.configure({
+  access_token:
+    "TEST-1790631385670646-071709-e8884300ac14cc95ce394ddc5534b9f6-1425228965",
+});
 
 /* --------------------------------- LOGIN --------------------------------------------------- */
 
@@ -81,33 +84,61 @@ app.post("/usuarios", async (req, res) => {
 
 /* --------------------------------- COMPRA MERCADO PAGO --------------------------------------------------- */
 
-
 // Endpoint para recibir notificaciones del webhook
-app.post('/webhook', (req, res) => {
-  mercadopago.configure({
-    access_token: "TEST-1790631385670646-071709-e8884300ac14cc95ce394ddc5534b9f6-1425228965",
-  });
-  
+app.post("/webhook", (req, res) => {
   const topic = req.body.topic;
   const data = req.body;
 
   // Puedes realizar acciones dependiendo del evento recibido
   switch (topic) {
-    case 'payment':
+    case "payment":
       // Aquí procesas la notificación de pago recibida
-      console.log('Notificación de pago recibida:');
+      console.log("Notificación de pago recibida:");
       console.log(data);
       break;
-    case 'merchant_order':
+    case "merchant_order":
       // Aquí procesas la notificación de la orden del comerciante recibida
-      console.log('Notificación de orden del comerciante recibida:');
+      console.log("Notificación de orden del comerciante recibida:");
       console.log(data);
       break;
     default:
-      console.log('Evento no reconocido:', topic);
+      console.log("Evento no reconocido:", topic);
   }
 
   res.status(200).end(); // Responde siempre con un 200 OK para que MercadoPago no reintente enviar la notificación
+});
+
+app.post("/pagar", (req, res) => {
+  // Aquí procesas la información enviada desde Angular
+  const carrito = req.body;
+
+  console.log(carrito.productos);
+
+  const preference = {
+    items: [],
+  };
+
+  for (let i = 0; i < carrito.productos.length; i++) {
+   var item = {
+    title: carrito.productos[i].nombre,
+    unit_price: carrito.productos[i].precio,
+    quantity: 1
+   }
+   preference.items.push(item)
+  }
+
+  mercadopago.preferences
+    .create(preference)
+    .then((response) => {
+      // Envías la respuesta al frontend (Angular)
+      res.json({ preferenceId: response.body.id });
+    })
+    .catch((error) => {
+      console.error(error);
+      res
+        .status(500)
+        .json({ error: "Hubo un error al crear la preferencia de pago." });
+    });
 });
 
 /* app.get('/pago-exitoso', (req,res) => {
@@ -128,7 +159,7 @@ app.get("/productos", async (req, res) => {
   const social = await prisma.social.findMany();
   const productos = await prisma.productos.findMany();
   const productos_cantidad = await prisma.producto_cantidad.findMany();
-  console.log(productos)
+  console.log(productos);
   var data = [];
 
   for (let i = 0; i < social.length; i++) {
@@ -237,7 +268,7 @@ app.post("/productos", upload.single("image"), async (req, res) => {
           cantidad: data.productos_cantidad[i].cantidad,
           precio_ars: data.productos_cantidad[i].precio_ars,
           precio_usd: data.productos_cantidad[i].precio_usd,
-          precio_eur: data.productos_cantidad[i].precio_eur
+          precio_eur: data.productos_cantidad[i].precio_eur,
         },
       });
       console.log("Datos insertados:", nuevoProductoCantidad);
@@ -266,45 +297,45 @@ app.post("/producto", async (req, res) => {
 
 /* --------------------------------- PRODUCTOS CANTIDAD --------------------------------------------------- */
 
-app.post("/productos_cantidad", async (req,res) => {
-  const {id, datos} = req.body
+app.post("/productos_cantidad", async (req, res) => {
+  const { id, datos } = req.body;
   const productoActualizado = await prisma.producto_cantidad.update({
     where: { id },
-    data: { 
+    data: {
       cantidad: datos.cantidad,
       precio_ars: datos.precio_ars,
       precio_usd: datos.precio_usd,
-      precio_eur: datos.precio_eur
-     },
+      precio_eur: datos.precio_eur,
+    },
   });
-  console.log(productoActualizado)
-})
+  console.log(productoActualizado);
+});
 
-app.post("/producto_cantidad_borrar", async (req,res) => {
-  const {id} = req.body
+app.post("/producto_cantidad_borrar", async (req, res) => {
+  const { id } = req.body;
   const producto_cantidad = await prisma.producto_cantidad.delete({
     where: { id },
   });
-  
-  console.log(producto_cantidad);
-  res.send(producto_cantidad)
-})
 
-app.post("/producto_cantidad_agregar", async (req,res) => {
-  const {datos, id} = req.body
-  const producto_cantidad = await prisma.producto_cantidad.create({
-    data:{
-      cantidad: datos.cantidad,
-      idProducto:id,
-      precio_ars:datos.precio_ars,
-      precio_usd:datos.precio_usd,
-      precio_eur:datos.precio_eur,
-    }
-  });
-  
   console.log(producto_cantidad);
-  res.send(producto_cantidad)
-})
+  res.send(producto_cantidad);
+});
+
+app.post("/producto_cantidad_agregar", async (req, res) => {
+  const { datos, id } = req.body;
+  const producto_cantidad = await prisma.producto_cantidad.create({
+    data: {
+      cantidad: datos.cantidad,
+      idProducto: id,
+      precio_ars: datos.precio_ars,
+      precio_usd: datos.precio_usd,
+      precio_eur: datos.precio_eur,
+    },
+  });
+
+  console.log(producto_cantidad);
+  res.send(producto_cantidad);
+});
 /* --------------------------------- REDES SOCIALES --------------------------------------------------- */
 
 app.post("/social", upload.single("file"), async (req, res) => {
@@ -326,7 +357,6 @@ app.post("/social", upload.single("file"), async (req, res) => {
   }
 });
 
-
 /* --------------------------------- OTROS --------------------------------------------------- */
 
 app.get("/", async (req, res) => {
@@ -346,8 +376,6 @@ app.get("/cantidad", async (req, res) => {
   res.json(socialData);
 });
 
-
 app.listen(3000, () => {
   console.log("app corriendo en puerto 3000");
 });
-

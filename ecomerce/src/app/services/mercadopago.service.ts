@@ -23,8 +23,9 @@ export class MercadoPagoService {
     return this.http.post<any>(url, preferenceData, { headers }).toPromise();
   }
 
-  pagar(data: any): Observable<any> {
-    return this.http.post<any>(`${API_URL}/webhook`, data);
+  pagar(carrito:any): Observable<any> {
+    return this.http.post<any>(`${API_URL}/pagar`, carrito);
   }
+
 
 }

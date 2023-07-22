@@ -19,7 +19,7 @@ export class HomeComponent implements OnInit {
   monedaPeso = "ARS"
   monedaDolar = "USD"
   monedaEuro = "EUR"
-  monedaAcual = "EUR"
+  monedaAcual = "ARS"
 
   producto: CarritoItem = {
     id:1,

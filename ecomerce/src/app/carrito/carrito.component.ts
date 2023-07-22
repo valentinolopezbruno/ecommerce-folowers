@@ -3,7 +3,7 @@ import { CarritoItem, Carrito } from '../models/carrito';
 import { CarritoService } from '../services/carrito.service';
 import { APIService } from '../services/api.service';
 import { MercadoPagoService } from '../services/mercadopago.service';
-import { ICreateOrderRequest, IPayPalConfig } from 'ngx-paypal';
+/* import { ICreateOrderRequest, IPayPalConfig } from 'ngx-paypal'; */
 
 @Component({
   selector: 'app-carrito',
@@ -17,7 +17,7 @@ export class CarritoComponent implements OnInit {
     private MercadoPagoService: MercadoPagoService
   ) {}
 
-  public payPalConfig?: IPayPalConfig;
+/*   public payPalConfig?: IPayPalConfig; */
 
   carrito: Carrito = { productos: [] };
 
@@ -34,7 +34,7 @@ export class CarritoComponent implements OnInit {
     'accion',
   ];
 
-  private initConfig(): void {
+ /*  private initConfig(): void {
     this.payPalConfig = {
       currency: 'EUR',
       clientId:
@@ -105,7 +105,7 @@ export class CarritoComponent implements OnInit {
         console.log("a")
       },
     };
-  }
+  } */
 
   async iniciarPago() {
     // Calcular el monto total de la compra sumando los precios de los productos en el carrito
@@ -152,6 +152,27 @@ export class CarritoComponent implements OnInit {
     }
   }
 
+  
+  pagarMP(): void {
+    const monto = 100; // Ejemplo, reemplaza esto con el monto real del pago
+    const descripcion = 'Pago de producto'; // Ejemplo, reemplaza esto con la descripción real del pago
+    const otrosDatos = {
+      // Puedes enviar más datos necesarios para tu backend si los necesitas
+    };
+
+   /*  this.MercadoPagoService.pagar(this.carrito)
+      .subscribe(response => {
+        // Aquí recibes la respuesta del backend con la preferencia de pago de MercadoPago
+        // Por ejemplo, puedes redireccionar al usuario al link de MercadoPago para completar el pago
+        window.location.href = 'https://www.mercadopago.com.ar/checkout/v1/redirect?' + response.preferenceId;
+      }, error => {
+        console.error(error);
+        // Manejo de errores
+      }); */
+
+      console.log(this.carrito)
+  }
+
   mercadopagoprueba(){
     this.MercadoPagoService.pagar(this.carrito).subscribe((data) => { console.log(data)})
   }
@@ -183,7 +204,7 @@ export class CarritoComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.initConfig();
+    /* this.initConfig(); */
     this.CarritoService.carrito.subscribe((carrito: Carrito) => {
       this.carrito = carrito;
       this.datosEntrada = this.carrito.productos;
