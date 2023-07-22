@@ -26,12 +26,6 @@ import { PayPalScriptProvider } from "@paypal/react-paypal-js";
 
 
 
-
-
-
-
-
-
 @NgModule({
   declarations: [
     AppComponent,
@@ -59,6 +53,8 @@ import { PayPalScriptProvider } from "@paypal/react-paypal-js";
     MatTableModule,
     NgxPayPalModule,
     NgxSpinnerModule,
+    
+    
   ],
   providers: [APIService],
   bootstrap: [AppComponent],
