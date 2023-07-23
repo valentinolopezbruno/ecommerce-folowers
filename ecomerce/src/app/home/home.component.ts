@@ -16,10 +16,12 @@ export class HomeComponent implements OnInit {
   indexCalcularPrecio = 0;
   usuario: string = '';
 
-  monedaPeso = "ARS"
-  monedaDolar = "USD"
-  monedaEuro = "EUR"
+
+  variablePrecio = "precio_ars"
   monedaAcual = "ARS"
+/*       monedaAcual = "USD"  */
+/*   monedaAcual = "EUR"  */
+
 
   producto: CarritoItem = {
     id:1,
@@ -28,6 +30,7 @@ export class HomeComponent implements OnInit {
     productoimg: 'asd',
     precio: 111,
     cantidad: 1,
+    divisa:"ARS"
   };
 
   crearProducto(
@@ -43,7 +46,8 @@ export class HomeComponent implements OnInit {
     this.producto.productoimg = productoimg;
     this.producto.precio = precio;
     this.producto.cantidad = cantidad;
-    console.log(this.producto)
+    this.producto.divisa = this.monedaAcual;
+
 
     this.CarritoService.agregarAlCarrito(this.producto);
 
@@ -68,6 +72,13 @@ export class HomeComponent implements OnInit {
     this.indexCalcularPrecio = index;
   }
 
+  /* CREO UNA FUNCION PARA QUE AL CARGAR LA PAGINA DETECTE LA MONEDA Y ASI PODER USAR VARIABLES DEPENDIENDO EL TIPO DE MONEDA */
+  calcularMoneda():void{
+    if(this.monedaAcual === "ARS"){ this.variablePrecio = "precio_ars"};
+    if(this.monedaAcual === "USD"){ this.variablePrecio = "precio_usd"};
+    if(this.monedaAcual ==="EUR"){ this.variablePrecio = "precio_eur"};
+  }
+
   calcularPrecio(red:any){
     if(this.monedaAcual == "ARS"){
       var precio = red.productos[0].productos_cantidad[this.indexCalcularPrecio].precio_ars
@@ -86,6 +97,7 @@ export class HomeComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.calcularMoneda();
     this.getProductos();
     console.log(this.redes);
   }

@@ -152,25 +152,15 @@ export class CarritoComponent implements OnInit {
     }
   }
 
-  
   pagarMP(): void {
-    const monto = 100; // Ejemplo, reemplaza esto con el monto real del pago
-    const descripcion = 'Pago de producto'; // Ejemplo, reemplaza esto con la descripción real del pago
-    const otrosDatos = {
-      // Puedes enviar más datos necesarios para tu backend si los necesitas
-    };
-
-   /*  this.MercadoPagoService.pagar(this.carrito)
-      .subscribe(response => {
-        // Aquí recibes la respuesta del backend con la preferencia de pago de MercadoPago
-        // Por ejemplo, puedes redireccionar al usuario al link de MercadoPago para completar el pago
-        window.location.href = 'https://www.mercadopago.com.ar/checkout/v1/redirect?' + response.preferenceId;
+    this.MercadoPagoService.pagar(this.carrito)
+      .subscribe(initPoint => {
+        // Redireccionar al formulario de pago de MercadoPago
+        window.location.href = initPoint;
       }, error => {
         console.error(error);
         // Manejo de errores
-      }); */
-
-      console.log(this.carrito)
+      });
   }
 
   mercadopagoprueba(){

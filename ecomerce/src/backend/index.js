@@ -14,6 +14,8 @@ app.use("/imagenes", express.static(path.join(__dirname, "./imagenes")));
 const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 
+const PuertoAPP = "http://localhost:4200/"
+
 const connection = mysql.createConnection({
   host: "localhost",
   user: "root",
@@ -85,73 +87,66 @@ app.post("/usuarios", async (req, res) => {
 /* --------------------------------- COMPRA MERCADO PAGO --------------------------------------------------- */
 
 // Endpoint para recibir notificaciones del webhook
-app.post("/webhook", (req, res) => {
-  const topic = req.body.topic;
-  const data = req.body;
-
-  // Puedes realizar acciones dependiendo del evento recibido
-  switch (topic) {
-    case "payment":
-      // Aquí procesas la notificación de pago recibida
-      console.log("Notificación de pago recibida:");
-      console.log(data);
-      break;
-    case "merchant_order":
-      // Aquí procesas la notificación de la orden del comerciante recibida
-      console.log("Notificación de orden del comerciante recibida:");
-      console.log(data);
-      break;
-    default:
-      console.log("Evento no reconocido:", topic);
+app.post("/webhook", async (req, res) => {
+  const payment = req.query
+  try{
+    if(payment.type == "payment"){
+      const data = await mercadopago.payment.findById(payment["data.id"])
+      console.log(data)
+     /*  guardar en bd */
+     /* res.sendStatus(200).json({"data":"todo bien"}) */}
+  } catch (error) {
+    console.log(error);
+    /* res.sendStatus(500).json({error: error.message}) */
   }
-
-  res.status(200).end(); // Responde siempre con un 200 OK para que MercadoPago no reintente enviar la notificación
 });
 
 app.post("/pagar", (req, res) => {
   // Aquí procesas la información enviada desde Angular
   const carrito = req.body;
 
-  console.log(carrito.productos);
-
   const preference = {
     items: [],
+    back_urls:{
+      success:(PuertoAPP+"success"),
+      failure:(PuertoAPP+"failure"),
+      pending:(PuertoAPP+"pending")
+    },
+    notification_url:"https://1d3d-2803-6d00-c56d-0-d051-7563-17c7-7b68.ngrok.io/webhook"
   };
 
   for (let i = 0; i < carrito.productos.length; i++) {
-   var item = {
-    title: carrito.productos[i].nombre,
-    unit_price: carrito.productos[i].precio,
-    quantity: 1
-   }
-   preference.items.push(item)
+    var item = {
+      title: carrito.productos[i].producto + " de " + carrito.productos[i].redSocial + " x " + carrito.productos[i].cantidad,
+      unit_price: carrito.productos[i].precio,
+      quantity: 1
+    }
+    preference.items.push(item)
   }
-
   mercadopago.preferences
     .create(preference)
     .then((response) => {
-      // Envías la respuesta al frontend (Angular)
-      res.json({ preferenceId: response.body.id });
+      // Enviando solo la URL init_point como una cadena de texto
+      res.send(response.body.init_point);
     })
     .catch((error) => {
       console.error(error);
-      res
-        .status(500)
-        .json({ error: "Hubo un error al crear la preferencia de pago." });
+      res.status(500).json({ error: "Hubo un error al crear la preferencia de pago." });
     });
 });
 
-/* app.get('/pago-exitoso', (req,res) => {
+
+app.get('/success', (req,res) => {
   console.log("pagado")
 })
 
-app.get('/pago-fallido', (req,res) => {
+app.get('/failure', (req,res) => {
   console.log("pago-fallido")
 })
 
-app.get('/pago-pendiente', (req,res) => {
+app.get('/pending', (req,res) => {
   console.log("pago-pendiente")
-}) */
+})
 
 /* --------------------------------- PRODUCTOS --------------------------------------------------- */
 

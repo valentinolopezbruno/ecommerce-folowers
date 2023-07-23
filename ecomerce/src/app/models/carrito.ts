@@ -9,4 +9,5 @@ export interface CarritoItem {
     productoimg: string;
     precio: number;
     cantidad: number;
+    divisa: string;
 }

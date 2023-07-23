@@ -45,7 +45,7 @@
           [(ngModel)]="usuario"
           name="Tu Usuario"
         /><br />
-        <button class="btn" id="botonComprar" (click)="crearProducto(red.nombre,red.productos[0].nombre,red.productos[0].imagen,red.productos[0].productos_cantidad[indexCalcularPrecio].precio ,red.productos[0].productos_cantidad[indexCalcularPrecio].cantidad)">Añadir al carrito</button>
+        <button class="btn" id="botonComprar" (click)="crearProducto(red.nombre,red.productos[0].nombre,red.productos[0].imagen,red.productos[0].productos_cantidad[indexCalcularPrecio][variablePrecio] ,red.productos[0].productos_cantidad[indexCalcularPrecio].cantidad)">Añadir al carrito</button>
       </div>
     </form>
   </div>

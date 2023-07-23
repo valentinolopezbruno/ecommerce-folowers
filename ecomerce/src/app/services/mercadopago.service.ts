@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
+import { Observable, map } from 'rxjs';
 
 const API_URL = 'http://localhost:3000'
 
@@ -23,8 +23,8 @@ export class MercadoPagoService {
     return this.http.post<any>(url, preferenceData, { headers }).toPromise();
   }
 
-  pagar(carrito:any): Observable<any> {
-    return this.http.post<any>(`${API_URL}/pagar`, carrito);
+  pagar(carrito: any): Observable<string> { // Cambiar el tipo de retorno a Observable<string>
+    return this.http.post(`${API_URL}/pagar`, carrito, { responseType: 'text' });
   }
 
 
