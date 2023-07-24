@@ -7,6 +7,8 @@ const bodyParser = require("body-parser");
 const multer = require("multer");
 const path = require("path");
 const fs = require("fs-extra");
+const nodemailer = require("nodemailer");
+const { v4: uuidv4 } = require("uuid");
 
 app.use(express.json());
 app.use(cors());
@@ -14,7 +16,7 @@ app.use("/imagenes", express.static(path.join(__dirname, "./imagenes")));
 const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 
-const PuertoAPP = "http://localhost:4200/"
+const PuertoAPP = "http://localhost:4200";
 
 const connection = mysql.createConnection({
   host: "localhost",
@@ -39,6 +41,31 @@ let fechaActual = fecha.getMinutes();
 setInterval(() => {
   fechaActual = fecha.getMinutes();
 }, 3 * 60 * 1000);
+/* ---------------------------------CONFIG  NODEMAILER --------------------------------------------------- */
+
+enviarMail = async () => {
+  const config = {
+    host: 'smtp.gmail.com',
+    port: 587,
+    auth: {
+      user: 'vaalen1lopez@gmail.com',
+      pass:'ttkgxsvuftobpyio',
+    },
+  };
+
+  const transport = nodemailer.createTransport(config);
+
+  const mensaje = {
+    from: 'vaalen1lopez@gmail.com',
+    to: 'vaalen1lopez@gmail.com',
+    subject: 'Correo de Prueba',
+    text:'manserino',
+  };
+
+  const info = await transport.sendMail(mensaje);
+
+  console.log(info)
+};
 
 /* ---------------------------------CONFIG  IMAGENES --------------------------------------------------- */
 
@@ -85,68 +112,79 @@ app.post("/usuarios", async (req, res) => {
 });
 
 /* --------------------------------- COMPRA MERCADO PAGO --------------------------------------------------- */
+const pagosProcesados = new Set();
 
-// Endpoint para recibir notificaciones del webhook
 app.post("/webhook", async (req, res) => {
-  const payment = req.query
-  try{
-    if(payment.type == "payment"){
-      const data = await mercadopago.payment.findById(payment["data.id"])
-      console.log(data)
-     /*  guardar en bd */
-     /* res.sendStatus(200).json({"data":"todo bien"}) */}
+  console.log("ez")
+  const paymentData = req.body;
+
+  try {
+    if (paymentData.type === "payment") {
+      const identificadorUnico = paymentData.external_reference;
+
+      if (pagosProcesados.has(identificadorUnico)) {
+        console.log("Esta notificación ya fue procesada anteriormente.");
+        return res.sendStatus(200);
+      }
+
+      // Procesar la notificación aquí...
+      console.log("Notificación recibida:", paymentData);
+
+      // Simulamos un procesamiento de 2 segundos
+      await new Promise((resolve) => setTimeout(resolve, 2000));
+
+      // Agregar el identificador único a la lista de procesados
+      pagosProcesados.add(identificadorUnico);
+    }
   } catch (error) {
-    console.log(error);
-    /* res.sendStatus(500).json({error: error.message}) */
+    console.log("Error al procesar el webhook:", error);
   }
+
+  res.sendStatus(200);
 });
 
 app.post("/pagar", (req, res) => {
-  // Aquí procesas la información enviada desde Angular
   const carrito = req.body;
 
   const preference = {
     items: [],
-    back_urls:{
-      success:(PuertoAPP+"success"),
-      failure:(PuertoAPP+"failure"),
-      pending:(PuertoAPP+"pending")
+    back_urls: {
+      success: `${PuertoAPP}/success`,
+      failure: `${PuertoAPP}/failure`,
+      pending: `${PuertoAPP}/pending`,
     },
-    notification_url:"https://1d3d-2803-6d00-c56d-0-d051-7563-17c7-7b68.ngrok.io/webhook"
+    notification_url:
+      "https://98bd-2803-6d00-c56d-0-5d7c-22ab-8118-a4d.ngrok.io/webhook",
+      external_reference: uuidv4(),
   };
 
   for (let i = 0; i < carrito.productos.length; i++) {
     var item = {
-      title: carrito.productos[i].producto + " de " + carrito.productos[i].redSocial + " x " + carrito.productos[i].cantidad,
+      title:
+        carrito.productos[i].producto +
+        " de " +
+        carrito.productos[i].redSocial +
+        " x " +
+        carrito.productos[i].cantidad,
       unit_price: carrito.productos[i].precio,
-      quantity: 1
-    }
-    preference.items.push(item)
+      quantity: 1,
+    };
+    preference.items.push(item);
   }
   mercadopago.preferences
     .create(preference)
     .then((response) => {
       // Enviando solo la URL init_point como una cadena de texto
+      console.log(response.body);
       res.send(response.body.init_point);
     })
     .catch((error) => {
       console.error(error);
-      res.status(500).json({ error: "Hubo un error al crear la preferencia de pago." });
+      res
+        .status(500)
+        .json({ error: "Hubo un error al crear la preferencia de pago." });
     });
 });
-
-
-app.get('/success', (req,res) => {
-  console.log("pagado")
-})
-
-app.get('/failure', (req,res) => {
-  console.log("pago-fallido")
-})
-
-app.get('/pending', (req,res) => {
-  console.log("pago-pendiente")
-})
 
 /* --------------------------------- PRODUCTOS --------------------------------------------------- */
 
@@ -154,7 +192,6 @@ app.get("/productos", async (req, res) => {
   const social = await prisma.social.findMany();
   const productos = await prisma.productos.findMany();
   const productos_cantidad = await prisma.producto_cantidad.findMany();
-  console.log(productos);
   var data = [];
 
   for (let i = 0; i < social.length; i++) {

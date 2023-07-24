@@ -23,6 +23,9 @@ import { ProductoIndividualComponent } from './producto-individual/producto-indi
 import { NgxPayPalModule } from 'ngx-paypal';
 import { NgxSpinnerModule } from "ngx-spinner";
 import { PayPalScriptProvider } from "@paypal/react-paypal-js";
+import { SuccessComponent } from './success/success.component';
+import { FailureComponent } from './failure/failure.component';
+import { PendingComponent } from './pending/pending.component';
 
 
 
@@ -35,6 +38,9 @@ import { PayPalScriptProvider } from "@paypal/react-paypal-js";
     HomeComponent,
     CarritoComponent,
     ProductoIndividualComponent,
+    SuccessComponent,
+    FailureComponent,
+    PendingComponent,
 
   ],
   imports: [
