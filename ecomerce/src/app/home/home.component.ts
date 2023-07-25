@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { APIService } from '../services/api.service';
 import { Carrito, CarritoItem } from '../models/carrito';
 import { CarritoService } from '../services/carrito.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-home',
@@ -30,15 +31,25 @@ export class HomeComponent implements OnInit {
     productoimg: 'asd',
     precio: 111,
     cantidad: 1,
-    divisa:"ARS"
+    divisa:"ARS",
+    usuario:''
   };
+
+ 
 
   crearProducto(
     redSocial: string,
     producto: string,
     productoimg: string,
     precio: number,
-    cantidad: number): void {
+    cantidad: number): any {
+
+      if(this.usuario === ''){
+        return Swal.fire({
+          icon: 'error',
+          title: 'No Ingresaste Usuario',
+        });
+      }
 
     this.producto.id = this.generarIDRandom();
     this.producto.redSocial = redSocial;
@@ -47,9 +58,10 @@ export class HomeComponent implements OnInit {
     this.producto.precio = precio;
     this.producto.cantidad = cantidad;
     this.producto.divisa = this.monedaAcual;
-
+    this.producto.usuario = this.usuario
 
     this.CarritoService.agregarAlCarrito(this.producto);
+    this.usuario = '';
 
   }
 

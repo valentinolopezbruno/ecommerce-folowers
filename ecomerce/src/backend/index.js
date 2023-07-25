@@ -84,6 +84,7 @@ const upload = multer({ storage: storage });
 
 // SDK de Mercado Pago
 const mercadopago = require("mercadopago");
+const { send } = require("process");
 // Agrega credenciale
 mercadopago.configure({
   access_token:
@@ -112,41 +113,46 @@ app.post("/usuarios", async (req, res) => {
 });
 
 /* --------------------------------- COMPRA MERCADO PAGO --------------------------------------------------- */
-const pagosProcesados = new Set();
-
 app.post("/webhook", async (req, res) => {
-  console.log("ez")
-  const paymentData = req.body;
+  const payment = req.body;
+  if (payment.type === "payment") {
+    const paymentId = payment.data.id;
+    const data = await mercadopago.payment.findById(paymentId);
+    console.log(data.response.status)
+    const metadataId = data.body.metadata.id
 
-  try {
-    if (paymentData.type === "payment") {
-      const identificadorUnico = paymentData.external_reference;
-
-      if (pagosProcesados.has(identificadorUnico)) {
-        console.log("Esta notificación ya fue procesada anteriormente.");
-        return res.sendStatus(200);
+    const pago = await prisma.pagos.findUnique({
+      where: {
+        id: metadataId,
       }
+    });
 
-      // Procesar la notificación aquí...
-      console.log("Notificación recibida:", paymentData);
+    await new Promise((resolve) => setTimeout(resolve, 2000));
 
-      // Simulamos un procesamiento de 2 segundos
-      await new Promise((resolve) => setTimeout(resolve, 2000));
-
-      // Agregar el identificador único a la lista de procesados
-      pagosProcesados.add(identificadorUnico);
+    if(data.response.status === "approved" && pago.estado === 0){
+      const resultado = await prisma.pagos.update({
+        where:{id:metadataId},
+        data:{estado:1}
+      })
+      enviarMail();
     }
-  } catch (error) {
-    console.log("Error al procesar el webhook:", error);
   }
 
   res.sendStatus(200);
 });
 
-app.post("/pagar", (req, res) => {
+app.post("/pagar", async  (req, res) => {
+        /* CREO EN LA BASE DE DATOS UN NUEVO PAGO CON ESTADO SIN PAGAR */
+  const nuevoProducto = await prisma.pagos.create({
+    data:{
+      estado:0
+    }
+  })
+
   const carrito = req.body;
 
   const preference = {
+    metadata:{id:nuevoProducto.id},
     items: [],
     back_urls: {
       success: `${PuertoAPP}/success`,
@@ -154,8 +160,7 @@ app.post("/pagar", (req, res) => {
       pending: `${PuertoAPP}/pending`,
     },
     notification_url:
-      "https://98bd-2803-6d00-c56d-0-5d7c-22ab-8118-a4d.ngrok.io/webhook",
-      external_reference: uuidv4(),
+      "https://9067-2803-6d00-c56d-0-5d7c-22ab-8118-a4d.ngrok.io/webhook",
   };
 
   for (let i = 0; i < carrito.productos.length; i++) {
@@ -174,8 +179,8 @@ app.post("/pagar", (req, res) => {
   mercadopago.preferences
     .create(preference)
     .then((response) => {
-      // Enviando solo la URL init_point como una cadena de texto
-      console.log(response.body);
+     /*  LE MANDO EL INIT POINT PARA QUE SE RENDERICE EN EL FRONT */
+      console.log(preference);
       res.send(response.body.init_point);
     })
     .catch((error) => {

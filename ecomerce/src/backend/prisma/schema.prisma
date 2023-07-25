@@ -7,6 +7,12 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model pagos {
+  id     Int @id @default(autoincrement())
+  estado Int
+}
+
+
 model producto_cantidad {
   id         Int @id @default(autoincrement())
   idProducto Int
@@ -38,3 +44,4 @@ model usuarios {
   nombre String @db.VarChar(255)
   contra String @db.VarChar(255)
 }
+
