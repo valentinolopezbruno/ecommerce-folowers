@@ -13,17 +13,22 @@ export class CarritoService {
 
   constructor(private _snackBar: MatSnackBar) {}
 
+  guardarDatosLocalStorage(carrito:{}): void {
+    localStorage.setItem("carrito", JSON.stringify(carrito));
+  }
+
+
   agregarAlCarrito(producto: CarritoItem): void {
     const productos = [...this.carrito.value.productos];
     const nuevoProducto = { ...producto }; // Crear un nuevo objeto producto
   
     productos.push(nuevoProducto);
     this.carrito.next({ productos });
+    this.guardarDatosLocalStorage(this.carrito.value.productos)
   
     this._snackBar.open('Producto Añadido', 'Ok', { duration: 3000 });
 
   }
-  
 
   getTotal(productos: Array<CarritoItem>): number {
     var precio = 0;
@@ -39,7 +44,7 @@ export class CarritoService {
     if(update){
       
     this.carrito.next({productos:productosFiltrados})
-
+    this.guardarDatosLocalStorage(this.carrito.value.productos)
     this._snackBar.open('Producto Eliminado', 'Ok',{duration:3000})
     }
 
@@ -50,8 +55,10 @@ export class CarritoService {
   
 
   limpiarCarrito():void{
-    this.carrito.next({productos : []})
+    this.carrito.next({productos : []});
+    this.guardarDatosLocalStorage(this.carrito.value.productos);
     this._snackBar.open('Carrito Limpiado', 'ok', {duration: 3000})
+ 
   }
 
  /*  decrementarCarrito(producto: CarritoItem){

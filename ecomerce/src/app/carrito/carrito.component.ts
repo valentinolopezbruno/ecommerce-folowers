@@ -193,12 +193,30 @@ export class CarritoComponent implements OnInit {
     );
   }
 
+  obtenerDatosLocalStorage(key: string): any {
+    const data = localStorage.getItem(key);
+    console.log("data")
+    console.log(data)
+    return data ? JSON.parse(data) : null;
+  }
+
   ngOnInit(): void {
     /* this.initConfig(); */
+
+
     this.CarritoService.carrito.subscribe((carrito: Carrito) => {
       this.carrito = carrito;
       this.datosEntrada = this.carrito.productos;
+      console.log("carrito");
+      console.log(this.carrito);
+
+
+      console.log("datosEntrada");
       console.log(this.datosEntrada);
     });
+
+ /*  this.datosEntrada = this.obtenerDatosLocalStorage("carrito")
+      this.carrito = this.obtenerDatosLocalStorage("carrito")
+    console.log(this.datosEntrada);  */
   }
 }
