@@ -30,7 +30,7 @@
                 alt=""
               />
               <div *ngIf="redes != null">
-                <h1 class="precio-producto">{{redes[idred].productos[idprod].productos_cantidad[indexCalcularPrecio].precio}}</h1>
+                <h1 class="precio-producto">{{monedaAcual}} {{calcularPrecio(redes[idred].productos[idprod]) | currency}}</h1>
               </div>
               <ul>
                 <li>
