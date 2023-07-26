@@ -18,6 +18,8 @@ export class CarritoComponent implements OnInit {
     private MercadoPagoService: MercadoPagoService
   ) {}
 
+  monedaActual:boolean = true;
+ 
   carrito: Carrito = { productos: [] };
 
   carritoFinal: Carrito = { productos: [] };
@@ -98,21 +100,36 @@ export class CarritoComponent implements OnInit {
     return data ? JSON.parse(data) : null;
   }
 
+  obtenerMoneda(carrito:Carrito):void{
+    // VERIFICO QUE EL CARRITO NO ESTE VACIO
+    if(carrito.productos.length >= 1){
+    // LE DIGO QUE SETEE LA MONEDA DEL PRIMER PRODUCTO COMO MONEDA ACTUAL PARA DESPUES PROCESAR EL PAGO CON PAYPAL O MP
+      if(carrito.productos[0].divisa === "ARS")
+      this.monedaActual = false
+    }
+    console.log(this.monedaActual)
+  }
+  
+
   ngOnInit(): void {
     /* this.initConfig(); */
 
     this.CarritoService.carrito.subscribe((carrito: Carrito) => {
       this.carrito = carrito;
       this.datosEntrada = this.carrito.productos;
+      this.obtenerMoneda(this.carrito);
+      
       console.log('carrito');
       console.log(this.carrito);
 
-      console.log('datosEntrada');
-      console.log(this.datosEntrada);
+      /*console.log('datosEntrada');
+      console.log(this.datosEntrada); */
     });
 
     /*  this.datosEntrada = this.obtenerDatosLocalStorage("carrito")
       this.carrito = this.obtenerDatosLocalStorage("carrito")
     console.log(this.datosEntrada);  */
+
+  
   }
 }

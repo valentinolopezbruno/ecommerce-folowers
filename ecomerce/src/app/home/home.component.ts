@@ -20,8 +20,8 @@ export class HomeComponent implements OnInit {
 
   variablePrecio = "precio_ars"
   monedaAcual = "ARS"
-/*       monedaAcual = "USD"  */
-/*   monedaAcual = "EUR"  */
+ /*      monedaAcual = "USD" 
+  monedaAcual = "EUR"  */
 
 
   producto: CarritoItem = {
