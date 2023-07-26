@@ -61,6 +61,17 @@ export class APIService {
   realizarPago(carrito: any): Observable<{}> {
     return this.httpClient.post<{}>(`${API_URL}/pay`, carrito)
   }
+
+
+  /* - - - - - - - - - -- - - - - - - - - - - - - - - - - -  COMPRA PAYPAL */
+  pagoPaypal():Observable<any>{
+    return this.httpClient.post<any>(`${API_URL}/create-order-paypal`, "asd")
+  }
+
+  validarPagoPaypal(token: string): Observable<any> {
+    return this.httpClient.get<any>(`${API_URL}/capture-order?token=${token}`);
+  }
+
   /* - - - - - - - - - -- - - - - - - - - - - - - - - - - -  RED SOCIAL */
   agregarRedSocial(nombre: string, file: File): Observable<{}> {
     console.log("service");

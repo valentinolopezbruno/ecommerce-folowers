@@ -9,6 +9,7 @@ const path = require("path");
 const fs = require("fs-extra");
 const nodemailer = require("nodemailer");
 const { v4: uuidv4 } = require("uuid");
+const axios = require('axios')
 
 app.use(express.json());
 app.use(cors());
@@ -41,6 +42,12 @@ let fechaActual = fecha.getMinutes();
 setInterval(() => {
   fechaActual = fecha.getMinutes();
 }, 3 * 60 * 1000);
+
+/* ---------------------------------CONFIG  PAYPAL --------------------------------------------------- */
+ const PAYPAL_API = 'https://api-m.sandbox.paypal.com'
+ const PAYPAL_API_CLIENT = 'ARwiqPiwoL90ElSKqkcFT5iiXF8pkkK55IMVVSIg3m1zwL_OdGfmNycOQWHzVWxFoQ48Oa8TYAvn7BMN'
+ const PAYPAL_API_SECRET = 'EEqGMouNnGTMIWqVS3sL4faOON6l9wAiFLEZHq-b0d7PtHy7OFALhZ3T9SWrUJlVTCfETN1VyFEBOQUk'
+ const HOST = 'http://localhost:3000'
 /* ---------------------------------CONFIG  NODEMAILER --------------------------------------------------- */
 
 enviarMail = async () => {
@@ -85,6 +92,7 @@ const upload = multer({ storage: storage });
 // SDK de Mercado Pago
 const mercadopago = require("mercadopago");
 const { send } = require("process");
+const { URLSearchParams } = require("url");
 // Agrega credenciale
 mercadopago.configure({
   access_token:
@@ -190,6 +198,79 @@ app.post("/pagar", async  (req, res) => {
         .json({ error: "Hubo un error al crear la preferencia de pago." });
     });
 });
+
+/* --------------------------------- PAYPAL --------------------------------------------------- */
+app.post('/create-order-paypal', async (req, res) => {
+  console.log("entra")
+  const order = {
+    intent: "CAPTURE",
+    purchase_units: [
+      {
+        amount: {
+          currency_code: "USD",
+          value: "105.70",
+        },
+      },
+    ],
+    application_context: {
+      brand_name: "DeSeguidores.com",
+      landing_page: "NO_PREFERENCE",
+      user_action: "PAY_NOW",
+      return_url: `http://localhost:4200/success`,
+      cancel_url: `http://localhost:4200/failure`,
+    },
+  };
+
+  const params = new URLSearchParams();
+  params.append("grant_type", "client_credentials");
+
+  const {
+    data: {access_token}
+  } = await axios.post(
+    "https://api-m.sandbox.paypal.com/v1/oauth2/token",
+    params,
+    {
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+      },
+      auth: {
+        username: PAYPAL_API_CLIENT,
+        password: PAYPAL_API_SECRET,
+      },
+    }
+  );
+
+  const response = await axios.post(`${PAYPAL_API}/v2/checkout/orders`, order, {
+    headers: {
+      "Content-Type": "application/json",
+      "Authorization": `Bearer ${access_token}`,
+    },
+  });
+
+  for (let i = 0; i < response.data.links.length; i++) {
+    if(response.data.links[i].rel === "approve"){
+      console.log(response.data);
+      res.json({"link":response.data.links[i].href});
+   }
+  }
+});
+
+
+app.get("/capture-order", async (req,res) => {
+  const {token} = req.query;
+  console.log(token)
+
+  const response = await axios.post(`${PAYPAL_API}/v2/checkout/orders/${token}/capture`, {}, {
+    auth:{
+      username:PAYPAL_API_CLIENT,
+      password:PAYPAL_API_SECRET
+    }
+  })
+
+  console.log("pagado")
+  enviarMail();
+  res.json({"estado":"pagado"})
+})
 
 /* --------------------------------- PRODUCTOS --------------------------------------------------- */
 
