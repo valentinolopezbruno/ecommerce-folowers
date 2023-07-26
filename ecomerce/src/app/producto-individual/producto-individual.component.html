@@ -17,7 +17,7 @@
             <div class="div-card-body" *ngIf="this.redes != null">
               <img class="imagen" [src]="redes[idred].imagen" alt="" />
               <div *ngIf="redes != null">
-                <h1 class="precio-producto">{{monedaAcual}} {{calcularPrecio(redes[idred].productos[idprod]) | currency}}</h1>
+                <h2 class="precio-producto">{{monedaAcual}} {{calcularPrecio(redes[idred].productos[idprod]) | currency}}</h2>
               </div>
               <ul>
                 <li>
@@ -35,13 +35,16 @@
                   </div>
                 </li>
               </ul>
-              <button>Agregar al Carrrito</button>
+              <button class="btn">Agregar al Carrrito</button>
+              
               <ul>
                 <li><i>Garantía</i></li>
                 <li><i>Entrega Inmediata</i></li>
                 <li><i>Pago Seguro</i></li>
                 <li><i>Soporte por Formulario de Contacto</i></li>
               </ul>
+
+              
             </div>
           </div>
         </div>
