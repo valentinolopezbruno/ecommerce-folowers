@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Observable, Observer } from 'rxjs';
 import { CarritoItem, Carrito } from '../models/carrito';
 import { CarritoService } from '../services/carrito.service';
 import { APIService } from '../services/api.service';
@@ -17,8 +18,6 @@ export class CarritoComponent implements OnInit {
     private MercadoPagoService: MercadoPagoService
   ) {}
 
-/*   public payPalConfig?: IPayPalConfig; */
-
   carrito: Carrito = { productos: [] };
 
   carritoFinal: Carrito = { productos: [] };
@@ -34,137 +33,36 @@ export class CarritoComponent implements OnInit {
     'accion',
   ];
 
- /*  private initConfig(): void {
-    this.payPalConfig = {
-      currency: 'EUR',
-      clientId:
-        'AVi6dcUcYVO7O4a5qQQ9v9E438LF9IpF-hI4qKkifA-gLXQ1iZNIBeKGeM22pcSVKOUGSczImBysdHvX',
-      createOrderOnClient: (data) =>
-        <ICreateOrderRequest>{
-          intent: 'CAPTURE',
-          purchase_units: [
-            {
-              amount: {
-                currency_code: 'EUR',
-                value: '9.99',
-                breakdown: {
-                  item_total: {
-                    currency_code: 'EUR',
-                    value: '9.99',
-                  },
-                },
-              },
-              items: [
-                {
-                  name: 'Enterprise Subscription',
-                  quantity: '1',
-                  category: 'DIGITAL_GOODS',
-                  unit_amount: {
-                    currency_code: 'EUR',
-                    value: '9.99',
-                  },
-                },
-              ],
-            },
-          ],
-        },
-      advanced: {
-        commit: 'true',
-      },
-      style: {
-        label: 'paypal',
-        layout: 'vertical',
-      },
-      onApprove: (data, actions) => {
-        console.log(
-          'onApprove - transaction was approved, but not authorized',
-          data,
-          actions
-        );
-        actions.order.get().then((details: any) => {
-          console.log(
-            'onApprove - you can get full order details inside onApprove: ',
-            details
-          );
-        });
-      },
-      onClientAuthorization: (data) => {
-        console.log(
-          'onClientAuthorization - you should probably inform your server about completed transaction at this point',
-          data
-        );
-      },
-      onCancel: (data, actions) => {
-        console.log('OnCancel', data, actions);
-      },
-      onError: (err) => {
-        console.log('OnError', err);
-      },
-      onClick: (data, actions) => {
-        console.log('onClick', data, actions);
-        console.log("a")
-      },
-    };
-  } */
-
-  async iniciarPago() {
-    // Calcular el monto total de la compra sumando los precios de los productos en el carrito
-    const montoTotal = this.carrito.productos.reduce(
-      (total, producto) => total + producto.precio,
-      0
-    );
-
-    // Crear la preferencia de pago
-    const preferenceData = {
-      items: this.carrito.productos.map((producto) => ({
-        id: producto.id,
-        title:
-          producto.producto +
-          ' ' +
-          producto.redSocial +
-          ' x ' +
-          producto.cantidad,
-        quantity: 1,
-        currency_id: 'ARS', // Cambiar según la moneda que deseas utilizar
-        unit_price: producto.precio,
-      })),
-      payer: {
-        name: 'Nombre del cliente',
-        email: 'correo@ejemplo.com',
-      },
-      back_urls: {
-        success: 'http://localhost:4200/pago-exitoso', // URL a la que redirigir en caso de pago exitoso
-        failure: 'http://localhost:4200/pago-fallido', // URL a la que redirigir en caso de pago fallido
-        pending: 'http://localhost:4200/pago-pendiente', // URL a la que redirigir en caso de pago pendiente o en proceso
-      },
-      auto_return: 'approved', // Redirigir automáticamente al cliente a la URL de success
-    };
-
-    try {
-      const preference = await this.MercadoPagoService.crearPreferenciaPago(
-        preferenceData
-      );
-
-      // Redireccionar al formulario de pago de MercadoPago
-      window.location.href = preference.init_point;
-    } catch (error) {
-      console.error('Error al crear la preferencia de pago:', error);
-    }
-  }
-
   pagarMP(): void {
-    this.MercadoPagoService.pagar(this.carrito)
-      .subscribe(initPoint => {
+    this.MercadoPagoService.pagar(this.carrito).subscribe(
+      (initPoint) => {
         // Redireccionar al formulario de pago de MercadoPago
         window.location.href = initPoint;
-      }, error => {
+      },
+      (error) => {
         console.error(error);
         // Manejo de errores
-      });
+      }
+    );
   }
 
-  mercadopagoprueba(){
-    this.MercadoPagoService.pagar(this.carrito).subscribe((data) => { console.log(data)})
+ pagarPaypal(): void {
+  this.APIService.pagoPaypal().subscribe({
+    next:(initPoint) => {
+      window.location.href = initPoint.link;
+    },
+    error: (error) => {
+      console.error(error);
+      // Manejo de errores
+    }
+  }
+  );
+}
+
+  mercadopagoprueba() {
+    this.MercadoPagoService.pagar(this.carrito).subscribe((data) => {
+      console.log(data);
+    });
   }
 
   getTotal(productos: Array<CarritoItem>): number {
@@ -195,27 +93,25 @@ export class CarritoComponent implements OnInit {
 
   obtenerDatosLocalStorage(key: string): any {
     const data = localStorage.getItem(key);
-    console.log("data")
-    console.log(data)
+    console.log('data');
+    console.log(data);
     return data ? JSON.parse(data) : null;
   }
 
   ngOnInit(): void {
     /* this.initConfig(); */
 
-
     this.CarritoService.carrito.subscribe((carrito: Carrito) => {
       this.carrito = carrito;
       this.datosEntrada = this.carrito.productos;
-      console.log("carrito");
+      console.log('carrito');
       console.log(this.carrito);
 
-
-      console.log("datosEntrada");
+      console.log('datosEntrada');
       console.log(this.datosEntrada);
     });
 
- /*  this.datosEntrada = this.obtenerDatosLocalStorage("carrito")
+    /*  this.datosEntrada = this.obtenerDatosLocalStorage("carrito")
       this.carrito = this.obtenerDatosLocalStorage("carrito")
     console.log(this.datosEntrada);  */
   }
