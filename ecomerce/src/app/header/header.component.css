@@ -15,9 +15,9 @@ body {
   align-items: center;
   background-color: #bf047e;
   padding: 4px;
-  position: fixed;
   width: 100%;
   justify-content: space-around;
+  height: 7%;
 }
 
 .logo img {

@@ -1,127 +1,88 @@
-.navbar {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
+body {
+  font-family: Arial, sans-serif;
 }
 
-.container {
-  padding-top: 3rem; /* Adjust the padding value as needed */
-  padding-bottom: 0.25rem; /* Adjust the padding value as needed */
-  margin-top: 1.25rem; /* Adjust the margin value as needed */
-}
 
-.header {
-  margin-top: 1.25rem; /* Adjust the margin value as needed */
-}
-
-.div-content {
-  padding: 0.75rem; /* Adjust the padding value as needed */
-  margin-left: auto;
-  margin-right: auto;
+.section-header {
   text-align: center;
 }
 
-.identidad {
-  font-size: 2.5rem; /* Adjust the font size as needed */
-  font-weight: normal; /* 'normal' is the same as 400. You can also use numeric values like 400 for normal, 700 for bold, etc. */
-}
 
-.descrip {
-  font-size: 1.25rem; /* Adjust the font size as needed */
-  color: #6c757d; /* Replace with your desired muted text color */
-}
 
 .background {
-    background-position: 100%;
-    background-size: cover;
-    border-radius: 0.3rem!important;
-    box-sizing: border-box;
-    display: block;
+  background-color: #ffffff;
+  padding: 20px;
 }
 
 .div-container {
-  flex-wrap: wrap;
-  margin-bottom: 0.5rem;
-  text-align: center;
-  background-color: #f0f0f0;
-
-  @media (min-width: 768px) {
-    .row {
-      flex-wrap: wrap;
-    }
-  }
-}
-
-.divcol1 {
-  border-radius: 0.3rem;
-  margin-bottom: 1rem;
-  margin-top: 1rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .divcol2 {
-  margin-bottom: 1rem;
-  margin-top: 1rem;
-  box-sizing: border-box;
-}
-
-.devicol2-content {
-  border-radius: 0.3rem;
-  box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
-  border: 1px solid #800080;
+  width: 50%;
+  padding: 10px;
+  border: 1px solid green;
 }
 
 .div-card-tittle {
-  padding-top: 0.75rem;
-  padding-bottom: 0.75rem;
-  color: #fff;
-  background-color: #800080;
-  border: 1px solid #800080;
+  text-align: center;
 }
 
 .titulo-card {
-  margin-top: 0;
-  margin-bottom: 0;
-  font-weight: normal;
+  font-size: 20px;
 }
 
-.div-card-body{
-    position:flex;
-    padding:1rem;
-    box-sizing:border-box;
-    text-align:center;
+.div-card-body {
+  text-align: center;
 }
 
-.imagen{
-    height:100px;
-    overflow-clip-margin: content-box;
-    overflow:clip;
+.imagen {
+  width: 200px;
+  height: 200px;
+  margin: 0 auto;
+  display: block;
 }
 
-.precio-producto{
-    font-weight: bold;
-    color: #ff69b4;
+.precio-producto {
+  font-size: 24px;
 }
 
-.caja{
-    margin-bottom: 1rem;
-    position: relative;
-    display: block;
-    box-sizing: border-box;
+.select-cantidad,
+.input-usuario {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
 }
 
-.select-cantidad{
-    margin-bottom: 1rem!important;
-    min-height: calc(1.5em + 1rem + 2px);
-    padding: 0.5rem 1rem;
-    font-size: 1.25rem;
-    border-radius: 0.3rem;
-    font-weight: 400;
-    line-height: 1.5;
-    color: #212529;
-    background-color: #fff;
-    background-clip: padding-box;
-
+.caja {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
+button {
+  display: block;
+  width: 100%;
+  padding: 10px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  margin-bottom: 10px;
+}
 
+ul {
+  list-style: none;
+  padding: 0;
+}
+
+li {
+  margin-bottom: 5px;
+}
+
+i {
+  font-style: italic;
+}
