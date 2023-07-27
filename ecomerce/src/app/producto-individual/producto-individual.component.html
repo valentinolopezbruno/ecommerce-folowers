@@ -31,11 +31,11 @@
                 <li>
                   <h4>Usuario:</h4>
                   <div class="caja">
-                    <input class="input-usuario" type="text" />
+                    <input [(ngModel)]="usuario" class="input-usuario" type="text" />
                   </div>
                 </li>
               </ul>
-              <button class="btn">Agregar al Carrrito</button>
+              <button class="btn" (click)="crearProducto(redes[idred].nombre,redes[idred].productos[idprod].nombre,redes[idred].productos[idprod].imagen,redes[idred].productos[idprod].productos_cantidad[indexCalcularPrecio][variablePrecio] ,redes[idred].productos[idprod].productos_cantidad[indexCalcularPrecio].cantidad)">Agregar al Carrrito</button>
               
               <ul>
                 <li><i>Garantía</i></li>
