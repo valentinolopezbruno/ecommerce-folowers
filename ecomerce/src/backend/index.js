@@ -450,6 +450,7 @@ app.get("/productos", async (req, res) => {
 });
 
 app.post("/productos", upload.single("image"), async (req, res) => {
+  console.log("asdasdas")
   var { data } = req.body;
   data = JSON.parse(data);
   var nombreOriginal = req.file.originalname;

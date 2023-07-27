@@ -4,8 +4,7 @@ import { Observable } from 'rxjs';
 import { Usuario } from '../models/usuario.model';
 import { Social } from '../models/social.model';
 import { Carrito } from '../models/carrito';
-
-const API_URL = 'http://localhost:3000'
+import { API_URL } from '../app.config';
 
 @Injectable({
   providedIn: 'root'

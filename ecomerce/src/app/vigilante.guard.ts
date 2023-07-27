@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { APP_URL } from './app.config';
 
 import {
   CanActivate,
