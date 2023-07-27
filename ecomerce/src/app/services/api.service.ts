@@ -12,14 +12,14 @@ const API_URL = 'http://localhost:3000'
 })
 export class APIService {
 
-  constructor(private httpClient: HttpClient) { }
-
-  /* validarUsuario(nombre: string, contra: string): Observable<{}> {
-    return this.httpClient.get<{}>(`${API_URL}/usuarios`)
-  } */
+constructor(private httpClient: HttpClient) { }
 
   validarUsuario(nombre: string, contra: string):Observable<{}> {
     return this.httpClient.post<{}>(`${API_URL}/usuarios`, {nombre, contra})
+  }
+
+  consultarToken(token:string, date: string):Observable<{}>{
+    return this.httpClient.post<{}>(`${API_URL}/usuarios-token`, {token,date});
   }
   
 

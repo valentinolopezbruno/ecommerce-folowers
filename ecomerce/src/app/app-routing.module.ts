@@ -8,16 +8,15 @@ import { ProductoIndividualComponent } from './producto-individual/producto-indi
 import { SuccessComponent } from './success/success.component';
 import { FailureComponent } from './failure/failure.component';
 import { PendingComponent } from './pending/pending.component';
-
-
+import { VigilanteGuard } from './vigilante.guard';
 const routes: Routes = [
   { path: 'home', component: HomeComponent },
 
-  { path: '', redirectTo: 'home',  pathMatch:'full' },
+  { path: '', redirectTo: 'home', pathMatch: 'full' },
 
   { path: 'login', component: AdminLoginComponent },
 
-  { path: 'admin', component: AdminComponent },
+  { path: 'admin', component: AdminComponent, canActivate: [VigilanteGuard] },
 
   { path: 'cart', component: CarritoComponent },
 
@@ -28,10 +27,9 @@ const routes: Routes = [
   { path: 'pending', component: PendingComponent },
 
   { path: 'service/:idr/:idp', component: ProductoIndividualComponent },
-
 ];
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}

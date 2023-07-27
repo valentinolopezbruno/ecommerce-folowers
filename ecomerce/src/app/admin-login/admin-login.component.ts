@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { APIService } from '../services/api.service';
 import { Usuario } from '../models/usuario.model';
 import Swal from 'sweetalert2';
+import { APP_URL } from '../app.config';
 
 
 
@@ -20,27 +21,36 @@ export class AdminLoginComponent implements OnInit{
 
   constructor(private APIService: APIService){}
 
-  validarCodigo():any{
-    console.log( "code: ", this.code)
+   guardarEnLocalStorage(token:string) {
+    try {
+      localStorage.setItem("token", JSON.stringify(token));
+    } catch (error) {
+      console.error('Error al guardar en el localStorage:', error);
+    }
+  }
 
-    if(this.code = {code: 1}){
-      return Swal.fire({
+  validarCodigo(data:any):any{
+    if(data.code === 1){
+      var {token, code} = data;
+      this.guardarEnLocalStorage(token);
+       Swal.fire({
         title: 'Ingresaste Correctamente',
         icon: 'success'
       });
-    } 
 
-    if(this.code = {code: 0}){
+      window.location.href = `${APP_URL}/admin`
+    } else{
       return Swal.fire({
         title: 'Datos Incorrectos',
         icon: 'error'
       });
-    } 
+    }
+
   }
 
   validarUsuario(nombre: string, contra: string){
-     this.APIService.validarUsuario(nombre, contra).subscribe((valor) => {this.code = valor})
-     this.validarCodigo()
+     this.APIService.validarUsuario(nombre, contra).subscribe((data) => {
+     this.validarCodigo(data)})
   }
 
   iniciarSesion(){
