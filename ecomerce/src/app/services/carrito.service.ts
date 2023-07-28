@@ -52,34 +52,10 @@ export class CarritoService {
     
   }
 
-  
-
   limpiarCarrito():void{
     this.carrito.next({productos : []});
     this.guardarDatosLocalStorage(this.carrito.value.productos);
     this._snackBar.open('Carrito Limpiado', 'ok', {duration: 3000})
  
   }
-
- /*  decrementarCarrito(producto: CarritoItem){
-    let productoEliminado: CarritoItem | undefined;
-
-    let productoFiltrado = this.carrito.value.productos.map((_producto) => {
-      if(_producto.id === producto.id){
-        _producto.cantidad--;
-      }
-      if(_producto.cantidad === 0){
-        productoEliminado =_producto
-      }
-      return _producto;
-    })
-
-    if(productoEliminado){
-      productoFiltrado = this.eliminarDelCarrito(productoEliminado, false);
-    }
-
-    this.carrito.next({productos: productoFiltrado})
-
-    this._snackBar.open('Producto Decrementado', 'Ok', {duration:3000})
-  } */
 }

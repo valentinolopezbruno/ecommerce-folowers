@@ -101,24 +101,115 @@ mercadopago.configure({
 
 /* --------------------------------- LOGIN --------------------------------------------------- */
 
+function generarTokenPorMinuto() {
+  const duracionEnMinutos = 1; // Duración del token en minutos
+  const duracionEnMilisegundos = duracionEnMinutos * 60 * 1000; // Convertir a milisegundos
+
+  // Obtener la fecha actual
+  const fechaActual = new Date();
+
+  // Sumar la duración en milisegundos a la fecha actual para obtener la fecha de expiración
+  const fechaExpiracion = new Date(fechaActual.getTime() + duracionEnMilisegundos);
+
+  // Generar un token aleatorio (puedes usar tu lógica para generar el token)
+  const token = generarTokenAleatorio();
+
+  return {
+    token: token,
+    expiracion: fechaExpiracion
+  };
+}
+
+// Función para generar un token aleatorio (ejemplo)
+function generarTokenAleatorio() {
+  const caracteres = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+  const longitudToken = 30;
+  let token = '';
+
+  for (let i = 0; i < longitudToken; i++) {
+    const indiceAleatorio = Math.floor(Math.random() * caracteres.length);
+    token += caracteres.charAt(indiceAleatorio);
+  }
+
+  return token;
+}
+
+function obtenerFechaCorta(fecha) {
+  // Si la fecha es una cadena, conviértela a un objeto Date
+  if (typeof fecha === 'string') {
+    fecha = new Date(fecha);
+  }
+
+  // Verifica si fecha es una instancia válida de Date
+  if (!(fecha instanceof Date) || isNaN(fecha)) {
+    throw new Error('Fecha inválida');
+  }
+
+  // Obtiene los componentes de la fecha
+  const year = fecha.getUTCFullYear();
+  const month = (fecha.getUTCMonth() + 1).toString().padStart(2, '0');
+  const day = fecha.getUTCDate().toString().padStart(2, '0');
+
+  // Construye la cadena con el formato deseado: 'YYYY-MM-DD'
+  const fechaCorta = `${year}-${month}-${day}`;
+
+  return fechaCorta;
+}
+
 app.post("/usuarios", async (req, res) => {
   var cont = 0;
   const { nombre, contra } = req.body;
   const usuarios = await prisma.usuarios.findMany();
 
   for (let i = 0; i < usuarios.length; i++) {
-    if (nombre == usuarios[i].nombre && contra == usuarios[i].contra) {
+    if (nombre === usuarios[i].nombre && contra === usuarios[i].contra) {
       cont = cont + 1;
       console.log("Es Correcto");
-      res.send({ code: 1 });
-    }
+
+      var {token, expiracion} = generarTokenPorMinuto()
+      console.log(token, expiracion);
+
+      const datos = await prisma.usuarios.update({
+        where:{id: usuarios[i].id},
+        data:{
+          token:token,
+          expiracion:expiracion
+        }
+      })
+      res.json({token:token, code: 1 });
+      }
   }
 
   if (cont == 0) {
     console.log("Incorrecto");
-    res.send({ code: 0 });
+    res.json({ code: 0 });
   }
 });
+
+app.post("/usuarios-token", async (req,res) => {
+  const {token, date} = req.body;
+  console.log(token, date)
+  const user = await prisma.usuarios.findMany({})
+
+    for (let i = 0; i < user.length; i++) {
+      var cont = 0;
+      if(user[i].token === token){
+        console.log("tokenencontrado")
+        cont = cont + 1;
+      }
+      
+      if(obtenerFechaCorta(user[i].expiracion) === date){
+        console.log("fehca coincide")
+        cont = cont + 1;
+      }
+
+      if(cont === 2){
+        res.json({"code":1})
+      } else {res.json({"code":0})}
+    }
+})
+
+
 
 /* --------------------------------- COMPRA MERCADO PAGO --------------------------------------------------- */
 app.post("/webhook", async (req, res) => {
@@ -359,6 +450,7 @@ app.get("/productos", async (req, res) => {
 });
 
 app.post("/productos", upload.single("image"), async (req, res) => {
+  console.log("asdasdas")
   var { data } = req.body;
   data = JSON.parse(data);
   var nombreOriginal = req.file.originalname;

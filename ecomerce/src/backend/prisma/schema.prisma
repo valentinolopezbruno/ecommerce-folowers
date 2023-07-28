@@ -40,8 +40,9 @@ model social {
 }
 
 model usuarios {
-  id     Int    @id @default(autoincrement())
-  nombre String @db.VarChar(255)
-  contra String @db.VarChar(255)
+  id         Int       @id @default(autoincrement())
+  nombre     String    @db.VarChar(255)
+  contra     String    @db.VarChar(255)
+  token      String    @db.VarChar(255)
+  expiracion DateTime? @db.Date
 }
-

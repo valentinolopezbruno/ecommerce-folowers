@@ -212,7 +212,7 @@
             {{ red.nombre }}
           </option>
         </select>
-        <form>
+        <form style="text-align: center;">
           <label>Nombre del producto:</label>
           <input
             type="text"
@@ -223,7 +223,7 @@
           <br />
           <label>Imagen:</label>
           <input type="file" (change)="cargarImagen($event)" />
-          <img [src]="urlImagen" alt="Vista previa de la imagen" />
+          <div *ngIf="urlImagen"><img [src]="urlImagen" alt="Vista previa de la imagen"  style="width: 300px; height:300px; text-align: center;"/></div>
         </form>
         <button (click)="habilitarAgregarPrecios()">Agregar Precios</button>
         <div *ngIf="agregarPrecios">

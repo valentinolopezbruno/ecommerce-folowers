@@ -101,16 +101,22 @@ font-size: 30px;">Carrito de Compras</h2>
           <mat-icon>close</mat-icon>
         </button>
       </td>
-      <td mat-footer-cell *matFooterCellDef>
-        <button mat-raised-button color="primary" style="float: right" (click)="pagarPaypal()" >
-          
-          Terminar Compra
-        </button>
-        <br>
-        <br>
-        <br>
-        <!-- <ngx-paypal [config]="payPalConfig"></ngx-paypal> -->
-      </td>
+      <!-- SI MONEDA ACTUAL ES FALSO PAGA CON MP -->
+      <div *ngIf="!monedaActual">
+        <td mat-footer-cell *matFooterCellDef>
+          <button mat-raised-button color="primary" style="float: right" (click)="pagarMP()" >
+            Terminar Compra
+          </button>
+        </td>
+      </div>
+      <!-- SI MONEDA ACTUAL ES TRUE PAGA CON PAYPAL -->
+      <div *ngIf="monedaActual">
+        <td mat-footer-cell *matFooterCellDef>
+          <button mat-raised-button color="primary" style="float: right" (click)="pagarPaypal()" >
+            Terminar Compra
+          </button>
+        </td>
+      </div>
     </ng-container>
 
     <tr mat-header-row *matHeaderRowDef="displayColumnas"></tr>

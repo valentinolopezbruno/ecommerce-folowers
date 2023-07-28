@@ -4,22 +4,21 @@ import { Observable } from 'rxjs';
 import { Usuario } from '../models/usuario.model';
 import { Social } from '../models/social.model';
 import { Carrito } from '../models/carrito';
-
-const API_URL = 'http://localhost:3000'
+import { API_URL } from '../app.config';
 
 @Injectable({
   providedIn: 'root'
 })
 export class APIService {
 
-  constructor(private httpClient: HttpClient) { }
-
-  /* validarUsuario(nombre: string, contra: string): Observable<{}> {
-    return this.httpClient.get<{}>(`${API_URL}/usuarios`)
-  } */
+constructor(private httpClient: HttpClient) { }
 
   validarUsuario(nombre: string, contra: string):Observable<{}> {
     return this.httpClient.post<{}>(`${API_URL}/usuarios`, {nombre, contra})
+  }
+
+  consultarToken(token:string, date: string):Observable<{}>{
+    return this.httpClient.post<{}>(`${API_URL}/usuarios-token`, {token,date});
   }
   
 
