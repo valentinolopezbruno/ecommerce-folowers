@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 21-07-2023 a las 23:22:51
+-- Tiempo de generación: 27-07-2023 a las 17:35:33
 -- Versión del servidor: 10.4.28-MariaDB
 -- Versión de PHP: 8.2.4
 
@@ -24,6 +24,43 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `pagos`
+--
+
+CREATE TABLE `pagos` (
+  `id` int(255) NOT NULL,
+  `estado` int(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `pagos`
+--
+
+INSERT INTO `pagos` (`id`, `estado`) VALUES
+(1, 0),
+(2, 0),
+(3, 0),
+(4, 0),
+(5, 0),
+(6, 0),
+(7, 1),
+(8, 1),
+(9, 0),
+(10, 0),
+(11, 0),
+(12, 1),
+(13, 1),
+(14, 1),
+(15, 0),
+(16, 1),
+(17, 1),
+(18, 0),
+(19, 0),
+(20, 0);
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `productos`
 --
 
@@ -39,10 +76,11 @@ CREATE TABLE `productos` (
 --
 
 INSERT INTO `productos` (`id`, `nombre`, `imagen`, `id_social`) VALUES
-(1, 'Seguidores', 'sadas', 1),
-(2, 'Likes', 'asdasasd', 1),
-(3, 'Juan', 'instagram.jpg.48', 1),
-(4, 'Juan', 'instagram-aplicacion-tecnologia-lanzamiento-sociedad-historia.jpg.19', 2);
+(8, 'Seguidores', 'instagram.jpg.57', 1),
+(9, 'Likes', 'instagram logos.jpg.57', 1),
+(10, 'Views', 'instagram-aplicacion-tecnologia-lanzamiento-sociedad-historia.jpg.57', 1),
+(11, 'Subscriptores', 'descarga.png.57', 2),
+(12, 'Seguidores', 'tuiterr.png.57', 3);
 
 -- --------------------------------------------------------
 
@@ -64,10 +102,29 @@ CREATE TABLE `producto_cantidad` (
 --
 
 INSERT INTO `producto_cantidad` (`id`, `idProducto`, `cantidad`, `precio_ars`, `precio_usd`, `precio_eur`) VALUES
-(1, 1, 22, 0, 0, 0),
-(3, 1, 333, 333, 333, 333),
+(1, 1, 100, 1000, 10, 12),
+(3, 1, 500, 2000, 20, 25),
 (4, 3, 111, 0, 0, 0),
-(7, 4, 3333, 3333, 333, 33333);
+(7, 4, 3333, 3333, 333, 33333),
+(8, 5, 111, 222, 0, 0),
+(9, 6, 500, 11, 22, 33),
+(11, 7, 333, 333, 33, 333),
+(12, 1, 1000, 4000, 50, 55),
+(13, 8, 100, 1000, 10, 7),
+(14, 8, 500, 2000, 20, 15),
+(15, 8, 1000, 3000, 30, 25),
+(16, 9, 100, 1000, 10, 7),
+(17, 9, 500, 2000, 20, 15),
+(18, 9, 1000, 3000, 30, 26),
+(19, 10, 100, 3000, 30, 25),
+(20, 10, 500, 15000, 50, 50),
+(21, 10, 1000, 30000, 100, 90),
+(22, 11, 100, 1500, 10, 7),
+(23, 11, 500, 5000, 30, 26),
+(24, 11, 1000, 8000, 50, 45),
+(25, 12, 1000, 1000, 10, 7),
+(26, 12, 2000, 2000, 15, 14),
+(27, 12, 5000, 4500, 10, 5);
 
 -- --------------------------------------------------------
 
@@ -86,8 +143,9 @@ CREATE TABLE `social` (
 --
 
 INSERT INTO `social` (`id`, `nombre`, `imagen`) VALUES
-(1, 'Instagram', 'sdaa'),
-(2, 'YOUTUBE', 'instagram-aplicacion-tecnologia-lanzamiento-sociedad-historia.jpg.36');
+(1, 'Instagram', 'instagram logos.jpg.57'),
+(2, 'Youtube', 'descarga.png.57'),
+(3, 'Twitter', 'tuiterr.png.57');
 
 -- --------------------------------------------------------
 
@@ -98,8 +156,17 @@ INSERT INTO `social` (`id`, `nombre`, `imagen`) VALUES
 CREATE TABLE `usuarios` (
   `id` int(11) NOT NULL,
   `nombre` varchar(255) NOT NULL,
-  `contra` varchar(255) NOT NULL
+  `contra` varchar(255) NOT NULL,
+  `token` varchar(255) NOT NULL,
+  `expiracion` date DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Volcado de datos para la tabla `usuarios`
+--
+
+INSERT INTO `usuarios` (`id`, `nombre`, `contra`, `token`, `expiracion`) VALUES
+(1, 'tino', 'asd123', 'jpzlPQ5wYeLR8cAqUdKPeRCGFzDMfW', '2023-07-27');
 
 -- --------------------------------------------------------
 
@@ -128,6 +195,12 @@ INSERT INTO `_prisma_migrations` (`id`, `checksum`, `finished_at`, `migration_na
 --
 -- Índices para tablas volcadas
 --
+
+--
+-- Indices de la tabla `pagos`
+--
+ALTER TABLE `pagos`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indices de la tabla `productos`
@@ -164,28 +237,34 @@ ALTER TABLE `_prisma_migrations`
 --
 
 --
+-- AUTO_INCREMENT de la tabla `pagos`
+--
+ALTER TABLE `pagos`
+  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+
+--
 -- AUTO_INCREMENT de la tabla `productos`
 --
 ALTER TABLE `productos`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT de la tabla `producto_cantidad`
 --
 ALTER TABLE `producto_cantidad`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
 
 --
 -- AUTO_INCREMENT de la tabla `social`
 --
 ALTER TABLE `social`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT de la tabla `usuarios`
 --
 ALTER TABLE `usuarios`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
