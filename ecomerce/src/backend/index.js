@@ -101,24 +101,40 @@ mercadopago.configure({
 
 /* --------------------------------- LOGIN --------------------------------------------------- */
 
-function generarTokenPorMinuto() {
-  const duracionEnMinutos = 1; // Duración del token en minutos
-  const duracionEnMilisegundos = duracionEnMinutos * 60 * 1000; // Convertir a milisegundos
 
+function agregarCeros(numero) {
+  return numero < 10 ? '0' + numero : numero.toString();
+}
+
+function generarTokenPorDia() {
   // Obtener la fecha actual
   const fechaActual = new Date();
 
-  // Sumar la duración en milisegundos a la fecha actual para obtener la fecha de expiración
-  const fechaExpiracion = new Date(fechaActual.getTime() + duracionEnMilisegundos);
+  // Establecer la hora, los minutos, los segundos y los milisegundos a cero en UTC
+  fechaActual.setUTCHours(0, 0, 0, 0);
+
+  // Establecer la hora de expiración a las 23:59:59:999 en UTC (último milisegundo del día)
+  const horaExpiracion = new Date(fechaActual.getTime() + 24 * 60 * 60 * 1000 - 1);
 
   // Generar un token aleatorio (puedes usar tu lógica para generar el token)
   const token = generarTokenAleatorio();
 
+  console.log("Fecha de creación del token:", fechaActual.toLocaleDateString(), fechaActual.toLocaleTimeString());
+  console.log("Fecha de expiración del token:", horaExpiracion.toLocaleDateString(), horaExpiracion.toLocaleTimeString());
+
+  const fecha = new Date();
+    const anio = fecha.getFullYear();
+    const mes = agregarCeros(fecha.getMonth() + 1);
+    const dia = agregarCeros(fecha.getDate());
+    var date = `${anio}/${mes}/${dia}`;
+
+
   return {
     token: token,
-    expiracion: fechaExpiracion
+    expiracion: date,
   };
 }
+
 
 // Función para generar un token aleatorio (ejemplo)
 function generarTokenAleatorio() {
@@ -134,27 +150,6 @@ function generarTokenAleatorio() {
   return token;
 }
 
-function obtenerFechaCorta(fecha) {
-  // Si la fecha es una cadena, conviértela a un objeto Date
-  if (typeof fecha === 'string') {
-    fecha = new Date(fecha);
-  }
-
-  // Verifica si fecha es una instancia válida de Date
-  if (!(fecha instanceof Date) || isNaN(fecha)) {
-    throw new Error('Fecha inválida');
-  }
-
-  // Obtiene los componentes de la fecha
-  const year = fecha.getUTCFullYear();
-  const month = (fecha.getUTCMonth() + 1).toString().padStart(2, '0');
-  const day = fecha.getUTCDate().toString().padStart(2, '0');
-
-  // Construye la cadena con el formato deseado: 'YYYY-MM-DD'
-  const fechaCorta = `${year}-${month}-${day}`;
-
-  return fechaCorta;
-}
 
 app.post("/usuarios", async (req, res) => {
   var cont = 0;
@@ -166,7 +161,7 @@ app.post("/usuarios", async (req, res) => {
       cont = cont + 1;
       console.log("Es Correcto");
 
-      var {token, expiracion} = generarTokenPorMinuto()
+      var {token, expiracion} = generarTokenPorDia()
       console.log(token, expiracion);
 
       const datos = await prisma.usuarios.update({
@@ -198,14 +193,16 @@ app.post("/usuarios-token", async (req,res) => {
         cont = cont + 1;
       }
       
-      if(obtenerFechaCorta(user[i].expiracion) === date){
+      if(user[i].expiracion === date){
         console.log("fehca coincide")
         cont = cont + 1;
       }
 
       if(cont === 2){
         res.json({"code":1})
-      } else {res.json({"code":0})}
+      } else {res.json({"code":0}) 
+      console.log(date)
+    console.log(user[0].expiracion)}
     }
 })
 

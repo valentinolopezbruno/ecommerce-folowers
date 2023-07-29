@@ -28,7 +28,7 @@ export class VigilanteGuard implements CanActivate {
     const anio = fecha.getFullYear();
     const mes = this.agregarCeros(fecha.getMonth() + 1);
     const dia = this.agregarCeros(fecha.getDate());
-    var date = `${anio}-${mes}-${dia}`;
+    var date = `${anio}/${mes}/${dia}`;
 
     if (token) {
       return this.apiService.consultarToken(token, date).pipe(
