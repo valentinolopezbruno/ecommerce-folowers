@@ -8,12 +8,14 @@ import { Carrito, CarritoItem } from '../models/carrito';
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.css']
 })
+export class HeaderComponent implements OnInit {
+  constructor(
+    private apiService: APIService,
+    private carritoService: CarritoService
+  ) {}
 
-export class HeaderComponent implements OnInit{
-  constructor( private APIService: APIService, private CarritoService: CarritoService){}
-  
-  private _carrito:Carrito = {productos:[]};
-  
+  private _carrito: Carrito = { productos: [] };
+
   redes: any[] | null = null;
   indexCalcularPrecio = 0;
   usuario: string = '';
@@ -21,36 +23,60 @@ export class HeaderComponent implements OnInit{
   datosEntrada: Array<CarritoItem> = [];
 
 
-  get carrito():Carrito{
-    return this._carrito
+
+
+  get carrito(): Carrito {
+    return this._carrito;
   }
 
-  getTotal(productos: Array<CarritoItem>):number{
-    return this.CarritoService.getTotal(productos);
+  getTotal(productos: Array<CarritoItem>): number {
+    return this.carritoService.getTotal(productos);
   }
 
-  set carrito(carrito: Carrito){
+  set carrito(carrito: Carrito) {
     this._carrito = carrito;
 
-    this.cantidadProductosCarrito = carrito.productos.length
+    this.cantidadProductosCarrito = carrito.productos.length;
   }
 
-  getProductos():void{
-      this.APIService.getProductos().subscribe(data => {this.redes = data , console.log(this.redes)});
+  getProductos(): void {
+    this.apiService.getProductos().subscribe((data) => {
+      this.redes = data;
+      console.log(this.redes);
+    });
   }
 
-  limpiarCarrito(): void{
-    this.CarritoService.limpiarCarrito();
+  limpiarCarrito(): void {
+    this.carritoService.limpiarCarrito();
   }
 
-  ngOnInit(){
-      this.getProductos();
-      console.log(this.redes)
-      this.CarritoService.carrito.subscribe((_carrito:Carrito) => {
-        this.carrito = _carrito;
-        this.datosEntrada = this.carrito.productos;
-      })
-      console.log("this.datosEntrada")
-      console.log(this.datosEntrada)
+  ngOnInit() {
+    this.getProductos();
+    console.log(this.redes);
+    this.carritoService.carrito.subscribe((_carrito: Carrito) => {
+      this.carrito = _carrito;
+      this.datosEntrada = this.carrito.productos;
+    });
+    console.log('this.datosEntrada');
+    console.log(this.datosEntrada);
   }
+
+  mobileMenuOpen = false;
+
+  toggleMobileMenu() {
+    this.mobileMenuOpen = !this.mobileMenuOpen;
+  }
+
+
+  activeDropdown: number = -1;
+
+toggleSubmenu(index: number) {
+  if (this.activeDropdown === index) {
+    this.activeDropdown = -1; // Si ya está abierto, lo cerramos
+  } else {
+    this.activeDropdown = index; // Si no está abierto, lo abrimos
+  }
+}
+
+  
 }

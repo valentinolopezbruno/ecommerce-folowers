@@ -45,7 +45,7 @@ body {
   align-items: center;
   justify-content: center;
   width: 100%;
-  padding: 0 20px;
+  padding: 20px;
 }
 
 .hero-left {
@@ -129,6 +129,8 @@ img.imagen{
 
 /*CARD PRODUCTOS ****************************************************************************************************/
 
+
+
 .container {
   display: flex;
   width: 80%;
@@ -136,7 +138,11 @@ img.imagen{
   margin: 50px auto;
   align-items: stretch;
   justify-content: space-around;
+
+
 }
+
+
 
 .producto {
   height: 80%;

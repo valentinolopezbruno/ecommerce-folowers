@@ -1,11 +1,6 @@
-@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap");
+/* Estilos para el menú principal */
 
-h2 {
-  text-align: center;
-}
-
-body {
-  font-family: "Poppins", sans-serif;
+body{
   margin: 0;
   padding: 0;
 }
@@ -14,7 +9,7 @@ body {
   display: flex;
   align-items: center;
   background-color: #bf047e;
-  padding: 4px;
+  padding: 5px 0px;
   width: 100%;
   justify-content: space-around;
   height: 7%;
@@ -22,22 +17,6 @@ body {
 
 .logo img {
   height: 50px;
-}
-
-.navbar-toggle {
-  display: none;
-  border: none;
-  background-color: transparent;
-  cursor: pointer;
-  padding: 5px;
-}
-
-.toggle-icon {
-  display: block;
-  width: 20px;
-  height: 2px;
-  background-color: #f1f1f1;
-  margin-bottom: 4px;
 }
 
 .menu {
@@ -82,26 +61,41 @@ body {
 .dropdown:hover .submenu {
   display: block;
   white-space: normal;
+  width: 120px;
 }
 
 .dropdown .submenu li {
   list-style-type: none;
 }
 
-/* Estilos para dispositivos móviles */
-@media screen and (max-width: 480px) {
+/* Estilos para dispositivos móviles y menú hamburguesa */
+@media screen and (max-width: 768px) {
   .menu {
-    display: none;
+    display: none; /* Ocultar el menú principal en pantallas pequeñas */
   }
+
 
   .navbar-toggle {
-    display: block;
+    display: block; /* Mostrar el botón del menú hamburguesa en pantallas pequeñas */
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+    padding: 0px;
   }
 
-  .menu.open {
+  .toggle-icon {
+    display: block;
+    width: 20px;
+    height: 2px;
+    background-color: #f1f1f1;
+    margin-bottom: 4px;
+  }
+
+  /* Mostrar el menú hamburguesa cuando se hace clic en el botón */
+  .menu.mobile-menu {
     display: block;
     position: fixed;
-    top: 60px;
+    top: 55px;
     left: 0;
     width: 100%;
     padding: 10px;
@@ -113,118 +107,27 @@ body {
     margin-bottom: 10px;
   }
 
+  /* Asegurarse de que el submenú ocupe todo el ancho de la pantalla */
   .dropdown .submenu {
     position: static;
     display: none;
     margin-left: 0;
-  }
-
-  .dropdown.open .submenu {
-    display: block;
-  }
-}
-
-/* Estilos para tablet */
-@media screen and (min-width: 481px) and (max-width: 768px) {
-  .menu {
-    display: none;
-  }
-
-  .navbar-toggle {
-    display: block;
-  }
-
-  .menu.open {
-    display: block;
-    position: fixed;
-    top: 60px;
-    left: 0;
     width: 100%;
-    padding: 10px;
-    background-color: #f1f1f1;
-    z-index: 9999;
   }
 
-  .menu li {
-    margin-bottom: 10px;
-  }
-
-  .dropdown .submenu {
-    position: static;
-    display: none;
-    margin-left: 0;
-  }
-
+  /* Mostrar el submenú cuando se hace clic en el menú desplegable */
   .dropdown.open .submenu {
     display: block;
   }
-
-
-  .divzin1 {
-    padding: 1rem;
-    border-top: 1px solid black;
-    border-top-style: solid;
-  }
-
-  .divzin2 {
-    padding-bottom: 0.75rem;
-    display: flex;
-    justify-content: space-between;
-    color:red;
-  }
-
-  .divzin3 {
-    margin-right: 16px;
-  }
-
-  .divzin4 {
-    padding-top: 0.75rem;
-    padding-bottom: 0.75rem;
-  }
-
-  .divzin5 {
-    display: flex;
-    justify-content: space-between;
-    font-weight: 300;
-    margin-bottom: 0.5rem;
-  }
-
-  .divzin6 {
-    font-weight: 700;
-    text-align: center;
-  }
-
-  .divzin7 {
-    display: flex;
-    justify-content: space-between;
-    padding-top: 0.75rem;
-    font-weight: 300;
-  }
-
-  .divzin8 {
-    font-weight: 700;
-  }
-
-  .divzin9 {
-    padding-top: 0.75rem;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    text-align: center;
-  }
-
-  .divzin10 {
-    background-color: #34d399;
-    color: #ffffff;
-    font-weight: 700;
-    padding-top: 0.5rem;
-    padding-bottom: 0.5rem;
-    padding-left: 1rem;
-    padding-right: 1rem;
-    border-radius: 0.25rem;
-  }
-
-  .divzin10:hover {
-    background-color: #059669;
-  }
 }
+
+@media (min-width: 768px) {
+  button.navbar-toggle {
+    display: none; /* Ocultar el menú principal en pantallas pequeñas */
+  }
+
+}
+
+
+/*ANIMACION ENTRADA*/
+
