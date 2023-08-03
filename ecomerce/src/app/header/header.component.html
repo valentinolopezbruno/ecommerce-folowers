@@ -7,9 +7,10 @@
     <div class="toggle-icon"></div>
     <div class="toggle-icon"></div>
   </button>
+
   <ul class="menu" [class.mobile-menu]="mobileMenuOpen">
-    <li  class="dropdown" *ngFor="let red of redes; let j = index">
-      <a (click)="toggleSubmenu(j)" class="dropdown-toggle" >{{ red.nombre }}</a>
+    <li class="dropdown" *ngFor="let red of redes; let j = index">
+      <a (click)="toggleSubmenu(j)" class="dropdown-toggle" (click)="redirigirPaginaProducto(red.idSocial)">{{ red.nombre }}</a>
       <ul class="submenu">
         <li *ngFor="let producto of red.productos; let i = index">
           <a [routerLink]="['/service', j, i]">{{ producto.nombre }}</a>
@@ -18,17 +19,16 @@
     </li>
   </ul>
 
-
   <button mat-icon-button [matMenuTriggerFor]="menu">
     <mat-icon
       [matBadge]="cantidadProductosCarrito"
       [matBadgeHidden]="!cantidadProductosCarrito"
       matBadgeColor="warn"
     >
-    shopping_cart
-  </mat-icon>
-</button>
-<mat-menu #menu="matMenu" class="mat-menu">
+      shopping_cart
+    </mat-icon>
+  </button>
+  <mat-menu #menu="matMenu" class="mat-menu">
     <div
       class="divzin1"
       style="
@@ -45,14 +45,16 @@
           justify-content: space-between;
         "
       >
-        <span class="divzin3" style="margin-right: 16px;"> {{cantidadProductosCarrito}} Productos</span>
+        <span class="divzin3" style="margin-right: 16px">
+          {{ cantidadProductosCarrito }} Productos</span
+        >
       </div>
       <div
         class="divzin4"
         style="padding-top: 0.75rem; padding-bottom: 0.75rem"
       >
         <div
-        *ngFor="let producto of carrito.productos ; let i = index"
+          *ngFor="let producto of carrito.productos; let i = index"
           class="divzin5"
           style="
             display: flex;
@@ -61,13 +63,13 @@
             margin-bottom: 0.5rem;
           "
         >
-         
-          <span class="divzin6" style="margin-right: 1rem;"
-            >{{producto.producto}} {{producto.redSocial}} x {{producto.cantidad}} en {{producto.usuario}}</span
+          <span class="divzin6" style="margin-right: 1rem"
+            >{{ producto.producto }} {{ producto.redSocial }} x
+            {{ producto.cantidad }} en {{ producto.usuario }}</span
           >
-          <span class="divzin6" style="font-weight: 700; text-align: center"
-            >{{producto.precio | currency}}</span
-          >
+          <span class="divzin6" style="font-weight: 700; text-align: center">{{
+            producto.precio | currency
+          }}</span>
         </div>
       </div>
       <div
@@ -80,7 +82,9 @@
         "
       >
         Total:
-        <span class="divzin8" style="font-weight: 700">{{ getTotal(carrito.productos) | currency }}</span>
+        <span class="divzin8" style="font-weight: 700">{{
+          getTotal(carrito.productos) | currency
+        }}</span>
       </div>
       <div
         class="divzin9"
@@ -93,7 +97,7 @@
         "
       >
         <button
-        (click)="limpiarCarrito()"
+          (click)="limpiarCarrito()"
           style="
             background-color: #fecdd3;
             color: #ffffff;

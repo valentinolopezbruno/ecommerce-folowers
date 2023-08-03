@@ -2,6 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { APIService } from '../services/api.service';
 import { CarritoService } from '../services/carrito.service';
 import { Carrito, CarritoItem } from '../models/carrito';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-header',
@@ -11,7 +12,7 @@ import { Carrito, CarritoItem } from '../models/carrito';
 export class HeaderComponent implements OnInit {
   constructor(
     private apiService: APIService,
-    private carritoService: CarritoService
+    private carritoService: CarritoService,private router: Router
   ) {}
 
   private _carrito: Carrito = { productos: [] };
@@ -50,15 +51,18 @@ export class HeaderComponent implements OnInit {
     this.carritoService.limpiarCarrito();
   }
 
+  redirigirPaginaProducto(idRed: number):void{
+    console.log(idRed)
+    const nuevoID = idRed - 1
+    this.router.navigate(['/service/',nuevoID,0]);
+  }
+
   ngOnInit() {
     this.getProductos();
-    console.log(this.redes);
     this.carritoService.carrito.subscribe((_carrito: Carrito) => {
       this.carrito = _carrito;
       this.datosEntrada = this.carrito.productos;
     });
-    console.log('this.datosEntrada');
-    console.log(this.datosEntrada);
   }
 
   mobileMenuOpen = false;
