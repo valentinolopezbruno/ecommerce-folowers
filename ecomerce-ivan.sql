@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 27-07-2023 a las 17:35:33
+-- Tiempo de generación: 29-07-2023 a las 03:27:03
 -- Versión del servidor: 10.4.28-MariaDB
 -- Versión de PHP: 8.2.4
 
@@ -158,7 +158,7 @@ CREATE TABLE `usuarios` (
   `nombre` varchar(255) NOT NULL,
   `contra` varchar(255) NOT NULL,
   `token` varchar(255) NOT NULL,
-  `expiracion` date DEFAULT NULL
+  `expiracion` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
@@ -166,7 +166,7 @@ CREATE TABLE `usuarios` (
 --
 
 INSERT INTO `usuarios` (`id`, `nombre`, `contra`, `token`, `expiracion`) VALUES
-(1, 'tino', 'asd123', 'jpzlPQ5wYeLR8cAqUdKPeRCGFzDMfW', '2023-07-27');
+(1, 'tino', 'asd123', 'r6Nm4xLeOIqdrNYazHJBfUdpGnklru', '2023/07/28');
 
 -- --------------------------------------------------------
 
