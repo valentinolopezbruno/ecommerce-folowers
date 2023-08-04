@@ -240,4 +240,111 @@ body {
 }
 
 
+@media screen and (max-width: 768px) {
+    .checkout-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+  
+    .cart,
+    .order-summary {
+      width: 100%;
+      max-width: 100%;
+      margin: 10px 0;
+    }
+  }
+  
+  /* Estilos específicos para el carrito */
+  .cart {
+    max-width: 100%;
+    margin-bottom: 20px;
+  }
+  
+  /* Estilos específicos para el resumen de orden */
+  .order-summary {
+    max-width: 100%;
+  }
+  
+  /* Estilos para tablas */
+  .mat-table {
+    width: 100%;
+    display: block;
+    margin-bottom: 20px;
+    overflow-x: auto;
+  }
+  
+  /* Asegurarse de que la tabla tenga un ancho mínimo */
+  .mat-table table {
+    min-width: 100%;
+    border-collapse: collapse;
+  }
+  
+  /* Estilos para filas y celdas de la tabla */
+  .mat-row,
+  .mat-header-cell,
+  .mat-cell {
+    border: 1px solid #ccc;
+    padding: 8px;
+  }
+  
+  /* Ajustar las columnas en la tabla */
+  .mat-header-cell,
+  .mat-cell {
+    flex: 1;
+    text-align: left;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+  
+  /* Estilos para botones */
+  .mat-mini-fab {
+    margin-left: 10px;
+    display: none; /* Ocultar el botón de eliminar compra */
+  }
+  
+  /* Estilos para botones de pago */
+  .payment-button {
+    margin-top: 10px;
+    display: none; /* Ocultar los botones de pago */
+  }
 
+  .cart[_ngcontent-ng-c2603762777] {
+    /* max-width: 100%; */
+    margin-bottom: 20px;
+    width: 90%;
+}
+.order-summary[_ngcontent-ng-c2603762777] {
+    max-width: 100%;
+    width: 80%;
+}
+
+.cart-total{
+    margin-top: 80px;
+}
+
+.mat-mdc-table .mdc-data-table__row {
+    height: 52px;
+    align-items: center;
+}
+
+
+.mat-body p, .mat-body-2 p, .mat-typography .mat-body p, .mat-typography .mat-body-2 p, .mat-typography p {
+    margin: 0;
+}
+
+.cart[_ngcontent-ng-c3710599254] {
+    /* max-width: 100%; */
+    margin-bottom: 20px;
+    width: 90%;
+}
+
+.order-summary[_ngcontent-ng-c3710599254] {
+    /* max-width: 100%; */
+    width: 90%;
+}
+
+.mdc-button__label{
+    color: white!important;
+}

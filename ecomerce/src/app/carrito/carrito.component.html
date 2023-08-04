@@ -63,7 +63,7 @@
                 color="warn"
                 style="margin-left: 10px;"
               >
-                <mat-icon>close</mat-icon>
+                <p>X</p>
               </button>
             </td>
           </ng-container>
@@ -71,14 +71,14 @@
           <tr mat-row *matRowDef="let eow; columns: displayColumnas" style="display: flex; flex-wrap: wrap;"></tr>
         </table>
         <div *ngIf="carrito.productos.length" class="cart-buttons">
-          <button mat-button color="warn" (click)="limpiarCarrito()">Borrar Todo</button>
-          <button mat-button color="primary" *ngIf="!monedaActual" (click)="pagarMP()">Terminar Compra (MP)</button>
-          <button mat-button color="primary" *ngIf="monedaActual" (click)="pagarPaypal()">Terminar Compra (PayPal)</button>
         </div>
-        <div class="cart-total">
-          Total: {{ getTotal(carrito.productos) | currency }}
-        </div>
+        
       </mat-card>
+
+      <div class="cart-total">
+      Total: {{ getTotal(carrito.productos) | currency }}
+        
+      </div>
     </div>
     <div class="order-summary">
       <h2 class="order-summary-title">Resumen de Orden</h2>
@@ -87,8 +87,8 @@
           <p>Total:</p>
           <p class="order-total-amount">{{ getTotal(carrito.productos) | currency }}</p>
         </div>
-        <button mat-button class="checkout-button" *ngIf="!monedaActual" (click)="pagarMP()">Terminar Compra (MP)</button>
-        <button mat-button class="checkout-button" *ngIf="monedaActual" (click)="pagarPaypal()">Terminar Compra (PayPal)</button>
+        <button mat-button class="checkout-button" *ngIf="!monedaActual" (click)="pagarMP()">Pagar con Mercado Pago</button>
+        <button mat-button class="checkout-button" *ngIf="monedaActual" (click)="pagarPaypal()">Pagar con Paypal</button>
       </mat-card>
     </div>
   </div>
