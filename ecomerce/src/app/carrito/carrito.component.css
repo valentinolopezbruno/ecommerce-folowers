@@ -1,0 +1,243 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    
+  }
+  
+  .checkout-container {
+    display: flex;
+    justify-content: space-center;
+    margin: 20px;
+  }
+  
+  .cart {
+    flex: 2;
+    padding: 20px;
+    border: 1px solid #ccc;
+  }
+  
+  .cart-title {
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+  }
+  
+  .cart-card {
+    padding: 0;
+    border: none;
+  }
+  
+  .cart-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  /* Estilos de las filas y columnas de la tabla */
+  
+  .order-summary {
+    flex: 1;
+    padding: 20px;
+    border: 1px solid #ccc;
+    background-color: #f9f9f9;
+    text-align: center;
+  }
+  
+  .order-summary-title {
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+  }
+  
+  .order-card {
+    padding: 0;
+    border: none;
+  }
+  
+  .order-total {
+    margin: 20px 0;
+  }
+  
+  .order-total p {
+    margin: 0;
+    font-weight: bold;
+  }
+  
+  .order-total-amount {
+    font-size: 1.2rem;
+  }
+  
+  .checkout-button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-size: 1.2rem;
+  }
+  
+  .empty-cart {
+    max-width: 100%;
+    margin: 20px auto;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    padding: 20px;
+  }
+  
+  .empty-cart button {
+    margin-top: 10px;
+  }
+  
+  .checkout-container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-center;
+  }
+  
+  .cart {
+    flex: 1;
+    width: 100%;
+    max-width: 800px; /* Ajusta el valor según tus necesidades */
+    margin-right: 10px; /* Espacio entre carrito y resumen de orden */
+  }
+  
+  .order-summary {
+    flex: 1;
+    width: 100%;
+    max-width: 300px; /* Ajusta el valor según tus necesidades */
+  }
+  
+  /* Estilos para pantallas más pequeñas */
+  /* Estilos generales */
+body {
+    font-family: Arial, sans-serif;
+    padding: 30px 10px;
+    height: 75vh;
+  }
+  
+  /* Estilos para pantallas más pequeñas */
+  @media screen and (max-width: 768px) {
+    .checkout-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+  
+    .cart,
+    .order-summary {
+      width: 100%;
+      max-width: 100%;
+      margin: 10px 0;
+    }
+  }
+  
+  /* Estilos específicos para el carrito */
+  .cart {
+    max-width: 800px;
+    margin-right: 10px;
+  }
+  
+  /* Estilos específicos para el resumen de orden */
+  .order-summary {
+    max-width: 300px;
+  }
+  
+  /* Estilos para tablas */
+  .mat-table {
+    width: 100%;
+    display: block;
+    margin-bottom: 20px;
+    overflow-x: auto;
+  }
+  
+  /* Asegurarse de que la tabla tenga un ancho mínimo */
+  .mat-table table {
+    min-width: 600px;
+    border-collapse: collapse;
+  }
+  
+  /* Estilos para filas y celdas de la tabla */
+  .mat-row,
+  .mat-header-cell,
+  .mat-cell {
+    border: 1px solid #ccc;
+    padding: 8px;
+  }
+  
+  /* Ajustar las columnas en la tabla */
+  .mat-header-cell,
+  .mat-cell {
+    flex: 1;
+    text-align: left;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+  
+  /* Estilos para botones */
+  .mat-mini-fab {
+    margin-left: 10px;
+  }
+  
+  /* Estilos para botones de pago */
+  .payment-button {
+    margin-top: 10px;
+  }
+  
+
+  .empty-cart[_ngcontent-ng-c1871354697] {
+    margin: 0 auto;
+    /* max-width: 100%; */
+    /* margin: 20px auto; */
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+    width: 80%;
+    text-align: center;
+    padding: 20px;
+}
+
+.cart[_ngcontent-ng-c1871354697] {
+    /* max-width: 800px; */
+    margin-right: 10px;
+    width: 80%;
+}
+
+@media(min-width:1286px){
+    .checkout-container {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: space-around;
+      }
+}
+
+.checkout-button[_ngcontent-ng-c1871354697] {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-size: 1.2rem;
+    padding: 10px;
+}
+
+.mat-icon {
+    
+    display: none;
+}
+
+.checkout-button[_ngcontent-ng-c2084971783] {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 30px 20px;
+    cursor: pointer;
+    /* font-size: 1.2rem; */
+}
+
+.checkout-container[_ngcontent-ng-c2084971783] {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-center;
+}
+
+
+
