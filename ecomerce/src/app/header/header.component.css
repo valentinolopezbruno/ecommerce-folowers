@@ -45,6 +45,10 @@ body{
   color: black;
 }
 
+a.dropdown-toggle{
+  cursor: pointer;
+}
+
 .dropdown .submenu {
   display: none;
   position: absolute;

@@ -142,6 +142,20 @@ img.imagen{
 
 }
 
+ul {
+  list-style: none;
+  padding: 0;
+  text-align: center;
+}
+
+li {
+  margin-bottom: 5px;
+}
+
+i {
+  font-style: italic;
+}
+
 
 
 .producto {
