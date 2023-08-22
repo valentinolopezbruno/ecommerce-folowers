@@ -215,6 +215,7 @@ app.post("/webhook", async (req, res) => {
     const paymentId = payment.data.id;
     const data = await mercadopago.payment.findById(paymentId);
     console.log(data.response.status)
+    console.log("entrando")
     const metadataId = data.body.metadata.id
 
     const pago = await prisma.pagos.findUnique({
@@ -231,6 +232,7 @@ app.post("/webhook", async (req, res) => {
         data:{estado:1}
       })
       enviarMail();
+      console.log("canseri")
     }
   }
 
@@ -256,7 +258,7 @@ app.post("/pagar", async  (req, res) => {
       pending: `${PuertoAPP}/pending`,
     },
     notification_url:
-      "https://9067-2803-6d00-c56d-0-5d7c-22ab-8118-a4d.ngrok.io/webhook",
+      "https://3360-2803-6d00-c56d-0-38fe-c424-42be-24c7.ngrok.io/webhook",
   };
 
   for (let i = 0; i < carrito.productos.length; i++) {
