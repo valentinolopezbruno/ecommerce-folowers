@@ -1,8 +1,14 @@
-import {config} from 'dotenv';
-config();
 
-export const PAYPAL_API_CLIENT = process.env.PAYPAL_API_CLIENT
 
-export const PAYPAL_API_SECRET = process.env.PAYPAL_API_SECRET
+module.exports = {
+    PORT: process.env.PORT || 3000,
+    DB_HOST: process.env.DB_HOST || 'localhost',
+    DB_USER :process.env.DB_USER || 'root',
+    DB_PASSWORD : process.env.DB_PASSWORD || '',
+    DB_NAME :process.env.DB_NAME || 'ecomerce-ivan',
+    DB_PORT:process.env.DB_PORT || 3306
+}
 
-export const PAYPAL_API = 'https://api-m.sandbox.paypal.com'
+
+
+

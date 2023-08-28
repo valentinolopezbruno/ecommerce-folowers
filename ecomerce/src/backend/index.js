@@ -1,5 +1,4 @@
 const express = require("express");
-require("dotenv").config();
 const app = express();
 const cors = require("cors");
 const mysql = require("mysql");
@@ -10,7 +9,6 @@ const fs = require("fs-extra");
 const nodemailer = require("nodemailer");
 const { v4: uuidv4 } = require("uuid");
 const axios = require('axios')
-
 app.use(express.json());
 app.use(cors());
 app.use("/imagenes", express.static(path.join(__dirname, "./imagenes")));
@@ -19,11 +17,13 @@ const prisma = new PrismaClient();
 
 const PuertoAPP = "http://localhost:4200";
 
+const config = require('./config.js');
+
 const connection = mysql.createConnection({
-  host: "localhost",
-  user: "root",
-  password: "",
-  database: "ecomerce-ivan",
+  host: config.DB_HOST,
+  user: config.DB_USER,
+  password:config.DB_PASSWORD,
+  database:config.DB_NAME,
 });
 
 connection.connect((err) => {
