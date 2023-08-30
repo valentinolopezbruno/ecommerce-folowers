@@ -7,17 +7,11 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model credenciales {
-  id             Int    @id @default(autoincrement())
-  pasarela       String @db.VarChar(255)
-  cliente_id     String @db.VarChar(255)
-  cliente_secret String @db.VarChar(250)
-}
-
 model pagos {
   id     Int @id @default(autoincrement())
   estado Int
 }
+
 
 model producto_cantidad {
   id         Int @id @default(autoincrement())
@@ -42,7 +36,7 @@ model social {
   id     Int    @id @default(autoincrement())
   nombre String @db.VarChar(255)
   imagen String @db.VarChar(255)
-  productos productos[]
+    productos productos[]
 }
 
 model usuarios {

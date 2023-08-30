@@ -26,6 +26,7 @@ import { PayPalScriptProvider } from "@paypal/react-paypal-js";
 import { SuccessComponent } from './success/success.component';
 import { FailureComponent } from './failure/failure.component';
 import { PendingComponent } from './pending/pending.component';
+import { CredencialesComponent } from './credenciales/credenciales.component';
 
 
 
@@ -41,6 +42,7 @@ import { PendingComponent } from './pending/pending.component';
     SuccessComponent,
     FailureComponent,
     PendingComponent,
+    CredencialesComponent,
 
   ],
   imports: [

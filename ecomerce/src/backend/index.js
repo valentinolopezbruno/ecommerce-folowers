@@ -5,6 +5,7 @@ const cors = require("cors");
 const mysql = require("mysql");
 const bodyParser = require("body-parser");
 const multer = require("multer");
+const https = require("https");
 const path = require("path");
 const fs = require("fs-extra");
 const nodemailer = require("nodemailer");
@@ -21,10 +22,34 @@ const PuertoAPP = "http://localhost:4200";
 
 const connection = mysql.createConnection({
   host: "localhost",
+  user: "admin",
+  password: "hola",
+  database: "folowers",
+});
+
+/* const connection = mysql.createConnection({
+  host: "localhost",
   user: "root",
   password: "",
   database: "ecomerce-ivan",
-});
+}); */
+
+const options = {
+  key: fs.readFileSync("./ssl/my-site-key.pem"),
+  cert: fs.readFileSync("./ssl/chain.pem")
+};
+/* 
+Proto Recv-Q Send-Q Local Address           Foreign Address         State
+tcp        0      0 0.0.0.0:22              0.0.0.0:*               LISTEN
+tcp        0      0 127.0.0.1:3306          0.0.0.0:*               LISTEN
+tcp6       0      0 :::80                   :::*                    LISTEN
+tcp6       0      0 :::22                   :::*                    LISTEN
+tcp6       0      0 :::443                  :::*                    LISTEN
+udp        0      0 127.0.0.1:323           0.0.0.0:*
+udp6       0      0 ::1:323                 :::* */
+
+
+const PUERTO = 2053;
 
 connection.connect((err) => {
   if (err) {
@@ -47,7 +72,6 @@ setInterval(() => {
  const PAYPAL_API = 'https://api-m.sandbox.paypal.com'
  const PAYPAL_API_CLIENT = 'ARwiqPiwoL90ElSKqkcFT5iiXF8pkkK55IMVVSIg3m1zwL_OdGfmNycOQWHzVWxFoQ48Oa8TYAvn7BMN'
  const PAYPAL_API_SECRET = 'EEqGMouNnGTMIWqVS3sL4faOON6l9wAiFLEZHq-b0d7PtHy7OFALhZ3T9SWrUJlVTCfETN1VyFEBOQUk'
- const HOST = 'http://localhost:3000'
 /* ---------------------------------CONFIG  NODEMAILER --------------------------------------------------- */
 
 enviarMail = async () => {
@@ -379,9 +403,9 @@ app.get("/productos", async (req, res) => {
     };
     var pathImage = path.resolve(__dirname, `./imagenes/${RedSocial.imagen}`);
     if (fs.existsSync(pathImage)) {
-      RedSocial.imagen = "http://localhost:3000/imagenes/" + RedSocial.imagen;
+      RedSocial.imagen = `http://localhost:${PUERTO}/imagenes/` + RedSocial.imagen;
     } else {
-      RedSocial.imagen = "http://localhost:3000/imagenes/mistake.jpg";
+      RedSocial.imagen = `http://localhost:${PUERTO}/imagenes/mistake.jpg`;
     }
     data.push(RedSocial);
 
@@ -408,9 +432,9 @@ app.get("/productos", async (req, res) => {
 
             if (fs.existsSync(pathImage)) {
               producto.imagen =
-                "http://localhost:3000/imagenes/" + producto.imagen;
+              `http://localhost:${PUERTO}/imagenes/` + producto.imagen;
             } else {
-              producto.imagen = "http://localhost:3000/imagenes/mistake.jpg";
+              producto.imagen = `http://localhost:${PUERTO}/imagenes/mistake.jpg`;
             }
             data[g].productos.push(producto);
           }
@@ -565,6 +589,25 @@ app.post("/social", upload.single("file"), async (req, res) => {
     res.status(500).send("Error al crear red social");
   }
 });
+/* --------------------------------- CREDENCIALES --------------------------------------------------- */
+
+app.get("/credenciales", async (req, res) => {
+  const credenciales = await prisma.credenciales.findMany();
+  console.log(credenciales);
+  res.json(credenciales);
+});
+
+app.post("/credenciales", async (req, res) => {
+  const { id, datos } = req.body;
+  const credencialActualizada = await prisma.credenciales.update({
+    where: { id },
+    data: {
+      cliente_id: datos.cliente_id,
+      cliente_secret: datos.cliente_secret,
+    },
+  });
+  console.log(credencialActualizada);
+});
 
 /* --------------------------------- OTROS --------------------------------------------------- */
 
@@ -585,6 +628,11 @@ app.get("/cantidad", async (req, res) => {
   res.json(socialData);
 });
 
-app.listen(3000, () => {
-  console.log("app corriendo en puerto 3000");
-});
+
+
+
+/* app.listen(PUERTO, () => {
+  console.log("app corriendo en puerto " + PUERTO);
+}); */
+
+https.createServer(options, app).listen(PUERTO);

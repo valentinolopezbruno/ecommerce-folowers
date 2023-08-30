@@ -90,6 +90,17 @@ constructor(private httpClient: HttpClient) { }
     console.log(formDataObject);
   
     return this.httpClient.post<{}>(`${API_URL}/social`, formData);
+  }  
+  
+  
+  /* - - - - - - - - - -- - - - - - - - - - - - - - - - - -  CREDENCIALES */
+
+  getCredenciales():Observable<any[]> {
+    return this.httpClient.get<any[]>(`${API_URL}/credenciales`)
+  }
+
+  editarCredenciales(id:number, datos:{}): Observable<{}>{
+    return this.httpClient.post<{}>(`${API_URL}/credenciales`, {id, datos});
   }
 
   

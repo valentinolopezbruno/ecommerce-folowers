@@ -1,0 +1,54 @@
+*{
+    margin: 0;
+}
+
+.mercadopago{
+    display:flex;
+    justify-content: space-between;
+    width: 80%;
+    padding: 50px;
+    align-items: center;
+    text-align: center;
+}
+
+.paypalimg{
+    height: 100px !important;
+}
+
+.credenciales{
+    width: 100%;
+}
+
+section{
+    width: 80%;
+}
+
+img{
+    height: 250px;
+}
+
+input{
+    margin-top: 20px;
+    padding: 10px;
+    font-size: 15px;
+    width: 60%;
+    border-radius: 5px;
+}
+
+h2{
+    margin-top: 20px;
+}
+
+h1{
+    font-size: 20px;
+}
+
+button{
+    padding: 20px;
+    font-size: 15px;
+    background-color: #7091F5  ;
+    color: white;
+    font-weight: bold;
+    border: none;
+    border-radius: 10px;
+}

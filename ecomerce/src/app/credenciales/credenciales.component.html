@@ -1,0 +1,27 @@
+<body>
+    <section class="mercadopago">
+        <img src="/assets/paypal (2).png"/>
+        <div class="credenciales" *ngIf="credenciales[0].id == '1'">
+            <h1>Mercadopago</h1>
+            <h2>Cliente ID</h2>
+            <input placeholder="Cliente ID" type="text" [ngModel]="cliente_id_mercadopago" (ngModelChange)="actualizarClienteIdMP($event)">
+            <h2>Cliente Secret</h2>
+            <input placeholder="Cliente ID" type="text" [ngModel]="cliente_secret_mercadopago" (ngModelChange)="actualizarClienteSecretMP($event)">
+        </div>
+        <button (click)="actualizarCredencial(credenciales[0].id)">Cambiar</button>
+    </section>
+
+    <section class="mercadopago">
+        <img src="/assets/paypal (1).png" class="paypalimg"/>
+        <div class="credenciales" *ngIf="credenciales[1].id == '2'">
+            <h1>Paypal</h1>
+            <h2>Cliente ID </h2>
+            <!-- <input placeholder="Cliente ID" type="text" [value]="credenciales[1].cliente_id"> -->
+            <input placeholder="Cliente ID" type="text" [ngModel]="cliente_id_paypal" (ngModelChange)="actualizarClienteIdPaypal($event)">
+            <h2>Cliente Secret</h2>
+            <input placeholder="Cliente ID" type="text" [ngModel]="cliente_secret_paypal" (ngModelChange)="actualizarClienteSecretPaypal($event)">
+        </div>
+        <button (click)="actualizarCredencial(credenciales[1].id)">Cambiar</button>
+    </section>
+    
+</body>

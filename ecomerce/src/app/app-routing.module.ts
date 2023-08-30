@@ -9,6 +9,7 @@ import { SuccessComponent } from './success/success.component';
 import { FailureComponent } from './failure/failure.component';
 import { PendingComponent } from './pending/pending.component';
 import { VigilanteGuard } from './vigilante.guard';
+import { CredencialesComponent } from './credenciales/credenciales.component';
 const routes: Routes = [
   { path: 'home', component: HomeComponent },
 
@@ -17,6 +18,8 @@ const routes: Routes = [
   { path: 'login', component: AdminLoginComponent },
 
   { path: 'admin', component: AdminComponent, canActivate: [VigilanteGuard] },
+
+  { path: 'admin/credenciales', component: CredencialesComponent, canActivate: [VigilanteGuard] },
 
   { path: 'cart', component: CarritoComponent },
 
