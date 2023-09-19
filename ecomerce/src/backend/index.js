@@ -1,10 +1,9 @@
 const express = require("express");
 const app = express();
 const cors = require("cors");
-const mysql = require("mysql");
+const mysql = require("mysql2");
 const bodyParser = require("body-parser");
 const multer = require("multer");
-const https = require("https");
 const path = require("path");
 const fs = require("fs-extra");
 const nodemailer = require("nodemailer");
@@ -18,38 +17,23 @@ const prisma = new PrismaClient();
 
 const PuertoAPP = "http://localhost:4200";
 
-const config = require('./config.js');
+const PUERTO =  process.env.PORT || 300
 
 const connection = mysql.createConnection({
-  host: "localhost",
-  user: "admin",
-  password: "hola",
-  database: "folowers",
+  host: "containers-us-west-63.railway.app",
+  user: "root",
+  password: "7MUIGUMhnTB4vqmjgyK6",
+  database: "|way",
+  port:6745
 });
 
 /* const connection = mysql.createConnection({
   host: "localhost",
-  user: "root",
+  user: "root",aaaaaaaa
   password: "",
-  database: "ecomerce-ivan",
+  database:/ "ecomerce-ivan",
 }); */
 
-const options = {
-  key: fs.readFileSync("./ssl/my-site-key.pem"),
-  cert: fs.readFileSync("./ssl/chain.pem")
-};
-/* 
-Proto Recv-Q Send-Q Local Address           Foreign Address         State
-tcp        0      0 0.0.0.0:22              0.0.0.0:*               LISTEN
-tcp        0      0 127.0.0.1:3306          0.0.0.0:*               LISTEN
-tcp6       0      0 :::80                   :::*                    LISTEN
-tcp6       0      0 :::22                   :::*                    LISTEN
-tcp6       0      0 :::443                  :::*                    LISTEN
-udp        0      0 127.0.0.1:323           0.0.0.0:*
-udp6       0      0 ::1:323                 :::* */
-
-
-const PUERTO = 2053;
 
 connection.connect((err) => {
   if (err) {
@@ -68,13 +52,21 @@ setInterval(() => {
   fechaActual = fecha.getMinutes();
 }, 3 * 60 * 1000);
 
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', 'https://misseguidores.com');
+  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
+  res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+  next();
+});
+
+
 /* ---------------------------------CONFIG  PAYPAL --------------------------------------------------- */
  const PAYPAL_API = 'https://api-m.sandbox.paypal.com'
- const PAYPAL_API_CLIENT = 'ARwiqPiwoL90ElSKqkcFT5iiXF8pkkK55IMVVSIg3m1zwL_OdGfmNycOQWHzVWxFoQ48Oa8TYAvn7BMN'
- const PAYPAL_API_SECRET = 'EEqGMouNnGTMIWqVS3sL4faOON6l9wAiFLEZHq-b0d7PtHy7OFALhZ3T9SWrUJlVTCfETN1VyFEBOQUk'
+/*  const PAYPAL_API_CLIENT = 'ARwiqPiwoL90ElSKqkcFT5iiXF8pkkK55IMVVSIg3m1zwL_OdGfmNycOQWHzVWxFoQ48Oa8TYAvn7BMN'
+ const PAYPAL_API_SECRET = 'EEqGMouNnGTMIWqVS3sL4faOON6l9wAiFLEZHq-b0d7PtHy7OFALhZ3T9SWrUJlVTCfETN1VyFEBOQUk' */
 /* ---------------------------------CONFIG  NODEMAILER --------------------------------------------------- */
 
-enviarMail = async () => {
+enviarMail = async (productos) => {
   const config = {
     host: 'smtp.gmail.com',
     port: 587,
@@ -84,18 +76,23 @@ enviarMail = async () => {
     },
   };
 
+  var texto = `Realizaste una venta de `
+
+  for (let i = 0; i < productos.length; i++) {
+    texto = texto + productos[i].title + ", "
+  }
+
   const transport = nodemailer.createTransport(config);
 
   const mensaje = {
     from: 'vaalen1lopez@gmail.com',
     to: 'vaalen1lopez@gmail.com',
     subject: 'Correo de Prueba',
-    text:'manserino',
+    text:`${texto}`,
   };
 
   const info = await transport.sendMail(mensaje);
 
-  console.log(info)
 };
 
 /* ---------------------------------CONFIG  IMAGENES --------------------------------------------------- */
@@ -117,11 +114,7 @@ const upload = multer({ storage: storage });
 const mercadopago = require("mercadopago");
 const { send } = require("process");
 const { URLSearchParams } = require("url");
-// Agrega credenciale
-mercadopago.configure({
-  access_token:
-    "TEST-1790631385670646-071709-e8884300ac14cc95ce394ddc5534b9f6-1425228965",
-});
+
 
 /* --------------------------------- LOGIN --------------------------------------------------- */
 
@@ -238,9 +231,17 @@ app.post("/webhook", async (req, res) => {
   if (payment.type === "payment") {
     const paymentId = payment.data.id;
     const data = await mercadopago.payment.findById(paymentId);
+/*     console.log("ENTRA")
+    console.log("data.response.status") */
     console.log(data.response.status)
-    console.log("entrando")
     const metadataId = data.body.metadata.id
+/*     const itemss = data.body.metadata.items
+
+    console.log("METADATA")
+    console.log(data.body.metadata)
+
+    console.log("Items")
+    console.log(data.body.metadata.items) */
 
     const pago = await prisma.pagos.findUnique({
       where: {
@@ -255,8 +256,8 @@ app.post("/webhook", async (req, res) => {
         where:{id:metadataId},
         data:{estado:1}
       })
-      enviarMail();
-      console.log("canseri")
+      enviarMail(data.body.metadata.items);
+     /*  console.log("SALE") */
     }
   }
 
@@ -264,7 +265,17 @@ app.post("/webhook", async (req, res) => {
 });
 
 app.post("/pagar", async  (req, res) => {
-        /* CREO EN LA BASE DE DATOS UN NUEVO PAGO CON ESTADO SIN PAGAR */
+  /* CREO EN LA BASE DE DATOS UN NUEVO PAGO CON ESTADO SIN PAGAR */
+  const credencial = await prisma.credenciales.findMany()
+/*   console.log("credencial")
+  console.log(credencial[0].cliente_id) */
+
+  // Agrega credenciales
+  mercadopago.configure({
+    access_token:credencial[0].cliente_id,
+  });
+
+
   const nuevoProducto = await prisma.pagos.create({
     data:{
       estado:0
@@ -274,15 +285,15 @@ app.post("/pagar", async  (req, res) => {
   const carrito = req.body;
 
   const preference = {
-    metadata:{id:nuevoProducto.id},
+    metadata:{id:nuevoProducto.id, items:[]},
     items: [],
     back_urls: {
-      success: `${PuertoAPP}/success`,
-      failure: `${PuertoAPP}/failure`,
-      pending: `${PuertoAPP}/pending`,
+      success: `https://misseguidores.com/success`,
+      failure: `https://misseguidores.com/failure`,
+      pending: `https://misseguidores.com/pending`,
     },
     notification_url:
-      "https://3360-2803-6d00-c56d-0-38fe-c424-42be-24c7.ngrok.io/webhook",
+      "https://backend-misseguidores-production.up.railway.app/webhook",
   };
 
   for (let i = 0; i < carrito.productos.length; i++) {
@@ -292,17 +303,20 @@ app.post("/pagar", async  (req, res) => {
         " de " +
         carrito.productos[i].redSocial +
         " x " +
-        carrito.productos[i].cantidad,
+        carrito.productos[i].cantidad + 
+        " al usuario " + 
+        carrito.productos[i].usuario,
       unit_price: carrito.productos[i].precio,
       quantity: 1,
     };
     preference.items.push(item);
+    preference.metadata.items.push(item);
   }
   mercadopago.preferences
     .create(preference)
     .then((response) => {
      /*  LE MANDO EL INIT POINT PARA QUE SE RENDERICE EN EL FRONT */
-      console.log(preference);
+      /* console.log(preference); */
       res.send(response.body.init_point);
     })
     .catch((error) => {
@@ -315,23 +329,34 @@ app.post("/pagar", async  (req, res) => {
 
 /* --------------------------------- PAYPAL --------------------------------------------------- */
 app.post('/create-order-paypal', async (req, res) => {
-  console.log("entra")
+  carrito = req.body
+  const credencial = await prisma.credenciales.findMany();
+  var PAYPAL_API_CLIENT = credencial[1].cliente_id;
+  var PAYPAL_API_SECRET = credencial[1].cliente_secret;
+  var precio = 0
+
+  for (let i = 0; i < carrito.productos.length; i++) {
+      precio = carrito.productos[i].precio + precio
+    };
+
+/*   console.log("entra") */
   const order = {
     intent: "CAPTURE",
     purchase_units: [
       {
         amount: {
           currency_code: "USD",
-          value: "105.70",
+          value: precio,
         },
       },
     ],
+
     application_context: {
-      brand_name: "DeSeguidores.com",
+      brand_name: "misseguidores.com",
       landing_page: "NO_PREFERENCE",
       user_action: "PAY_NOW",
-      return_url: `http://localhost:4200/success`,
-      cancel_url: `http://localhost:4200/failure`,
+      return_url: `https://misseguidores.com/success`,
+      cancel_url: `https://misseguidores.com/failure`,
     },
   };
 
@@ -363,7 +388,7 @@ app.post('/create-order-paypal', async (req, res) => {
 
   for (let i = 0; i < response.data.links.length; i++) {
     if(response.data.links[i].rel === "approve"){
-      console.log(response.data);
+      /* console.log(response.data); */
       res.json({"link":response.data.links[i].href});
    }
   }
@@ -371,8 +396,14 @@ app.post('/create-order-paypal', async (req, res) => {
 
 
 app.get("/capture-order", async (req,res) => {
+  const bodytoken = req
+  console.log("bodytoken")
+  console.log(bodytoken.data.purchase_units)
   const {token} = req.query;
-  console.log(token)
+
+  const credencial = await prisma.credenciales.findMany();
+  var PAYPAL_API_CLIENT = credencial[1].cliente_id;
+  var PAYPAL_API_SECRET = credencial[1].cliente_secret;
 
   const response = await axios.post(`${PAYPAL_API}/v2/checkout/orders/${token}/capture`, {}, {
     auth:{
@@ -381,7 +412,9 @@ app.get("/capture-order", async (req,res) => {
     }
   })
 
-  console.log("pagado")
+  console.log("response")
+  console.log(response.data.purchase_units)
+
   enviarMail();
   res.json({"estado":"pagado"})
 })
@@ -403,9 +436,9 @@ app.get("/productos", async (req, res) => {
     };
     var pathImage = path.resolve(__dirname, `./imagenes/${RedSocial.imagen}`);
     if (fs.existsSync(pathImage)) {
-      RedSocial.imagen = `http://localhost:${PUERTO}/imagenes/` + RedSocial.imagen;
+      RedSocial.imagen = `https://backend-misseguidores-production.up.railway.app/imagenes/` + RedSocial.imagen;
     } else {
-      RedSocial.imagen = `http://localhost:${PUERTO}/imagenes/mistake.jpg`;
+      RedSocial.imagen = `https://backend-misseguidores-production.up.railway.app/imagenes/mistake.jpg`;
     }
     data.push(RedSocial);
 
@@ -432,9 +465,9 @@ app.get("/productos", async (req, res) => {
 
             if (fs.existsSync(pathImage)) {
               producto.imagen =
-              `http://localhost:${PUERTO}/imagenes/` + producto.imagen;
+              `https://backend-misseguidores-production.up.railway.app/imagenes/` + producto.imagen;
             } else {
-              producto.imagen = `http://localhost:${PUERTO}/imagenes/mistake.jpg`;
+              producto.imagen = `https://backend-misseguidores-production.up.railway.app/imagenes/mistake.jpg`;
             }
             data[g].productos.push(producto);
           }
@@ -631,8 +664,7 @@ app.get("/cantidad", async (req, res) => {
 
 
 
-/* app.listen(PUERTO, () => {
+app.listen(PUERTO, () => {
   console.log("app corriendo en puerto " + PUERTO);
-}); */
+});
 
-https.createServer(options, app).listen(PUERTO);

@@ -4,19 +4,23 @@ import { CarritoService } from '../services/carrito.service';
 import { APIService } from '../services/api.service';
 import { MercadoPagoService } from '../services/mercadopago.service';
 
+
 @Component({
   selector: 'app-carrito',
   templateUrl: './carrito.component.html',
   styleUrls: ['./carrito.component.css'],
 })
 export class CarritoComponent implements OnInit {
+
+
+
   constructor(
     private CarritoService: CarritoService,
     private APIService: APIService,
     private MercadoPagoService: MercadoPagoService
   ) {}
 
-  monedaActual: boolean = true;
+  monedaActual: boolean = false;
 
   carrito: Carrito = { productos: [] };
 
@@ -27,11 +31,13 @@ export class CarritoComponent implements OnInit {
   displayColumnas: Array<string> = [
     'redsocialimg',
     'producto',
-    'precio',
     'cantidad',
-    'total',
+    'precio',
+ /*    'total', */
     'accion',
   ];
+
+
 
   removeCartItem(button: HTMLElement): void {
     const cartItem = button.parentElement?.parentElement;
@@ -64,18 +70,17 @@ export class CarritoComponent implements OnInit {
   pagarMP(): void {
     this.MercadoPagoService.pagar(this.carrito).subscribe(
       (initPoint) => {
-        // Redireccionar al formulario de pago de MercadoPago
         window.location.href = initPoint;
       },
       (error) => {
         console.error(error);
-        // Manejo de errores
+      
       }
     );
   }
 
   pagarPaypal(): void {
-    this.APIService.pagoPaypal().subscribe({
+    this.APIService.pagoPaypal(this.carrito).subscribe({
       next: (initPoint) => {
         window.location.href = initPoint.link;
       },
@@ -88,7 +93,7 @@ export class CarritoComponent implements OnInit {
 
   mercadopagoprueba() {
     this.MercadoPagoService.pagar(this.carrito).subscribe((data) => {
-      console.log(data);
+      
     });
   }
 
@@ -110,19 +115,37 @@ export class CarritoComponent implements OnInit {
     return data ? JSON.parse(data) : null;
   }
 
-  obtenerMoneda(carrito: Carrito): void {
-    if (carrito.productos.length >= 1) {
+  obtenerMoneda(/* carrito: Carrito */): void {
+    /* if (carrito.productos.length >= 1) {
       if (carrito.productos[0].divisa === "ARS") {
         this.monedaActual = false;
       }
-    }
+    } */
+    this.APIService.getGeoLocation().subscribe(
+      (data: any) => {
+        const country = data.country;
+        if (country === 'AR') {
+          this.monedaActual = false;
+          // El usuario está en Argentina, configura la moneda a pesos.
+          // Puedes usar una variable global o algún servicio para almacenar la selección de moneda.
+        } else {
+          this.monedaActual = true;
+          // El usuario no está en Argentina, configura la moneda a dólares.
+          // Puedes usar una variable global o algún servicio para almacenar la selección de moneda.
+        }
+      },
+      error => {
+        console.error('Error al obtener la ubicación del usuario', error);
+      }
+    );
   }
 
   ngOnInit(): void {
     this.CarritoService.carrito.subscribe((carrito: Carrito) => {
       this.carrito = carrito;
       this.datosEntrada = this.carrito.productos;
-      this.obtenerMoneda(this.carrito);
+      this.obtenerMoneda(/* this.carrito */);
+      console.log(this.carrito)
     });
   }
 }

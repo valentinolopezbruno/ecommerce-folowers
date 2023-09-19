@@ -3,7 +3,7 @@
         <img src="/assets/paypal (2).png"/>
         <div class="credenciales" *ngIf="credenciales[0].id == '1'">
             <h1>Mercadopago</h1>
-            <h2>Cliente ID</h2>
+            <h2>TOKEN</h2>
             <input placeholder="Cliente ID" type="text" [ngModel]="cliente_id_mercadopago" (ngModelChange)="actualizarClienteIdMP($event)">
             <h2>Cliente Secret</h2>
             <input placeholder="Cliente ID" type="text" [ngModel]="cliente_secret_mercadopago" (ngModelChange)="actualizarClienteSecretMP($event)">

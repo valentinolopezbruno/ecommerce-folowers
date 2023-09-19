@@ -32,8 +32,7 @@ export class SuccessComponent implements OnInit {
       console.log('carrito');
       console.log(this.carrito);
 
-      /*console.log('datosEntrada');
-      console.log(this.datosEntrada); */
+     
     });
 
 

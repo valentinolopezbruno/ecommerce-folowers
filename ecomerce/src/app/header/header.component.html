@@ -1,6 +1,6 @@
 <nav class="navbar">
   <a href="#" class="logo">
-    <img src="assets/logo.png" alt="Descripción del logo" />
+    <img src="assets/misseguidores.png" alt="Descripción del logo" />
   </a>
   <button class="navbar-toggle" (click)="toggleMobileMenu()">
     <div class="toggle-icon"></div>
@@ -10,10 +10,10 @@
 
   <ul class="menu" [class.mobile-menu]="mobileMenuOpen">
     <li class="dropdown" *ngFor="let red of redes; let j = index">
-      <a (click)="toggleSubmenu(j)" class="dropdown-toggle" (click)="redirigirPaginaProducto(red.idSocial)">{{ red.nombre }}</a>
+      <a class="dropdown-toggle" (click)="redirigirPaginaProducto(red.idSocial)">{{ red.nombre }}</a>
       <ul class="submenu">
         <li *ngFor="let producto of red.productos; let i = index">
-          <a [routerLink]="['/service', j, i]">{{ producto.nombre }}</a>
+          <a [routerLink]="['/service', j, i]" (click)="toggleSubmenu(-1)" >{{ producto.nombre }} </a>
         </li>
       </ul>
     </li>
@@ -24,6 +24,7 @@
       [matBadge]="cantidadProductosCarrito"
       [matBadgeHidden]="!cantidadProductosCarrito"
       matBadgeColor="warn"
+      color="white"
     >
       shopping_cart
     </mat-icon>

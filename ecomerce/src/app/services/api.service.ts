@@ -13,6 +13,12 @@ export class APIService {
 
 constructor(private httpClient: HttpClient) { }
 
+private ipInfoUrl = 'https://ipinfo.io?token=3f08b36a7b1f53';
+
+getGeoLocation() {
+  return this.httpClient.get(this.ipInfoUrl);
+}
+
   validarUsuario(nombre: string, contra: string):Observable<{}> {
     return this.httpClient.post<{}>(`${API_URL}/usuarios`, {nombre, contra})
   }
@@ -39,7 +45,6 @@ constructor(private httpClient: HttpClient) { }
     return this.httpClient.post<number>(`${API_URL}/producto`, requestBody);
   }
 
-
   /* - - - - - - - - - -- - - - - - - - - - - - - - - - - -  PRODUCTOS CANTIDAD */
 
   editarProductosCantidad(id:number, datos:{}): Observable<{}>{
@@ -55,16 +60,14 @@ constructor(private httpClient: HttpClient) { }
     return this.httpClient.post<any>(`${API_URL}/producto_cantidad_agregar`, {id,datos});
   }
 
-
   /* - - - - - - - - - -- - - - - - - - - - - - - - - - - -  COMPRA MERCADOPAGO */
   realizarPago(carrito: any): Observable<{}> {
     return this.httpClient.post<{}>(`${API_URL}/pay`, carrito)
   }
 
-
   /* - - - - - - - - - -- - - - - - - - - - - - - - - - - -  COMPRA PAYPAL */
-  pagoPaypal():Observable<any>{
-    return this.httpClient.post<any>(`${API_URL}/create-order-paypal`, "asd")
+  pagoPaypal(carrito: any): Observable<any>{
+    return this.httpClient.post<any>(`${API_URL}/create-order-paypal`, carrito)
   }
 
   validarPagoPaypal(token: string): Observable<any> {
@@ -92,7 +95,6 @@ constructor(private httpClient: HttpClient) { }
     return this.httpClient.post<{}>(`${API_URL}/social`, formData);
   }  
   
-  
   /* - - - - - - - - - -- - - - - - - - - - - - - - - - - -  CREDENCIALES */
 
   getCredenciales():Observable<any[]> {
@@ -103,7 +105,6 @@ constructor(private httpClient: HttpClient) { }
     return this.httpClient.post<{}>(`${API_URL}/credenciales`, {id, datos});
   }
 
-  
 
 
 }

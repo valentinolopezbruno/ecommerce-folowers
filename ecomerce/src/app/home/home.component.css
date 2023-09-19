@@ -16,18 +16,18 @@ body {
   background: rgb(180, 8, 122);
   background: -moz-linear-gradient(
     90deg,
-    rgba(180, 8, 122, 1) 15%,
-    rgba(49, 33, 66, 1) 100%
+    #a5046d 15%,
+    #fe8fd3 100%
   );
   background: -webkit-linear-gradient(
     90deg,
-    rgba(180, 8, 122, 1) 15%,
-    rgba(49, 33, 66, 1) 100%
+    #a5046d 15%,
+    #fe8fd3 100%
   );
   background: linear-gradient(
     90deg,
-    rgba(180, 8, 122, 1) 15%,
-    rgba(49, 33, 66, 1) 100%
+    #a5046d 15%,
+    #fe8fd3 100%
   );
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#b4087a",endColorstr="#312142",GradientType=1);
   padding: 80px 0;
@@ -46,6 +46,10 @@ body {
   justify-content: center;
   width: 100%;
   padding: 20px;
+}
+
+.ul-home{
+  text-align: center;
 }
 
 .hero-left {
@@ -169,14 +173,14 @@ i {
 }
 
 .imagen-container{
-  height: 80%;
-  max-width: 50%;
+  height: 500px;
+  max-width: 500px;
   justify-content: center;
   border-radius: 15px;
 }
 
 .imagen-container img{
-  width: 100%;
+  width: 500px;
 }
 
 

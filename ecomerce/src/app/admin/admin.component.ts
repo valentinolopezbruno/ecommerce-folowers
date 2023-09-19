@@ -5,6 +5,8 @@ import { NuevoProducto } from '../models/nuevoProducto';
 import Swal from 'sweetalert2';
 import { Social } from '../models/social.model';
 import { Observer } from 'rxjs';
+import { Router } from '@angular/router';
+
 
 @Component({
   selector: 'app-admin',
@@ -12,7 +14,7 @@ import { Observer } from 'rxjs';
   styleUrls: ['./admin.component.css'],
 })
 export class AdminComponent implements OnInit {
-  constructor(private APIService: APIService) {}
+  constructor(private APIService: APIService, private router: Router) {}
 
   redes: any[] | null = null;
   valorIDRed: number = 0;
@@ -66,6 +68,10 @@ export class AdminComponent implements OnInit {
 
   habilitarModalAdminRedSocial(): void {
     this.verModalAdminRedSocial = true;
+  }
+
+  redirigirCreden():void{
+    this.router.navigate(['/admin/credenciales']);
   }
 
   cerrarModalAdminRedSocial(): void {

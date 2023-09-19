@@ -29,6 +29,15 @@ body {
   margin-top: 40px;
 }
 
+
+@media (max-width:700px){
+  body {
+  font-family: Arial, sans-serif;
+  height: 85vh;
+  margin-bottom: 200px !important;
+}
+}
+
 @media (max-width:1100px){
   .divcol2{
     width: 85%;

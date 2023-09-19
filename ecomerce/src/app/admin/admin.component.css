@@ -400,6 +400,11 @@ body {
   height: 100vh;
 }
 
+button.credenciales {
+  display: flex;
+  justify-content: center;
+}
+
 @media (max-width: 768px) {
   table.product-table th,
   table.product-table td {
@@ -420,6 +425,7 @@ body {
     width: 100%;
     padding: 10px;
   }
+
 
   select,
   input[type="text"],

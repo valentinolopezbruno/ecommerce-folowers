@@ -43,7 +43,6 @@ export class HeaderComponent implements OnInit {
   getProductos(): void {
     this.apiService.getProductos().subscribe((data) => {
       this.redes = data;
-      console.log(this.redes);
     });
   }
 
@@ -52,7 +51,6 @@ export class HeaderComponent implements OnInit {
   }
 
   redirigirPaginaProducto(idRed: number):void{
-    console.log(idRed)
     const nuevoID = idRed - 1
     this.router.navigate(['/service/',nuevoID,0]);
   }
@@ -72,13 +70,12 @@ export class HeaderComponent implements OnInit {
   }
 
 
-  activeDropdown: number = -1;
+activeDropdown: number = -1;
 
 toggleSubmenu(index: number) {
   if (this.activeDropdown === index) {
-    this.activeDropdown = -1; // Si ya está abierto, lo cerramos
-  } else {
-    this.activeDropdown = index; // Si no está abierto, lo abrimos
+    this.mobileMenuOpen = false;
+    /* this.activeDropdown = - 1; */ // Si ya está abierto, lo cerramos
   }
 }
 

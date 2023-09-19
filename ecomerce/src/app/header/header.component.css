@@ -8,7 +8,7 @@ body{
 .navbar {
   display: flex;
   align-items: center;
-  background-color: #bf047e;
+  background-color: #a5046d;
   padding: 5px 0px;
   width: 100%;
   justify-content: space-around;
@@ -16,7 +16,7 @@ body{
 }
 
 .logo img {
-  height: 50px;
+  height: 70px;
 }
 
 .menu {
@@ -40,6 +40,15 @@ body{
     color: black;
   }
 }
+ 
+mat-icon.mat-icon.notranslate.mat-badge.mat-white.mat-badge-warn.material-icons.mat-ligature-font.mat-icon-no-color.mat-badge-overlap.mat-badge-above.mat-badge-after.mat-badge-medium.mat-badge-hidden {
+  color: white;
+}
+
+.logo img {
+  height: 50px;
+}
+
 
 .submenu li a {
   color: black;

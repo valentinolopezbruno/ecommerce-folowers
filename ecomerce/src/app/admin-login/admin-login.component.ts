@@ -38,7 +38,7 @@ export class AdminLoginComponent implements OnInit{
         icon: 'success'
       });
 
-      window.location.href = `${APP_URL}/admin`
+      window.location.href = `https://misseguidores.com/admin`
     } else{
       return Swal.fire({
         title: 'Datos Incorrectos',

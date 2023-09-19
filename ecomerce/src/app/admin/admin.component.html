@@ -1,5 +1,7 @@
 <div class="manceri">
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
 
   <ng-container *ngIf="verModal">
     <div class="container-modal">
@@ -192,8 +194,8 @@
       </div>
     </div>
   </ng-container>
-
   <ng-container *ngIf="verModalAdmin">
+
     <div class="container-modal">
       <div class="content-modal">
         <div class="modal-header">
@@ -278,6 +280,7 @@
     <div class="container-modal">
       <div class="content-modal">
         <div class="modal-header">
+          
           <h1>AGREGAR RED SOCIAL</h1>
           <div class="btn-cerrar">
             <button (click)="cerrarModalAdminRedSocial()">Cerrar</button>
@@ -307,6 +310,9 @@
   <body class="bodyu">
     <div class="container-adminu">
       <h3>Administrador</h3>
+    
+      <button class="credenciales"  (click)="redirigirCreden()">Modificar Credenciales </button>
+    
       <button class="btnAgregarProductou" (click)="habilitarModalAdmin()">
         Agregar Producto
       </button>

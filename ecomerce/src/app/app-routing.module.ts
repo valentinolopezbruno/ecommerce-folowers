@@ -10,10 +10,9 @@ import { FailureComponent } from './failure/failure.component';
 import { PendingComponent } from './pending/pending.component';
 import { VigilanteGuard } from './vigilante.guard';
 import { CredencialesComponent } from './credenciales/credenciales.component';
+
 const routes: Routes = [
   { path: 'home', component: HomeComponent },
-
-  { path: '', redirectTo: 'home', pathMatch: 'full' },
 
   { path: 'login', component: AdminLoginComponent },
 
@@ -29,10 +28,16 @@ const routes: Routes = [
 
   { path: 'pending', component: PendingComponent },
 
+  { path: 'credenciales', component: CredencialesComponent },
+
   { path: 'service/:idr/:idp', component: ProductoIndividualComponent },
+
+  { path: '', redirectTo: 'home', pathMatch: 'full' }
 ];
+
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule],
 })
+
 export class AppRoutingModule {}
