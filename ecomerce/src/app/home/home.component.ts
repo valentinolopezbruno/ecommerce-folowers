@@ -20,8 +20,7 @@ export class HomeComponent implements OnInit {
 
   variablePrecio = "precio_ars"
   monedaAcual = "ARS"
- /*      monedaAcual = "USD"  */
-/*   monedaAcual = "EUR"  */
+
 
 
   producto: CarritoItem = {
@@ -75,7 +74,7 @@ export class HomeComponent implements OnInit {
 
   getProductos(): void {
     this.APIService.getProductos().subscribe((data) => {
-      (this.redes = data), console.log(this.redes);
+      (this.redes = data);
     });
   }
 
@@ -88,7 +87,7 @@ export class HomeComponent implements OnInit {
   calcularMoneda():void{
     if(this.monedaAcual === "ARS"){ this.variablePrecio = "precio_ars"};
     if(this.monedaAcual === "USD"){ this.variablePrecio = "precio_usd"};
-    if(this.monedaAcual ==="EUR"){ this.variablePrecio = "precio_eur"};
+    /* if(this.monedaAcual ==="EUR"){ this.variablePrecio = "precio_eur"}; */
   }
 
   calcularPrecio(red:any){
@@ -108,9 +107,33 @@ export class HomeComponent implements OnInit {
     }
   }
 
+  obtenerMoneda(): void{
+    this.APIService.getGeoLocation().subscribe(
+      (data: any) => {
+        const country = data.country;
+        console.log(country)
+        if (country == 'AR') {
+          console.log("asd")
+          this.monedaAcual === "USD"
+          this.calcularMoneda();
+          // El usuario está en Argentina, configura la moneda a pesos.
+          // Puedes usar una variable global o algún servicio para almacenar la selección de moneda.
+        } else {
+          console.log("asd")
+          this.monedaAcual === "USD"
+          this.calcularMoneda();
+          // El usuario no está en Argentina, configura la moneda a dólares.
+          // Puedes usar una variable global o algún servicio para almacenar la selección de moneda.
+        }
+      },
+      error => {
+        console.error('Error al obtener la ubicación del usuario', error);
+      }
+    );
+  }
+
   ngOnInit() {
-    this.calcularMoneda();
     this.getProductos();
-    console.log(this.redes);
+    this.obtenerMoneda();
   }
 }

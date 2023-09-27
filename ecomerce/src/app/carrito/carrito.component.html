@@ -39,8 +39,8 @@
       <ul>
         <p class="totalRow final">
           <span class="label">Total</span><span class="value">{{ getTotal(carrito.productos) | currency }}</span>
-          <button class="btnpagar totalRow " *ngIf="monedaActual" (click)="pagarMP()">Pagar con Mercado Pago</button>
-          <button class="btnpagar" *ngIf="!monedaActual" (click)="pagarPaypal()">Pagar con Paypal</button>
+          <button class="btnpagar totalRow " *ngIf="!monedaActual" (click)="pagarMP()">Pagar con Mercado Pago</button>
+          <button class="btnpagar" *ngIf="monedaActual" (click)="pagarPaypal()">Pagar con Paypal</button>
         </p>
       </ul>
     </div>

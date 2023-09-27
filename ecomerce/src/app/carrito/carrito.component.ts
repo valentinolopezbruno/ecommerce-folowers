@@ -20,6 +20,7 @@ export class CarritoComponent implements OnInit {
     private MercadoPagoService: MercadoPagoService
   ) {}
 
+
   monedaActual: boolean = false;
 
   carrito: Carrito = { productos: [] };
@@ -116,7 +117,7 @@ export class CarritoComponent implements OnInit {
   }
 
   obtenerMoneda(/* carrito: Carrito */): void {
-    /* if (carrito.productos.length >= 1) {
+   /*  if (carrito.productos.length >= 1) {
       if (carrito.productos[0].divisa === "ARS") {
         this.monedaActual = false;
       }

@@ -1,0 +1,17 @@
+{
+  "hosting": {
+    "public": "dist/ecomerce",
+    "rewrites": [
+      {
+        "source": "**",
+        "destination": "/index.html"
+      }
+    ]
+  }
+}
+
+
+
+
+
+

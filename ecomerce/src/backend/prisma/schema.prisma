@@ -1,12 +1,12 @@
 generator client {
   provider = "prisma-client-js"
+  binaryTargets = ["native", "debian-openssl-3.0.x"]
 }
 
 datasource db {
   provider = "mysql"
   url      = "mysql://root:7MUIGUMhnTB4vqmjgyK6@containers-us-west-63.railway.app:6745/railway"
 }
-
 model credenciales {
   id             Int    @id @default(autoincrement())
   pasarela       String @db.VarChar(255)
@@ -18,6 +18,15 @@ model pagos {
   id     Int @id @default(autoincrement())
   estado Int
 }
+
+
+model pagos_paypal {
+  id        Int    @id @default(autoincrement())
+  estado    Int
+  productos String @db.VarChar(250)
+  token     String @db.VarChar(255)
+}
+
 
 model producto_cantidad {
   id         Int @id @default(autoincrement())

@@ -10,7 +10,15 @@ const nodemailer = require("nodemailer");
 const { v4: uuidv4 } = require("uuid");
 const axios = require('axios')
 app.use(express.json());
-app.use(cors());
+
+const corsOptions = {
+  origin: '*',
+  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+  credentials: true, // Habilitar cookies y credenciales (si es necesario)
+};
+
+app.use(cors(corsOptions));
+
 app.use("/imagenes", express.static(path.join(__dirname, "./imagenes")));
 const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
@@ -52,12 +60,7 @@ setInterval(() => {
   fechaActual = fecha.getMinutes();
 }, 3 * 60 * 1000);
 
-app.use((req, res, next) => {
-  res.header('Access-Control-Allow-Origin', 'https://misseguidores.com');
-  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
-  res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
-  next();
-});
+
 
 
 /* ---------------------------------CONFIG  PAYPAL --------------------------------------------------- */
@@ -72,11 +75,11 @@ enviarMail = async (productos) => {
     port: 587,
     auth: {
       user: 'vaalen1lopez@gmail.com',
-      pass:'ttkgxsvuftobpyio',
+      pass:'wryq zijk iqic cxtf',
     },
   };
 
-  var texto = `Realizaste una venta de `
+  var texto = `Realizaste una venta en Mercadopago de `
 
   for (let i = 0; i < productos.length; i++) {
     texto = texto + productos[i].title + ", "
@@ -94,6 +97,35 @@ enviarMail = async (productos) => {
   const info = await transport.sendMail(mensaje);
 
 };
+
+
+enviarMailPaypal = async (productos) => {
+  const config = {
+    host: 'smtp.gmail.com',
+    port: 587,
+    auth: {
+      user: 'vaalen1lopez@gmail.com',
+      pass:"opiy usfd syqo akrn"
+    },
+  };
+
+  var texto = `Realizaste una venta en Paypal de ${productos}`
+
+  const transport = nodemailer.createTransport(config);
+
+  const mensaje = {
+    from: 'vaalen1lopez@gmail.com',
+    to: 'vaalen1lopez@gmail.com',
+    subject: 'Correo de Prueba',
+    text:`${texto}`,
+  };
+
+  const info = await transport.sendMail(mensaje);
+
+};
+
+
+
 
 /* ---------------------------------CONFIG  IMAGENES --------------------------------------------------- */
 
@@ -267,8 +299,7 @@ app.post("/webhook", async (req, res) => {
 app.post("/pagar", async  (req, res) => {
   /* CREO EN LA BASE DE DATOS UN NUEVO PAGO CON ESTADO SIN PAGAR */
   const credencial = await prisma.credenciales.findMany()
-/*   console.log("credencial")
-  console.log(credencial[0].cliente_id) */
+
 
   // Agrega credenciales
   mercadopago.configure({
@@ -330,27 +361,43 @@ app.post("/pagar", async  (req, res) => {
 /* --------------------------------- PAYPAL --------------------------------------------------- */
 app.post('/create-order-paypal', async (req, res) => {
   carrito = req.body
-  const credencial = await prisma.credenciales.findMany();
+  const credencial = await prisma.credenciales.findMany()
   var PAYPAL_API_CLIENT = credencial[1].cliente_id;
   var PAYPAL_API_SECRET = credencial[1].cliente_secret;
-  var precio = 0
+  var precioTotal = 0;
+
+  // Calculo el precio total 
+  for (let i = 0; i < carrito.productos.length; i++) {
+    precioTotal = carrito.productos[i].precio + precioTotal
+  };
+
+  var texto = '';
 
   for (let i = 0; i < carrito.productos.length; i++) {
-      precio = carrito.productos[i].precio + precio
-    };
+    texto = texto + 
+      carrito.productos[i].producto +
+      " de " +
+      carrito.productos[i].redSocial +
+      " x " +
+      carrito.productos[i].cantidad + 
+      " al usuario " + 
+      carrito.productos[i].usuario + 
+      " por $" + 
+       carrito.productos[i].precio +
+      ", "
+  }
 
-/*   console.log("entra") */
+
   const order = {
     intent: "CAPTURE",
     purchase_units: [
       {
         amount: {
           currency_code: "USD",
-          value: precio,
+          value: precioTotal,
         },
       },
     ],
-
     application_context: {
       brand_name: "misseguidores.com",
       landing_page: "NO_PREFERENCE",
@@ -388,7 +435,28 @@ app.post('/create-order-paypal', async (req, res) => {
 
   for (let i = 0; i < response.data.links.length; i++) {
     if(response.data.links[i].rel === "approve"){
-      /* console.log(response.data); */
+
+      // Busco una orden/token con el id de la orden/token creada
+      const buscarToken = await prisma.pagos_paypal.findMany();
+      // Creo un contador para ver si ya hay alguna orden en la bd con ese token
+      var contador = 0;
+      // Recorro todas las ordenes en busca de igualidad de token
+      for (let i = 0; i < buscarToken.length; i++) {
+        if(buscarToken[i].token == response.data.id){
+          contador = contador + 1;
+        }
+        //Si no lo encuentro la creo
+        if(contador == 0){
+          const pagopaypal = await prisma.pagos_paypal.create({
+            data: {
+              token:response.data.id,
+              estado:0,
+              productos: texto
+            },
+          });
+          contador = contador + 1;
+        }
+      };
       res.json({"link":response.data.links[i].href});
    }
   }
@@ -396,27 +464,42 @@ app.post('/create-order-paypal', async (req, res) => {
 
 
 app.get("/capture-order", async (req,res) => {
-  const bodytoken = req
-  console.log("bodytoken")
-  console.log(bodytoken.data.purchase_units)
   const {token} = req.query;
-
   const credencial = await prisma.credenciales.findMany();
   var PAYPAL_API_CLIENT = credencial[1].cliente_id;
   var PAYPAL_API_SECRET = credencial[1].cliente_secret;
-
+  //Traigo la info de la orden para ver si pago o no
   const response = await axios.post(`${PAYPAL_API}/v2/checkout/orders/${token}/capture`, {}, {
     auth:{
       username:PAYPAL_API_CLIENT,
       password:PAYPAL_API_SECRET
     }
   })
-
-  console.log("response")
-  console.log(response.data.purchase_units)
-
-  enviarMail();
-  res.json({"estado":"pagado"})
+  if(response.data.status == 'COMPLETED'){
+    //Ahora hago lo mismo que arriba, bsco el token en la bd y si esta pagado entonces envio el email
+   const buscarToken = await prisma.pagos_paypal.findMany();
+   // Creo un contador para ver si el estado de la orden es 0 y si no es asi le sumo 1 mas adelante
+  var contadorEstado = 0;
+   for (let i = 0; i < buscarToken.length; i++) {
+    if(buscarToken[i].token == token){
+      // Guardo el id de la orden para cambiar el estado
+      var idOrden = buscarToken[i].id
+      var productos =  buscarToken[i].productos
+      if(buscarToken[i].estado == 1){
+        contadorEstado = contadorEstado + 1;
+      }
+    }
+  };
+  if(contadorEstado == 0){
+      //Cabio el estado de 0 a 1, osea pagado.
+  const ordenActualizada = await prisma.pagos_paypal.update({
+    where:{id:idOrden},
+    data:{estado:1}
+  })
+    enviarMailPaypal(productos)
+    res.json({"estado":"pagado"})
+  }
+  }
 })
 
 /* --------------------------------- PRODUCTOS --------------------------------------------------- */
